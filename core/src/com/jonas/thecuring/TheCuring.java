@@ -1,7 +1,5 @@
 package com.jonas.thecuring;
 
-import java.awt.Font;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,9 +23,16 @@ public class TheCuring extends Game {
 		assetManager = new AssetManager();
 		assetManager.load("Button_Pressed.png", Texture.class);
 		assetManager.load("Button.png",Texture.class);
-		assetManager.load("TestGame.png",Texture.class);
+		assetManager.load("Background.png",Texture.class);
 		assetManager.load("Font.fnt",BitmapFont.class);
+		assetManager.load("Button_small_down.png",Texture.class);
+		assetManager.load("Button_small_up.png",Texture.class);
+		assetManager.load("Connections_Attack.png",Texture.class);
+		assetManager.load("Connections_Defense.png",Texture.class);
+		assetManager.load("Label_Number.png",Texture.class);
+		assetManager.load("Tooltip.png",Texture.class);
 		assetManager.finishLoading();
+		
 		gameState = new GameState(camera,assetManager);
 		game.setScreen(gameState);
 	}
