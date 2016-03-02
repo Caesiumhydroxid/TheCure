@@ -21,10 +21,11 @@ public class TheCuring extends Game {
 		camera.position.set(camera.viewportWidth/2.f,camera.viewportHeight/2.f,0);
 		camera.update();
 		assetManager = new AssetManager();
-		assetManager.load("Button_Pressed.png", Texture.class);
-		assetManager.load("Button.png",Texture.class);
+		assetManager.load("Button_up.png",Texture.class);
+		assetManager.load("Button_down.png",Texture.class);
 		assetManager.load("Background.png",Texture.class);
 		assetManager.load("Font.fnt",BitmapFont.class);
+		assetManager.load("Fontsmall.fnt",BitmapFont.class);
 		assetManager.load("Button_small_down.png",Texture.class);
 		assetManager.load("Button_small_up.png",Texture.class);
 		assetManager.load("Connections_Attack.png",Texture.class);
@@ -32,6 +33,12 @@ public class TheCuring extends Game {
 		assetManager.load("Label_Number.png",Texture.class);
 		assetManager.load("Tooltip.png",Texture.class);
 		assetManager.load("NewChar_anim.png",Texture.class);
+		assetManager.load("HugeButton_up.png",Texture.class);
+		assetManager.load("HugeButton_down.png",Texture.class);
+		assetManager.load("Connections_Hide.png",Texture.class);
+		assetManager.load("ProgressBar.png",Texture.class);
+		assetManager.load("ProgressBarKnob.png",Texture.class);
+		assetManager.load("PopupMessage.png",Texture.class);
 		assetManager.finishLoading();
 		
 		gameState = new GameState(camera,assetManager);
