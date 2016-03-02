@@ -2,12 +2,15 @@ package com.jonas.thecuring;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip;
 import com.badlogic.gdx.scenes.scene2d.ui.TooltipManager;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.jonas.thecuring.ui.AnimatedImage;
 import com.jonas.thecuring.ui.BackgroundLabel;
 
 public class DefenseMenu extends Table {
@@ -32,15 +35,17 @@ public class DefenseMenu extends Table {
 		TooltipManager tMana = new TooltipManager();
 		tMana.offsetX = 2;
 		tMana.offsetY =2;
-		tMana.animations = true;
+		tMana.animations = false;
 		tMana.initialTime = 0.2f;
 		tMana.hideAll();
 		tMana.resetTime =0.5f;
 		tMana.subsequentTime = 1.0f;
 		
+		
 		TextTooltip t = new TextTooltip("Kosten: 2",tMana,styles.textTooltipStyle);
 		Image connections = new Image((Texture) manager.get("Connections_Defense.png"));
 		this.addActor(connections);
+		
 		
 		d_button_0 = new TextButton("Defensiv",styles.smallButton);
 		d_button_0.setPosition(46, 119-14);
@@ -71,7 +76,7 @@ public class DefenseMenu extends Table {
 		d_button_2.addActor(d_label_2);
 		this.addActor(d_button_2);
 		
-		d_button_3 = new TextButton("Sicher\nvs. Körper",styles.bigButton);
+		d_button_3 = new TextButton("Sicher\nvs. KÃ¶rper",styles.bigButton);
 		d_button_3.setPosition(46, 119-65);
 		d_button_3.setName("d_invisible_for_body");
 		d_button_3.addListener(buttonListener);
@@ -93,7 +98,7 @@ public class DefenseMenu extends Table {
 		d_button_4.addActor(d_label_4);
 		this.addActor(d_button_4);
 		
-		d_button_5 = new TextButton("Stärke\nvs. Arznei",styles.bigButton);
+		d_button_5 = new TextButton("StÃ¤rke\nvs. Arznei",styles.bigButton);
 		d_button_5.setPosition(82, 119-95);
 		d_button_5.setName("d_strength_vs_medicine");
 		d_button_5.addListener(buttonListener);

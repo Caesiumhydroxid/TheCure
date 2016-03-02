@@ -6,19 +6,23 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.jonas.thecuring.ui.AnimatedImage;
 		
 
-public class GameState implements Screen {
+public class GameState extends ChangeListener implements Screen{
 	
 	private Image background;
 	private Stage stage;
 	private AssetManager manager;
-
+	private AttackMenu attackMenu;
 	public GameState(OrthographicCamera camera,AssetManager manager)
 	{
 		this.manager = manager;
@@ -31,14 +35,22 @@ public class GameState implements Screen {
 		
 		Styles styles = new Styles(manager);
 		
-		DefenseMenu attackMenu = new DefenseMenu(styles, manager,new ChangeListener() {
-			
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				System.out.println(actor.getName());
-				
-			}
-		});
+		int frame_rows = 2;
+		int frame_cols = 4;
+		TextureRegion [][] tmp = TextureRegion.split((Texture) manager.get("NewChar_anim.png"), 128, 128);
+		TextureRegion[] frames = new TextureRegion[frame_rows*frame_cols];
+		int index = 0;
+        for (int i = 0; i < frame_rows; i++) {
+            for (int j = 0; j < frame_cols; j++) {
+                frames[index++] = tmp[i][j];
+            }
+        }
+        Animation anim = new Animation(0.300f, frames);
+        AnimatedImage body = new AnimatedImage(anim);
+        body.setPosition(180, 30);
+        stage.addActor(body);
+        
+		attackMenu = new AttackMenu(styles, manager,this);
 		attackMenu.setPosition(18, 180-130);
 		attackMenu.setScale(1);
 		stage.addActor(attackMenu);
@@ -88,6 +100,18 @@ public class GameState implements Screen {
 	public void dispose() {
 		// TODO Auto-generated method stub
 
+	}
+	@Override
+	public void changed(ChangeEvent event, Actor actor) {
+		if(actor.getName().equals("a_aggressive"))
+		{
+			MoveByAction action = new MoveByAction();
+			action.setDuration(1.f);
+			action.setAmountX(-250);
+			attackMenu.addAction(action);
+			
+		}
+		
 	}
 
 }

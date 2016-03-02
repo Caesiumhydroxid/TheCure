@@ -38,7 +38,7 @@ public class AttackMenu extends Table {
 		a_button_0.addListener(buttonListener);
 		this.addActor(a_button_0);
 		
-		a_button_1 = new TextButton("Mehr \nBlutgef‰ﬂe",styles.bigButton);
+		a_button_1 = new TextButton("Mehr \nBlutgef√§√üe",styles.bigButton);
 		a_button_1.setPosition(5, 119-43);
 		a_button_1.setName("a_more_bloodvessels");
 		a_button_1.addListener(buttonListener);
@@ -73,7 +73,7 @@ public class AttackMenu extends Table {
 		
 		this.addActor(a_button_3);
 		
-		a_button_4 = new TextButton("gef‰hrliche\nMutationen",styles.bigButton);
+		a_button_4 = new TextButton("gef√§hrliche\nMutationen",styles.bigButton);
 		a_button_4.setPosition(82, 119-69);
 		a_button_4.setName("a_dangerous_mutations");
 		a_button_4.addListener(buttonListener);

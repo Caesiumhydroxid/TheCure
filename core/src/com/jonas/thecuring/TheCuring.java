@@ -31,6 +31,7 @@ public class TheCuring extends Game {
 		assetManager.load("Connections_Defense.png",Texture.class);
 		assetManager.load("Label_Number.png",Texture.class);
 		assetManager.load("Tooltip.png",Texture.class);
+		assetManager.load("NewChar_anim.png",Texture.class);
 		assetManager.finishLoading();
 		
 		gameState = new GameState(camera,assetManager);
