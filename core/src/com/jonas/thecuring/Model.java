@@ -1,12 +1,12 @@
 package com.jonas.thecuring;
 
-import java.util.Observable;
+import com.jonas.thecuring.util.Observable;
 
 public class Model extends Observable {
 	
-	private float progress;
+	public float progress=0.5f;
 	private float probabilityDetected;
-	private int credits;
+	public int credits=0;
 	
 	public int hSimilarityToBodycells;
 	public int hDestroyIncomingImunecells;
@@ -23,135 +23,156 @@ public class Model extends Observable {
 	public int dStrengthVsMedicine;
 	public int dHypoxia;
 	
-	public int khSimilarityToBodycells;
-	public int khDestroyIncomingImunecells;
-	public int kaMoreBloodvessels;
-	public int kaMutations;
-	public int kaFastCellDivision;
-	public int kaDangerousMutations;
-	public int kaMetastases;
-	public int kaAttacksTissue;
-	public int kdAntiTumorSuppressor;
-	public int kdShield;
-	public int kdInvincibleForBody;
-	public int kdRoubustnessVsMedicine;
-	public int kdStrengthVsMedicine;
-	public int kdHypoxia;
+	public int khSimilarityToBodycells=2;
+	public int khDestroyIncomingImunecells=3;
+	public int kaMoreBloodvessels=1;
+	public int kaMutations=1;
+	public int kaFastCellDivision=2;
+	public int kaDangerousMutations=2;
+	public int kaMetastases=5;
+	public int kaAttacksTissue=2;
+	public int kdAntiTumorSuppressor=1;
+	public int kdShield=1;
+	public int kdInvincibleForBody=5;
+	public int kdRoubustnessVsMedicine=2;
+	public int kdStrengthVsMedicine=4;
+	public int kdHypoxia=2;
 	
+	private float growthRate;
+	private float antiHealRate;
+	private float antiMedicineHealRate;
+	private boolean medicineActive=false;
+	
+	private float medicineHealRate;
+	private float healRate;
+	
+	private float timeFactor=1;
+	private float elapsedTime;
+	private String message;
 	public Model()
 	{
-		
 	}
 	public void tick(float delta)
 	{
+		growthRate = (aMetastases * 10f + aMutations * 1.5f + aDangerousMutations * 2f + aFastCellDivision *2f)/99.5f; //Normalized to 1
 		
+		probabilityDetected = timeFactor - (hSimilarityToBodycells*2 + hDestroyIncomingImunecells*3)/45 + growthRate*0.75f;
+		antiHealRate = (dAntiTumorSuppressor * 1f + dShield *1.3f + 5f * dInvincibleForBody)/45.7f;
+		antiMedicineHealRate = (dRoubustnessVsMedicine * 2f + dStrengthVsMedicine *3f)/45f;
+		
+		elapsedTime += delta;
+		healRate = (float) (Math.exp(elapsedTime/50.f)-1);
+		progress = growthRate;
+		setChanged();
+		notifyObservers();
 	}
-	
-	
+	class outputPair{
+		public String s;
+		public int value;
+	}
 	public void processEvent(String name)
 	{
-		 switch(name)
-		 {
-		 case "h_similarity_to_bodycells":
-			 incrementHSimilarityToBodycells();
-			 break;
-		 case "h_destroy_incoming_imunecells":
-			 incrementHDestroyIncomingImunecells();
-			 break;
-		 case "a_more_bloodvessels":
-			 incrementAMoreBloodvessels();
-			 break;
-		 case "a_mutations":
-			 incrementAMutations();
-			 break;
-		 case "a_fast_cell_division":
-			 incrementAFastCellDivision();
-			 break;
-		 case "a_dangerous_mutations":
-			 incrementADangerousMutations();
-			 break;
-		 case "a_metastases":
-			 incrementAMetastases();
-			 break;
-		 case "a_attacks_tissue":
-			 incrementAAttacksTissue();
-			 break;
-		 case "d_anti_tumor_suppressor":
-			 incrementDAntiTumorSuppressor();
-			 break;
-		 case "d_Shield":
-			 incrementDShield();
-			 break;
-		 case "d_invincible_for_body":
-			 incrementDInvisibleForBody();
-			 break;
-		 case "d_robustness_vs_medicine":
-			 incrementDRoubustnessVsMedicine();
-			 break;
-		 case "d_strength_vs_medicine":
-			 incrementDStrengthVsMedicine();
-			 break;
-		 case "d_hypoxia":
-			 incrementDHypoxia();
-			 break;
-		 }
+		  if(name.equals( "h_similarity_to_bodycells"))
+		  {
+			 hSimilarityToBodycells=incrementVariable(hSimilarityToBodycells, khSimilarityToBodycells);
+			 }
+		 else if(name.equals( "h_destroy_incoming_imunecells")){
+			 hDestroyIncomingImunecells=incrementVariable(hDestroyIncomingImunecells, khDestroyIncomingImunecells);
+			 }
+		 else if(name.equals( "a_more_bloodvessels")){
+			 aMoreBloodvessels=incrementVariable(aMoreBloodvessels, kaMoreBloodvessels);
+			 }
+		 else if(name.equals( "a_mutations")){
+			 aMutations=incrementVariable(aMutations, kaMutations);
+			 }
+		 else if(name.equals( "a_fast_cell_division")){
+			 aFastCellDivision=incrementVariable(aFastCellDivision, kaFastCellDivision,aMoreBloodvessels,5);
+			 }
+		 else if(name.equals( "a_dangerous_mutations")){
+			 aDangerousMutations=incrementVariable(aDangerousMutations, kaDangerousMutations,aMutations,5);
+			 }
+		 else if(name.equals( "a_metastases")){
+			 aMetastases=incrementVariable(aMetastases, kaMetastases,aFastCellDivision,5,aDangerousMutations,5,5);
+			 }
+		 else if(name.equals( "a_attacks_tissue")){
+			 aAttacksTissue=incrementVariable(aAttacksTissue, kaAttacksTissue);
+			 }
+		 else if(name.equals( "d_anti_tumor_suppressor")){
+			 dAntiTumorSuppressor=incrementVariable(dAntiTumorSuppressor, kdAntiTumorSuppressor);
+			 }
+		 else if(name.equals( "d_Shield")){
+			 dShield=incrementVariable(dShield, kdShield);
+			 }
+		 else if(name.equals( "d_invincible_for_body")){
+			 dInvincibleForBody=incrementVariable(dInvincibleForBody, kdInvincibleForBody,dAntiTumorSuppressor,5,dShield,5,5);
+			 }
+		 else if(name.equals( "d_robustness_vs_medicine")){
+			 dRoubustnessVsMedicine=incrementVariable(dRoubustnessVsMedicine, kdRoubustnessVsMedicine);
+			 }
+		 else if(name.equals( "d_strength_vs_medicine")){
+			 dStrengthVsMedicine=incrementVariable(dStrengthVsMedicine, kdStrengthVsMedicine,dStrengthVsMedicine,5);
+			 }
+		 else if(name.equals( "d_hypoxia")){
+			 dHypoxia=incrementVariable(dHypoxia, kdHypoxia);
+			 }
 		 setChanged();
-		 notifyObservers();
+		 notifyObservers(message);
+		 message = null;
 	}
-	void incrementHSimilarityToBodycells()
+	
+	void addCredit()
 	{
-		hSimilarityToBodycells++;
+		credits++;
+		setChanged();
+		notifyObservers();
 	}
-	void incrementHDestroyIncomingImunecells()
+	
+	private int incrementVariable(int variable,int cost)
 	{
-		hDestroyIncomingImunecells++;
+		return incrementVariable(variable, cost, 0, 0, 0, 0,9);
 	}
-	void incrementAMoreBloodvessels()
+	
+	private int incrementVariable(int variable,int cost,int value1,int minValue1)
 	{
-		aMoreBloodvessels++;
+		return incrementVariable(variable, cost, value1, minValue1, 0, 0,9);
 	}
-	void incrementAFastCellDivision()
+	
+	private int incrementVariable(int variable,int cost,int value1,int minValue1,int maxVariableValue)
 	{
-		aFastCellDivision++;
+		return incrementVariable(variable, cost, value1, minValue1, 0, 0,maxVariableValue);
 	}
-	void incrementADangerousMutations()
+	
+	private int incrementVariable(int variable,int cost,int value1,int minValue1,int value2,int minValue2)
 	{
-		aDangerousMutations++;
+		return incrementVariable(variable, cost, value1, minValue1, value2, minValue2,9);
 	}
-	void incrementAMetastases()
+	
+	private int incrementVariable(int variable,int cost,int value1,int minValue1,int value2,int minValue2,int maxVariableValue)
 	{
-		aMetastases++;
-	}
-	void incrementAMutations()
-	{
-		aMutations++;
-	}
-	void incrementAAttacksTissue()
-	{
-		aAttacksTissue++;
-	}
-	void incrementDAntiTumorSuppressor()
-	{
-		dAntiTumorSuppressor++;
-	}
-	void incrementDShield()
-	{
-		dShield++;
-	}
-	void incrementDInvisibleForBody()
-	{
-		dInvincibleForBody++;
-	}
-	void incrementDRoubustnessVsMedicine()
-	{
-		dRoubustnessVsMedicine++;
-	}
-	void incrementDStrengthVsMedicine()
-	{
-		dStrengthVsMedicine++;
-	}
-	void incrementDHypoxia()
-	{
-		dHypoxia++;
+		message = null;
+		if(value1>=minValue1&&value2>=minValue2)
+		{
+			if(variable<maxVariableValue)
+			{
+				if(credits>=cost)
+				{
+					credits -= cost;
+					variable++;
+				}
+				else
+				{
+					message = "Nicht genügend Credits!";
+				}
+			}
+			else
+			{
+				message = "Maximales Level!";
+			}
+		}
+		else
+		{
+			message = "Anforderungen nicht erfüllt";
+		}
+		return variable;
 	}
 }

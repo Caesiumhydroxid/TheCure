@@ -39,6 +39,8 @@ public class TheCuring extends Game {
 		assetManager.load("ProgressBar.png",Texture.class);
 		assetManager.load("ProgressBarKnob.png",Texture.class);
 		assetManager.load("PopupMessage.png",Texture.class);
+		assetManager.load("Credit.png",Texture.class);
+		
 		assetManager.finishLoading();
 		
 		gameState = new GameState(camera,assetManager);

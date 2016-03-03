@@ -1,7 +1,5 @@
 package com.jonas.thecuring;
 
-import java.util.Observable;
-import java.util.Observer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -12,25 +10,30 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Tooltip;
 import com.badlogic.gdx.scenes.scene2d.ui.TooltipManager;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jonas.thecuring.ui.AnimatedImage;
 import com.jonas.thecuring.ui.ProgressBarAdvanced;
 import com.jonas.thecuring.ui.Styles;
+import com.jonas.thecuring.util.Observable;
+import com.jonas.thecuring.util.Observer;
 		
 
 public class GameState extends ChangeListener implements Screen,Observer{
@@ -46,6 +49,13 @@ public class GameState extends ChangeListener implements Screen,Observer{
 	private FitViewport view;
 	private ProgressBarAdvanced cancerProgress;
 	private Styles styles;
+	private Pool<AnimatedImage> credits;
+	private Animation creditAnimation;
+	private Label creditLabel;
+	Group body;
+	private Array<Vector2> creditPositions;
+	private float elapsedTime;
+	
 	public GameState(OrthographicCamera camera,AssetManager manager)
 	{
 		scale = 4.f;
@@ -53,6 +63,16 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		view = new FitViewport(320*scale, 180*scale);
 		stage = new Stage(view);
 		Gdx.input.setInputProcessor(stage);
+		
+		creditPositions = new Array<Vector2>(new Vector2[]{new Vector2(58,46),new Vector2(57,61),new Vector2(61,114),new Vector2(63,68),new Vector2(35,73)});
+		
+		this.creditAnimation = createAnimationFromTexture(0.2f, (Texture)manager.get("Credit.png"), 4, 1);
+		credits = new Pool<AnimatedImage>() {
+			@Override
+			protected AnimatedImage newObject() {
+				return new AnimatedImage(creditAnimation);
+			}
+		};
 		
 		model = new Model();
 		model.addObserver(this);
@@ -62,33 +82,37 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		
 		styles = new Styles(manager);
 		
-		TooltipManager tooltipManager = new TooltipManager();
+		TooltipManager tooltipManager = new TooltipManager()
+		{
+
+			@Override
+			public void hide(Tooltip tooltip) {
+				// TODO Auto-generated method stub
+				super.hide(tooltip);
+			}
+			
+		};
 		tooltipManager.offsetX = 2;
 		tooltipManager.offsetY =2;
 		tooltipManager.animations = true;
-		tooltipManager.initialTime = 2f;
+		tooltipManager.initialTime = 0.2f;
 		tooltipManager.hideAll();
-		tooltipManager.resetTime =2f;
-		tooltipManager.subsequentTime = 1.0f;
+		tooltipManager.resetTime =0.5f;
+		tooltipManager.subsequentTime = 2.0f;
+		
 		
 		//Body
-		int frame_rows = 2;
-		int frame_cols = 4;
-		TextureRegion [][] tmp = TextureRegion.split((Texture) manager.get("NewChar_anim.png"),(int) (128*scale), (int)(128*scale));
-		TextureRegion[] frames = new TextureRegion[frame_rows*frame_cols];
-		int index = 0;
-        for (int i = 0; i < frame_rows; i++) {
-            for (int j = 0; j < frame_cols; j++) {
-                frames[index++] = tmp[i][j];
-            }
-        }
-        
-        Animation anim = new Animation(0.300f, frames);
-        AnimatedImage body = new AnimatedImage(anim);
+		body = new Group();
+        AnimatedImage bodyImage = new AnimatedImage(0.3f,(Texture)manager.get("NewChar_anim.png"),4,2);
+        body.addActor(bodyImage);
         body.setPosition(180*scale, 27*scale);
         stage.addActor(body);
         
-        hideMenu = new HideMenu(styles,manager,this);
+        creditLabel = new Label("Credits: 0",styles.numberLabel);
+        creditLabel.setPosition(222*scale, 163*scale);
+        stage.addActor(creditLabel);
+     
+        hideMenu = new HideMenu(styles,manager,tooltipManager,this);
         hideMenu.setPosition(18*scale, (180-97)*4);
         stage.addActor(hideMenu);
         
@@ -103,12 +127,70 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		cancerProgress = new ProgressBarAdvanced(0, 100, 1, false, styles.progressBarStyle);
 		cancerProgress.setSize(540, 56);
 		cancerProgress.setPosition(27*scale, 27*scale);
+		cancerProgress.setAnimateInterpolation(Interpolation.pow2);
+		cancerProgress.setAnimateDuration(0.5f);
 		stage.addActor(cancerProgress);
-		popupDialog("Test123",stage.getWidth()/2.f,stage.getHeight()/2.f);
+		
+		//popupDialog("Test123",stage.getWidth()/2.f,stage.getHeight()/2.f);
 		this.update(null, null);
 			
 	}
+	private Animation createAnimationFromTexture(float frameDuration,Texture texture,int columns,int rows)
+	{
+		int frame_rows = rows;
+		int frame_cols = columns;
+		TextureRegion [][] tmp = TextureRegion.split(texture,texture.getWidth()/columns, texture.getHeight()/rows);
+		TextureRegion[] frames = new TextureRegion[frame_rows*frame_cols];
+		int index = 0;
+        for (int i = 0; i < frame_rows; i++) {
+            for (int j = 0; j < frame_cols; j++) {
+                frames[index++] = tmp[i][j];
+            }
+        }
+       return new Animation(frameDuration,frames);
+	}
 	
+	class freeCredit implements Runnable
+	{
+
+		Pool<AnimatedImage> p;
+		AnimatedImage imag;
+		freeCredit(Pool<AnimatedImage> p,AnimatedImage imag)
+		{
+			this.imag = imag;
+			this.p = p;
+		}
+		@Override
+		public void run() {
+			imag.clear();
+			imag.remove();
+		
+			p.free(imag);	
+		}
+	}
+	private void createRandomCredit()
+	{
+		AnimatedImage credit = credits.obtain();
+		credit.setColor(1, 1, 1, 1);
+		credit.setTouchable(Touchable.enabled);
+		Vector2 tmp =creditPositions.random();
+		credit.setPosition(tmp.x*scale,tmp.y*scale);
+		
+		credit.addAction(Actions.sequence(Actions.delay(5), Actions.fadeOut(0.5f),Actions.run(new freeCredit(credits,credit))));
+        credit.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				event.getListenerActor().clearActions();
+				event.getListenerActor().setTouchable(Touchable.disabled);
+				event.getListenerActor().addAction(Actions.sequence(Actions.fadeOut(0.5f),Actions.run(new freeCredit(credits,(AnimatedImage)event.getListenerActor()))));
+				model.addCredit();
+				super.clicked(event, x, y);
+			}
+        	
+        });
+        body.addActor(credit);
+		
+	}
 	private void popupDialog(String message,float x,float y)
 	{
 		Dialog d = new Dialog("", styles.windowStyle);
@@ -136,9 +218,17 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		// TODO Auto-generated method stub
 
 	}
+	int cnt;
 	@Override
 	public void render(float delta) {
 		stage.act(delta);
+		elapsedTime += delta;
+		if(elapsedTime>5)
+		{
+			model.tick(1);
+			createRandomCredit();
+			elapsedTime = 0;
+		}
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.draw();
@@ -218,6 +308,10 @@ public class GameState extends ChangeListener implements Screen,Observer{
 	
 	@Override
 	public void update(Observable arg0, Object arg1) {
+		if(arg1!=null && arg1.getClass().equals(String.class))
+		{
+			popupDialog((String) arg1, stage.getWidth()/2.f,stage.getHeight()/2.f);
+		}
 		attackMenu.a_label_1.label.setText(String.valueOf(model.aMoreBloodvessels));
 		attackMenu.a_label_2.label.setText(String.valueOf(model.aMutations));
 		attackMenu.a_label_3.label.setText(String.valueOf(model.aFastCellDivision));
@@ -241,6 +335,9 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		defenseMenu.kdRoubustnessVsMedicine = model.kdRoubustnessVsMedicine;
 		defenseMenu.kdShield = model.kdShield;
 		defenseMenu.kdStrengthVsMedicine = model.kdStrengthVsMedicine;
+		
+		creditLabel.setText("Credits:" + model.credits);
+		cancerProgress.setValue(model.progress*100);
 		
 	}
 

@@ -83,7 +83,7 @@ public class DefenseMenu extends Table {
 		d_button_2.addActor(d_label_2);
 		this.addActor(d_button_2);
 		
-		d_button_3 = new TextButton("Sicher\nvs. KÃ¶rper",styles.bigButton);
+		d_button_3 = new TextButton("Sicher\nvs. Körper",styles.bigButton);
 		d_button_3.setPosition(46*scale, 54*scale);
 		d_button_3.setName("d_invincible_for_body");
 		d_button_3.addListener(buttonListener);
@@ -113,7 +113,7 @@ public class DefenseMenu extends Table {
 		d_button_4.addActor(d_label_4);
 		this.addActor(d_button_4);
 		
-		d_button_5 = new TextButton("StÃ¤rke\nvs. Arznei",styles.bigButton);
+		d_button_5 = new TextButton("Stärke\nvs. Arznei",styles.bigButton);
 		d_button_5.setPosition(82*scale, 24*scale);
 		d_button_5.setName("d_strength_vs_medicine");
 		d_button_5.addListener(buttonListener);
