@@ -1,11 +1,14 @@
 package com.jonas.thecuring;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.jonas.thecuring.ui.Styles;
 
 public class TheCuring extends Game {
 	SpriteBatch batch;
@@ -42,9 +45,13 @@ public class TheCuring extends Game {
 		assetManager.load("Credit.png",Texture.class);
 		
 		assetManager.finishLoading();
+		InputMultiplexer inputMultiplexer = new InputMultiplexer();
+		Gdx.input.setInputProcessor(inputMultiplexer);
+		Styles styles = new Styles(assetManager);
 		
-		gameState = new GameState(camera,assetManager);
-		game.setScreen(gameState);
+		gameState = new GameState(assetManager,styles,inputMultiplexer);
+		MenuState menuState = new MenuState(assetManager,styles,inputMultiplexer );
+		game.setScreen(menuState);
 	}
 
 	@Override

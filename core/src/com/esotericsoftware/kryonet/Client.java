@@ -43,7 +43,6 @@ import com.esotericsoftware.kryonet.FrameworkMessage.RegisterTCP;
 import com.esotericsoftware.kryonet.FrameworkMessage.RegisterUDP;
 
 import static com.esotericsoftware.minlog.Log.*;
-
 /** Represents a TCP and optionally a UDP connection to a {@link Server}.
  * @author Nathan Sweet <misc@n4te.com> */
 public class Client extends Connection implements EndPoint {

@@ -2,6 +2,7 @@ package com.jonas.thecuring;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -56,13 +58,35 @@ public class GameState extends ChangeListener implements Screen,Observer{
 	private Array<Vector2> creditPositions;
 	private float elapsedTime;
 	
-	public GameState(OrthographicCamera camera,AssetManager manager)
+	public class ScaleAction extends  Action
 	{
+
+		@Override
+		public boolean act(float delta) {
+			
+			if(getActor() instanceof Group)
+			{
+				Group g = (Group) getActor();
+				for(Actor a:g.getChildren())
+				{
+					a.setPosition(a.getX()*4, a.getY()*4);
+					a.addAction(new ScaleAction());
+				}
+			}
+			return true;
+		}
+		
+	}
+	
+	public GameState(AssetManager manager,Styles styles,InputMultiplexer inputMultiplexer)
+	{
+		this.styles = styles;
 		scale = 4.f;
 		this.manager = manager;
-		view = new FitViewport(320*scale, 180*scale);
+		view = new FitViewport(320*scale , 180*scale );
+		
 		stage = new Stage(view);
-		Gdx.input.setInputProcessor(stage);
+		inputMultiplexer.addProcessor(stage);
 		
 		creditPositions = new Array<Vector2>(new Vector2[]{new Vector2(58,46),new Vector2(57,61),new Vector2(61,114),new Vector2(63,68),new Vector2(35,73)});
 		
@@ -80,7 +104,6 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		background = new Image((Texture) this.manager.get("Background.png"));
 		stage.addActor(background);
 		
-		styles = new Styles(manager);
 		
 		TooltipManager tooltipManager = new TooltipManager()
 		{
@@ -105,33 +128,35 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		body = new Group();
         AnimatedImage bodyImage = new AnimatedImage(0.3f,(Texture)manager.get("NewChar_anim.png"),4,2);
         body.addActor(bodyImage);
-        body.setPosition(180*scale, 27*scale);
+        body.setPosition(180 , 27 );
         stage.addActor(body);
         
         creditLabel = new Label("Credits: 0",styles.numberLabel);
-        creditLabel.setPosition(222*scale, 163*scale);
+        creditLabel.setPosition(222 , 163 );
         stage.addActor(creditLabel);
      
         hideMenu = new HideMenu(styles,manager,tooltipManager,this);
-        hideMenu.setPosition(18*scale, (180-97)*4);
+        hideMenu.setPosition(18 , (180-97));
         stage.addActor(hideMenu);
         
         defenseMenu = new DefenseMenu(styles,manager,tooltipManager,this);
-        defenseMenu.setPosition((18-171)*scale,(180-130)*scale);
+        defenseMenu.setPosition((18-171) ,(180-130) );
         stage.addActor(defenseMenu);
         
 		attackMenu = new AttackMenu(styles, manager,tooltipManager,this);
-		attackMenu.setPosition((18-171)*scale, (180-130)*scale);
+		attackMenu.setPosition((18-171) , (180-130) );
 		stage.addActor(attackMenu);
 		
 		cancerProgress = new ProgressBarAdvanced(0, 100, 1, false, styles.progressBarStyle);
 		cancerProgress.setSize(540, 56);
-		cancerProgress.setPosition(27*scale, 27*scale);
+		cancerProgress.setPosition(27 , 27 );
 		cancerProgress.setAnimateInterpolation(Interpolation.pow2);
 		cancerProgress.setAnimateDuration(0.5f);
 		stage.addActor(cancerProgress);
 		
 		//popupDialog("Test123",stage.getWidth()/2.f,stage.getHeight()/2.f);
+
+		stage.addAction(new ScaleAction());
 		this.update(null, null);
 			
 	}
@@ -174,7 +199,7 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		credit.setColor(1, 1, 1, 1);
 		credit.setTouchable(Touchable.enabled);
 		Vector2 tmp =creditPositions.random();
-		credit.setPosition(tmp.x*scale,tmp.y*scale);
+		credit.setPosition(tmp.x *scale,tmp.y *scale);
 		
 		credit.addAction(Actions.sequence(Actions.delay(5), Actions.fadeOut(0.5f),Actions.run(new freeCredit(credits,credit))));
         credit.addListener(new ClickListener(){
@@ -194,20 +219,20 @@ public class GameState extends ChangeListener implements Screen,Observer{
 	private void popupDialog(String message,float x,float y)
 	{
 		Dialog d = new Dialog("", styles.windowStyle);
-		d.setSize(160*scale, 90*scale);
+		d.setSize(160 * scale, 90 *scale);
 		d.setPosition(x-d.getWidth()/2.f,y-d.getHeight()/2.f);
 		d.setOrigin(Align.center);
 		TextButton tb = new TextButton("Okay",styles.smallButton);
 
 		tb.setName("Button");
-		d.getButtonTable().padTop(10*scale);
-		d.getButtonTable().padBottom(8*scale);
+		d.getButtonTable().padTop(10 *scale);
+		d.getButtonTable().padBottom(8 *scale);
 		d.button(tb);
 		
 		Label l = new Label(message, styles.numberLabel);
 		l.setAlignment(Align.center);
 		
-		d.getContentTable().padTop(10*scale);
+		d.getContentTable().padTop(10 *scale);
 		d.getContentTable().top();
 		d.text(l);
 		
@@ -269,10 +294,10 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		if(actor.getName().equals("a_aggressive"))
 		{
 			attackMenu.setTouchable(Touchable.disabled);
-			attackMenu.addAction(Actions.sequence(Actions.sequence(Actions.moveBy(-171*scale,0,1.f,Interpolation.pow2)),Actions.run(new Runnable() {
+			attackMenu.addAction(Actions.sequence(Actions.sequence(Actions.moveBy(-171 *scale,0,1.f,Interpolation.pow2)),Actions.run(new Runnable() {
 				@Override
 				public void run() {
-					defenseMenu.addAction(Actions.sequence(Actions.moveBy(171*scale,0,1.f,Interpolation.pow2)));
+					defenseMenu.addAction(Actions.sequence(Actions.moveBy(171 *scale,0,1.f,Interpolation.pow2)));
 					defenseMenu.setTouchable(Touchable.enabled);
 				}
 			})));
@@ -280,10 +305,10 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		else if(actor.getName().equals("d_defensive"))
 		{
 			defenseMenu.setTouchable(Touchable.disabled);
-			defenseMenu.addAction(Actions.sequence(Actions.sequence(Actions.moveBy(-171*scale,0,1.f,Interpolation.pow2)),Actions.run(new Runnable() {
+			defenseMenu.addAction(Actions.sequence(Actions.sequence(Actions.moveBy(-171 *scale,0,1.f,Interpolation.pow2)),Actions.run(new Runnable() {
 				@Override
 				public void run() {
-					hideMenu.addAction(Actions.sequence(Actions.moveBy(171*scale,0,1.f,Interpolation.pow2)));
+					hideMenu.addAction(Actions.sequence(Actions.moveBy(171 *scale,0,1.f,Interpolation.pow2)));
 					hideMenu.setTouchable(Touchable.enabled);
 				}
 			})));
@@ -291,11 +316,11 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		else if(actor.getName().equals("h_hide"))
 		{
 			hideMenu.setTouchable(Touchable.disabled);
-			hideMenu.addAction(Actions.sequence(Actions.moveBy(-171*scale,0,1.f,Interpolation.pow2),Actions.run(new Runnable() {
+			hideMenu.addAction(Actions.sequence(Actions.moveBy(-171 *scale,0,1.f,Interpolation.pow2),Actions.run(new Runnable() {
 				@Override
 				public void run() {
 					
-					attackMenu.addAction(Actions.moveBy(171*scale,0,1.f,Interpolation.pow2));
+					attackMenu.addAction(Actions.moveBy(171 *scale,0,1.f,Interpolation.pow2));
 					attackMenu.setTouchable(Touchable.enabled);
 				}
 			})));
@@ -336,7 +361,7 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		defenseMenu.kdShield = model.kdShield;
 		defenseMenu.kdStrengthVsMedicine = model.kdStrengthVsMedicine;
 		
-		creditLabel.setText("Credits:" + model.credits);
+		creditLabel.setText("Credits: " + model.credits);
 		cancerProgress.setValue(model.progress*100);
 		
 	}
