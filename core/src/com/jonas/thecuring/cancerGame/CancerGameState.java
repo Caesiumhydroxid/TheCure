@@ -1,10 +1,9 @@
-package com.jonas.thecuring;
+package com.jonas.thecuring.cancerGame;
 
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -29,6 +28,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.jonas.thecuring.Assets;
 import com.jonas.thecuring.ui.AnimatedImage;
 import com.jonas.thecuring.ui.ProgressBarAdvanced;
 import com.jonas.thecuring.ui.Styles;
@@ -36,11 +36,10 @@ import com.jonas.thecuring.util.Observable;
 import com.jonas.thecuring.util.Observer;
 		
 
-public class GameState extends ChangeListener implements Screen,Observer{
+public class CancerGameState extends ChangeListener implements Screen,Observer{
 	
 	private Image background;
 	private Stage stage;
-	private AssetManager manager;
 	private AttackMenu attackMenu;
 	private DefenseMenu defenseMenu;
 	private HideMenu hideMenu;
@@ -48,7 +47,6 @@ public class GameState extends ChangeListener implements Screen,Observer{
 	private float scale=3;
 	private ExtendViewport view;
 	private ProgressBarAdvanced cancerProgress;
-	private Styles styles;
 	private Pool<AnimatedImage> credits;
 	private Animation creditAnimation;
 	private Label creditLabel;
@@ -76,11 +74,9 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		
 	}
 	
-	public GameState(AssetManager manager,Styles styles,InputMultiplexer inputMultiplexer)
+	public CancerGameState(InputMultiplexer inputMultiplexer)
 	{
-		this.styles = styles;
 		scale = 3.f;
-		this.manager = manager;
 		view = new ExtendViewport(320*scale , 180*scale );
 		
 		stage = new Stage(view);
@@ -88,7 +84,7 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		
 		creditPositions = new Array<Vector2>(new Vector2[]{new Vector2(58,46),new Vector2(57,61),new Vector2(61,114),new Vector2(63,68),new Vector2(35,73)});
 		
-		this.creditAnimation = createAnimationFromTexture(0.2f, (Texture)manager.get("Credit.png"), 4, 1);
+		this.creditAnimation = createAnimationFromTexture(0.2f, (Texture)Assets.getInstance().get("credit_animation"), 4, 1);
 		credits = new Pool<AnimatedImage>() {
 			@Override
 			protected AnimatedImage newObject() {
@@ -99,7 +95,7 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		model = new Model();
 		model.addObserver(this);
 		
-		background = new Image((Texture) this.manager.get("Background.png"));
+		background = new Image((Texture) Assets.getInstance().get("background"));
 		stage.addActor(background);
 		
 		TooltipManager tooltipManager = new TooltipManager();
@@ -113,28 +109,28 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		
 		//Body
 		body = new Group();
-        AnimatedImage bodyImage = new AnimatedImage(0.3f,(Texture)manager.get("NewChar_anim.png"),4,2);
+        AnimatedImage bodyImage = new AnimatedImage(0.3f,(Texture)Assets.getInstance().get("anatomic_animation"),4,2);
         body.addActor(bodyImage);
         body.setPosition(180 , 27 );
         stage.addActor(body);
         
-        creditLabel = new Label("Credits: 0",styles.numberLabel);
+        creditLabel = new Label("Credits: 0",Styles.getInstance().numberLabel);
         creditLabel.setPosition(222 , 163 );
         stage.addActor(creditLabel);
      
-        hideMenu = new HideMenu(styles,manager,tooltipManager,this);
+        hideMenu = new HideMenu(tooltipManager,this);
         hideMenu.setPosition(18 , (180-97));
         stage.addActor(hideMenu);
         
-        defenseMenu = new DefenseMenu(styles,manager,tooltipManager,this);
+        defenseMenu = new DefenseMenu(tooltipManager,this);
         defenseMenu.setPosition((18-171) ,(180-130) );
         stage.addActor(defenseMenu);
         
-		attackMenu = new AttackMenu(styles, manager,tooltipManager,this);
+		attackMenu = new AttackMenu(tooltipManager,this);
 		attackMenu.setPosition((18-171) , (180-130) );
 		stage.addActor(attackMenu);
 		
-		cancerProgress = new ProgressBarAdvanced(0, 100, 1, false, styles.progressBarStyle);
+		cancerProgress = new ProgressBarAdvanced(0, 100, 1, false, Styles.getInstance().progressBarStyle);
 		cancerProgress.setSize(135*scale, 14*scale);
 		cancerProgress.setPosition(27 , 27 );
 		cancerProgress.setAnimateInterpolation(Interpolation.pow2);
@@ -205,19 +201,19 @@ public class GameState extends ChangeListener implements Screen,Observer{
 	}
 	private void popupDialog(String message,float x,float y)
 	{
-		Dialog d = new Dialog("", styles.windowStyle);
+		Dialog d = new Dialog("", Styles.getInstance().windowStyle);
 		d.setSize(160 * scale, 90 *scale);
 		
 		d.setPosition(x-d.getWidth()/2.f,y-d.getHeight()/2.f);
 		d.setOrigin(Align.center);
-		TextButton tb = new TextButton("Okay",styles.smallButton);
+		TextButton tb = new TextButton("Okay",Styles.getInstance().smallButton);
 
 		tb.setName("Button");
 		d.getButtonTable().padTop(10 *scale);
 		d.getButtonTable().padBottom(8 *scale);
 		d.button(tb);
 		
-		Label l = new Label(message, styles.numberLabel);
+		Label l = new Label(message, Styles.getInstance().numberLabel);
 		l.setAlignment(Align.center);
 		
 		d.getContentTable().padTop(10 *scale);

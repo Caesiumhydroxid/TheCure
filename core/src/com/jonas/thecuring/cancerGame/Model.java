@@ -1,4 +1,4 @@
-package com.jonas.thecuring;
+package com.jonas.thecuring.cancerGame;
 
 import com.jonas.thecuring.util.Observable;
 

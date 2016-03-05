@@ -3,7 +3,6 @@ package com.jonas.thecuring;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -19,26 +18,26 @@ class MenuState implements Screen {
 	private Stage stage;
 	private FitViewport viewport;
 	
-	public MenuState(AssetManager manager,Styles styles,InputMultiplexer inputMultiplexer) {
+	public MenuState(InputMultiplexer inputMultiplexer) {
 		viewport = new FitViewport(320*3, 180*3);
 		stage = new Stage();
 		inputMultiplexer.addProcessor(stage);
-		stage.addActor(new Image((Texture)manager.get("Background.png")));
+		stage.addActor(new Image((Texture)Assets.getInstance().get("background")));
 		Table table = new Table();
 		table.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
 		stage.addActor(table);
 		stage.setDebugAll(false);
-		Label label = new Label("The Curing",styles.numberLabel);
+		Label label = new Label("The Curing",Styles.getInstance().numberLabel);
 		label.setFontScale(16);
 		table.add(label).padBottom(100f);
 		table.row();
-		TextButton player1 = new TextButton("Player 1", styles.smallButton);
+		TextButton player1 = new TextButton("Player 1", Styles.getInstance().smallButton);
 		table.add(player1).expandX().center().pad(4*4);
 		table.row();
-		TextButton player2= new TextButton("Player 2", styles.smallButton);
+		TextButton player2= new TextButton("Player 2", Styles.getInstance().smallButton);
 		table.add(player2).expandX().center();
-		player1.addListener(new ChangeScreenListener(ScreenEnum.CONNECT,manager, styles, inputMultiplexer,"Player 1"));
-		player2.addListener(new ChangeScreenListener(ScreenEnum.CONNECT,manager, styles, inputMultiplexer,"Player 2"));
+		player1.addListener(new ChangeScreenListener(ScreenEnum.CONNECT, Styles.getInstance(), inputMultiplexer,"Player 1"));
+		player2.addListener(new ChangeScreenListener(ScreenEnum.CONNECT, Styles.getInstance(), inputMultiplexer,"Player 2"));
 	}
 	
 	@Override

@@ -9,7 +9,6 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,12 +23,12 @@ public class ConnectingScreen implements Screen{
 	Stage stage;
 	private List<InetAddress> addresses;
 	private Label l;
-	ConnectingScreen(AssetManager manager,Styles styles,InputMultiplexer inputMultiplexer,String player)
+	ConnectingScreen(InputMultiplexer inputMultiplexer,String player)
 	{
 		stage = new Stage(new FitViewport(320*3, 180*3));
-		Image i = new Image((Texture) manager.get("Background.png"));
+		Image i = new Image((Texture) Assets.getInstance().get("background"));
 		stage.addActor(i);
-		l = new Label(player,styles.numberLabel);
+		l = new Label(player,Styles.getInstance().numberLabel);
 		stage.addActor(l);
 		addresses = Collections.synchronizedList(new ArrayList<InetAddress>());
 		Server server = new Server();
@@ -52,8 +51,9 @@ public class ConnectingScreen implements Screen{
 	{
 		private int port;
 		private List<InetAddress> addresses;
-		public searchForOpponent(int port,List addresses) {
+		public searchForOpponent(int port,List<InetAddress> addresses) {
 			this.addresses = addresses;
+			this.port = port;
 		}
 		@Override
 		synchronized public void run() {
@@ -79,7 +79,7 @@ public class ConnectingScreen implements Screen{
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		if(addresses.get(0)!=null)
+		if(!addresses.isEmpty())
 		l.setText(addresses.get(0).toString());
 		stage.act(delta);
 		stage.draw();

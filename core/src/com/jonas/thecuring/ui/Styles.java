@@ -1,6 +1,5 @@
 package com.jonas.thecuring.ui;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,9 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip.TextTooltipStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.jonas.thecuring.Assets;
 
 public class Styles {
 	
+	private static Styles instance;
 	public TextButtonStyle hugeButton;
 	public TextButtonStyle bigButton;
 	public TextButtonStyle smallButton;
@@ -24,34 +25,37 @@ public class Styles {
 	public WindowStyle windowStyle;
 
 	
-	public Styles(AssetManager manager) 
+	private Styles() 
+	{
+	}
+	public void init()
 	{
 		bigButton = new TextButtonStyle();
 		smallButton = new TextButtonStyle();
 		hugeButton = new TextButtonStyle();
 		windowStyle = new WindowStyle();
 		
-		BitmapFont fontNormal = (BitmapFont)manager.get("Font.fnt");
+		BitmapFont fontNormal = (BitmapFont)Assets.getInstance().get("font");
 		fontNormal.getData().setScale(3);
-		BitmapFont fontSmall = (BitmapFont)manager.get("Fontsmall.fnt");
+		BitmapFont fontSmall = (BitmapFont)Assets.getInstance().get("font_small");
 		fontSmall.getData().setScale(2f);
 		
-		hugeButton.up = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("HugeButton_up.png")));
-		hugeButton.down = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("HugeButton_down.png")));
+		hugeButton.up = new TextureRegionDrawable(new TextureRegion((Texture) Assets.getInstance().get("button_huge_up")));
+		hugeButton.down = new TextureRegionDrawable(new TextureRegion((Texture) Assets.getInstance().get("button_huge_down")));
 		hugeButton.font = fontNormal;
 		
 		hugeButton.downFontColor = new Color(0.5f,0.5f,0.5f,1);
 		hugeButton.fontColor = Color.BLACK;
 		
-		bigButton.up = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("Button_up.png")));
-		bigButton.down = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("Button_down.png")));
+		bigButton.up = new TextureRegionDrawable(new TextureRegion((Texture) Assets.getInstance().get("button_up")));
+		bigButton.down = new TextureRegionDrawable(new TextureRegion((Texture) Assets.getInstance().get("button_down")));
 		bigButton.font = fontNormal;
 		bigButton.downFontColor = new Color(0.5f,0.5f,0.5f,1);
 		bigButton.fontColor = Color.BLACK;
 		
 		
-		smallButton.up = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("Button_small_up.png")));
-		smallButton.down = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("Button_small_down.png")));
+		smallButton.up = new TextureRegionDrawable(new TextureRegion((Texture) Assets.getInstance().get("button_small_up")));
+		smallButton.down = new TextureRegionDrawable(new TextureRegion((Texture) Assets.getInstance().get("button_small_down")));
 		smallButton.font = fontNormal;
 		smallButton.downFontColor = new Color(0.5f,0.5f,0.5f,1);
 		smallButton.fontColor = Color.BLACK;
@@ -66,15 +70,21 @@ public class Styles {
 		
 		textTooltipStyle = new TextTooltipStyle();
 		textTooltipStyle.label = smallLabel;
-		textTooltipStyle.background = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("Tooltip.png")));
+		textTooltipStyle.background = new TextureRegionDrawable(new TextureRegion((Texture) Assets.getInstance().get("tooltip")));
 		
 		progressBarStyle = new ProgressBarStyle();
-		progressBarStyle.background = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("ProgressBar.png")));
-		progressBarStyle.knobBefore = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("ProgressBarKnob.png")));
+		progressBarStyle.background = new TextureRegionDrawable(new TextureRegion((Texture) Assets.getInstance().get("progressbar")));
+		progressBarStyle.knobBefore = new TextureRegionDrawable(new TextureRegion((Texture) Assets.getInstance().get("progressbar_knob")));
 		
-		windowStyle.background = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("PopupMessage.png")));
+		windowStyle.background = new TextureRegionDrawable(new TextureRegion((Texture) Assets.getInstance().get("popup")));
 		windowStyle.titleFont = fontNormal;
 	}
-
+	
+	public static Styles getInstance () {
+	    if (Styles.instance == null) {
+	      Styles.instance = new Styles();
+	    }
+	    return Styles.instance;
+	  }
 
 }
