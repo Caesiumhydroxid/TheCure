@@ -19,12 +19,14 @@ import com.jonas.thecuring.ui.Styles;
 
 public class ConnectingScreen implements Screen{
 	Stage stage;
+	private InetAddress address;
+	private Label l;
 	ConnectingScreen(AssetManager manager,Styles styles,InputMultiplexer inputMultiplexer,String player)
 	{
 		stage = new Stage(new FitViewport(320*3, 180*3));
 		Image i = new Image((Texture) manager.get("Background.png"));
 		stage.addActor(i);
-		Label l = new Label(player,styles.numberLabel);
+		l = new Label(player,styles.numberLabel);
 		stage.addActor(l);
 		Server server = new Server();
 		if(player.equals("Player 1"))
@@ -35,19 +37,35 @@ public class ConnectingScreen implements Screen{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			l.setText(searchForOpponent(48003).toString());
 		}
 		else if(player.equals("Player 2"))
 		{
-			try {
-				server.bind(48002,48003);
-				server.start();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			l.setText(searchForOpponent(48000).toString());
+			new Thread(new searchForOpponent(48000, address)).start();
 		}
 	}
+	
+	private class searchForOpponent implements Runnable
+	{
+		private int port;
+		private InetAddress address;
+		public searchForOpponent(int port,InetAddress address) {
+			// TODO Auto-generated constructor stub
+		}
+		@Override
+		synchronized public void run() {
+			Client client = new Client();
+			client.start();
+			address = client.discoverHost(port, 5000);
+			client.stop();
+			try {
+				client.dispose();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	private InetAddress searchForOpponent(int port)
 	{
 		Client client = new Client();
@@ -56,7 +74,6 @@ public class ConnectingScreen implements Screen{
 	}
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -64,6 +81,8 @@ public class ConnectingScreen implements Screen{
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		if(address!=null)
+		l.setText(address.toString());
 		stage.act(delta);
 		stage.draw();
 		
