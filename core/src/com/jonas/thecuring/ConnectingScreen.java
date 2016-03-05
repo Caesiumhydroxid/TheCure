@@ -2,6 +2,9 @@ package com.jonas.thecuring;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -19,7 +22,7 @@ import com.jonas.thecuring.ui.Styles;
 
 public class ConnectingScreen implements Screen{
 	Stage stage;
-	private InetAddress address;
+	private List<InetAddress> addresses;
 	private Label l;
 	ConnectingScreen(AssetManager manager,Styles styles,InputMultiplexer inputMultiplexer,String player)
 	{
@@ -28,6 +31,7 @@ public class ConnectingScreen implements Screen{
 		stage.addActor(i);
 		l = new Label(player,styles.numberLabel);
 		stage.addActor(l);
+		addresses = Collections.synchronizedList(new ArrayList<InetAddress>());
 		Server server = new Server();
 		if(player.equals("Player 1"))
 		{
@@ -40,22 +44,22 @@ public class ConnectingScreen implements Screen{
 		}
 		else if(player.equals("Player 2"))
 		{
-			new Thread(new searchForOpponent(48000, address)).start();
+			new Thread(new searchForOpponent(48001, addresses)).start();
 		}
 	}
 	
 	private class searchForOpponent implements Runnable
 	{
 		private int port;
-		private InetAddress address;
-		public searchForOpponent(int port,InetAddress address) {
-			// TODO Auto-generated constructor stub
+		private List<InetAddress> addresses;
+		public searchForOpponent(int port,List addresses) {
+			this.addresses = addresses;
 		}
 		@Override
 		synchronized public void run() {
 			Client client = new Client();
 			client.start();
-			address = client.discoverHost(port, 5000);
+			addresses.addAll(client.discoverHosts(port, 5000));
 			client.stop();
 			try {
 				client.dispose();
@@ -66,12 +70,6 @@ public class ConnectingScreen implements Screen{
 		}
 	}
 	
-	private InetAddress searchForOpponent(int port)
-	{
-		Client client = new Client();
-		client.start();
-		return client.discoverHost(port, 5000);
-	}
 	@Override
 	public void show() {
 		
@@ -81,8 +79,8 @@ public class ConnectingScreen implements Screen{
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		if(address!=null)
-		l.setText(address.toString());
+		if(addresses.get(0)!=null)
+		l.setText(addresses.get(0).toString());
 		stage.act(delta);
 		stage.draw();
 		
