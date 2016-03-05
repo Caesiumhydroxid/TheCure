@@ -39,7 +39,7 @@ public class DefenseMenu extends Table {
 	public int kdStrengthVsMedicine=4;
 	public int kdHypoxia=2;
 	
-	private float scale = 4f;
+	private float scale = 3f;
 	
 	DefenseMenu(Styles styles,AssetManager manager,TooltipManager tooltipManager,ChangeListener buttonListener)
 	{

@@ -40,7 +40,6 @@ public class AttackMenu extends Table {
 	public int kaDangerousMutations=2;
 	public int kaMetastases=5;
 	public int kaAttacksTissue=2;
-	private float scale = 4f;
 	
 	public AttackMenu(Styles styles, AssetManager manager,TooltipManager tooltipManager,ChangeListener buttonListener)
 	{

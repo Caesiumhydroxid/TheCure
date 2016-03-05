@@ -1,8 +1,10 @@
 package com.jonas.thecuring;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -12,14 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jonas.thecuring.ui.Styles;
 
-public class MenuState implements Screen {
+class MenuState implements Screen {
 	
 	private Stage stage;
 	private FitViewport viewport;
-	private AssetManager manager;
+	
 	public MenuState(AssetManager manager,Styles styles,InputMultiplexer inputMultiplexer) {
-		this.manager = manager;
-		viewport = new FitViewport(320*4, 180*4);
+		viewport = new FitViewport(320*3, 180*3);
 		stage = new Stage();
 		inputMultiplexer.addProcessor(stage);
 		stage.addActor(new Image((Texture)manager.get("Background.png")));
@@ -28,12 +29,16 @@ public class MenuState implements Screen {
 		stage.addActor(table);
 		stage.setDebugAll(false);
 		Label label = new Label("The Curing",styles.numberLabel);
-		label.setFontScale(4);
+		label.setFontScale(16);
 		table.add(label).padBottom(100f);
 		table.row();
-		table.add(new TextButton("Player 1", styles.smallButton)).expandX().center().pad(4*4);
+		TextButton player1 = new TextButton("Player 1", styles.smallButton);
+		table.add(player1).expandX().center().pad(4*4);
 		table.row();
-		table.add(new TextButton("Player 2", styles.smallButton)).expandX().center();
+		TextButton player2= new TextButton("Player 2", styles.smallButton);
+		table.add(player2).expandX().center();
+		player1.addListener(new ChangeScreenListener(ScreenEnum.CONNECT,manager, styles, inputMultiplexer,"Player 1"));
+		player2.addListener(new ChangeScreenListener(ScreenEnum.CONNECT,manager, styles, inputMultiplexer,"Player 2"));
 	}
 	
 	@Override
@@ -44,6 +49,8 @@ public class MenuState implements Screen {
 
 	@Override
 	public void render(float delta) {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(delta);
 		stage.draw();
 

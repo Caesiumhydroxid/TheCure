@@ -22,6 +22,7 @@ public class Styles {
 	public TextTooltipStyle textTooltipStyle;
 	public ProgressBarStyle progressBarStyle;
 	public WindowStyle windowStyle;
+
 	
 	public Styles(AssetManager manager) 
 	{
@@ -29,32 +30,38 @@ public class Styles {
 		smallButton = new TextButtonStyle();
 		hugeButton = new TextButtonStyle();
 		windowStyle = new WindowStyle();
-		BitmapFont font = manager.get("Font.fnt");
+		
+		BitmapFont fontNormal = (BitmapFont)manager.get("Font.fnt");
+		fontNormal.getData().setScale(3);
+		BitmapFont fontSmall = (BitmapFont)manager.get("Fontsmall.fnt");
+		fontSmall.getData().setScale(2f);
 		
 		hugeButton.up = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("HugeButton_up.png")));
 		hugeButton.down = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("HugeButton_down.png")));
-		hugeButton.font = font;
+		hugeButton.font = fontNormal;
+		
 		hugeButton.downFontColor = new Color(0.5f,0.5f,0.5f,1);
 		hugeButton.fontColor = Color.BLACK;
 		
 		bigButton.up = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("Button_up.png")));
 		bigButton.down = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("Button_down.png")));
-		bigButton.font = font;
+		bigButton.font = fontNormal;
 		bigButton.downFontColor = new Color(0.5f,0.5f,0.5f,1);
 		bigButton.fontColor = Color.BLACK;
 		
+		
 		smallButton.up = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("Button_small_up.png")));
 		smallButton.down = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("Button_small_down.png")));
-		smallButton.font = font;
+		smallButton.font = fontNormal;
 		smallButton.downFontColor = new Color(0.5f,0.5f,0.5f,1);
 		smallButton.fontColor = Color.BLACK;
 		
 		numberLabel = new LabelStyle();
-		numberLabel.font = font;
+		numberLabel.font = fontNormal;
 		numberLabel.fontColor = Color.BLACK;
 		
 		smallLabel = new LabelStyle();
-		smallLabel.font = manager.get("Fontsmall.fnt");
+		smallLabel.font = fontSmall;
 		smallLabel.fontColor = Color.BLACK;
 		
 		textTooltipStyle = new TextTooltipStyle();
@@ -66,7 +73,8 @@ public class Styles {
 		progressBarStyle.knobBefore = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("ProgressBarKnob.png")));
 		
 		windowStyle.background = new TextureRegionDrawable(new TextureRegion((Texture) manager.get("PopupMessage.png")));
-		windowStyle.titleFont = font;
+		windowStyle.titleFont = fontNormal;
 	}
+
 
 }

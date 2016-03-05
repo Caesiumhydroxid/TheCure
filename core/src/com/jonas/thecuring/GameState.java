@@ -6,7 +6,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -23,14 +22,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Tooltip;
 import com.badlogic.gdx.scenes.scene2d.ui.TooltipManager;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.jonas.thecuring.ui.AnimatedImage;
 import com.jonas.thecuring.ui.ProgressBarAdvanced;
 import com.jonas.thecuring.ui.Styles;
@@ -47,8 +45,8 @@ public class GameState extends ChangeListener implements Screen,Observer{
 	private DefenseMenu defenseMenu;
 	private HideMenu hideMenu;
 	private Model model;
-	private float scale;
-	private FitViewport view;
+	private float scale=3;
+	private ExtendViewport view;
 	private ProgressBarAdvanced cancerProgress;
 	private Styles styles;
 	private Pool<AnimatedImage> credits;
@@ -69,7 +67,7 @@ public class GameState extends ChangeListener implements Screen,Observer{
 				Group g = (Group) getActor();
 				for(Actor a:g.getChildren())
 				{
-					a.setPosition(a.getX()*4, a.getY()*4);
+					a.setPosition(a.getX()*scale, a.getY()*scale);
 					a.addAction(new ScaleAction());
 				}
 			}
@@ -81,9 +79,9 @@ public class GameState extends ChangeListener implements Screen,Observer{
 	public GameState(AssetManager manager,Styles styles,InputMultiplexer inputMultiplexer)
 	{
 		this.styles = styles;
-		scale = 4.f;
+		scale = 3.f;
 		this.manager = manager;
-		view = new FitViewport(320*scale , 180*scale );
+		view = new ExtendViewport(320*scale , 180*scale );
 		
 		stage = new Stage(view);
 		inputMultiplexer.addProcessor(stage);
@@ -104,25 +102,14 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		background = new Image((Texture) this.manager.get("Background.png"));
 		stage.addActor(background);
 		
-		
-		TooltipManager tooltipManager = new TooltipManager()
-		{
-
-			@Override
-			public void hide(Tooltip tooltip) {
-				// TODO Auto-generated method stub
-				super.hide(tooltip);
-			}
-			
-		};
+		TooltipManager tooltipManager = new TooltipManager();
 		tooltipManager.offsetX = 2;
 		tooltipManager.offsetY =2;
 		tooltipManager.animations = true;
-		tooltipManager.initialTime = 0.2f;
+		tooltipManager.initialTime = 0.5f;
 		tooltipManager.hideAll();
 		tooltipManager.resetTime =0.5f;
-		tooltipManager.subsequentTime = 2.0f;
-		
+		tooltipManager.subsequentTime = 1.0f;
 		
 		//Body
 		body = new Group();
@@ -148,7 +135,7 @@ public class GameState extends ChangeListener implements Screen,Observer{
 		stage.addActor(attackMenu);
 		
 		cancerProgress = new ProgressBarAdvanced(0, 100, 1, false, styles.progressBarStyle);
-		cancerProgress.setSize(540, 56);
+		cancerProgress.setSize(135*scale, 14*scale);
 		cancerProgress.setPosition(27 , 27 );
 		cancerProgress.setAnimateInterpolation(Interpolation.pow2);
 		cancerProgress.setAnimateDuration(0.5f);
@@ -220,6 +207,7 @@ public class GameState extends ChangeListener implements Screen,Observer{
 	{
 		Dialog d = new Dialog("", styles.windowStyle);
 		d.setSize(160 * scale, 90 *scale);
+		
 		d.setPosition(x-d.getWidth()/2.f,y-d.getHeight()/2.f);
 		d.setOrigin(Align.center);
 		TextButton tb = new TextButton("Okay",styles.smallButton);
@@ -254,7 +242,7 @@ public class GameState extends ChangeListener implements Screen,Observer{
 			createRandomCredit();
 			elapsedTime = 0;
 		}
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.draw();
 	}

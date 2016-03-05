@@ -22,7 +22,6 @@ public class HideMenu extends Table {
 	
 	public int khSimilarityToBodycells=2;
 	public int khDestroyIncomingImunecells=3;
-	private float scale = 4.f;
 
 	
 	HideMenu(Styles styles,AssetManager manager,TooltipManager tooltipManager,ChangeListener buttonListener)

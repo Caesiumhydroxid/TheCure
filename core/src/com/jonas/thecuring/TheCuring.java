@@ -45,13 +45,11 @@ public class TheCuring extends Game {
 		assetManager.load("Credit.png",Texture.class);
 		
 		assetManager.finishLoading();
+		ScreenManager.getInstance().init(this);
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		Styles styles = new Styles(assetManager);
-		
-		gameState = new GameState(assetManager,styles,inputMultiplexer);
-		MenuState menuState = new MenuState(assetManager,styles,inputMultiplexer );
-		game.setScreen(menuState);
+		ScreenManager.getInstance().show(ScreenEnum.MAIN_MENU, assetManager,styles,inputMultiplexer);
 	}
 
 	@Override
