@@ -10,7 +10,11 @@ public abstract class AbstractGameObject {
 	public Vector2 dimension;
 	public Vector2 origin;
 	public Rectangle boundingRectangle;
+	public boolean toDelete;
+	public float z;
 	public AbstractGameObject () {
+		toDelete = false;
+		
 		position = new Vector2();
 		dimension = new Vector2(1, 1);
 		origin = new Vector2();

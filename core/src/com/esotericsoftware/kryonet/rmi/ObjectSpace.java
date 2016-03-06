@@ -201,7 +201,7 @@ public class ObjectSpace {
 		connection.removeListener(invokeListener);
 
 		synchronized (connectionsLock) {
-			ArrayList<Connection> temp = new ArrayList(Arrays.asList(connections));
+			ArrayList<Connection> temp = new ArrayList<Connection>(Arrays.asList(connections));
 			temp.remove(connection);
 			connections = temp.toArray(new Connection[temp.size()]);
 		}

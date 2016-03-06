@@ -24,6 +24,7 @@ public class Room extends AbstractGameObject {
 		world.player.position = spawnPoint;
 		eventRooms = new ArrayList<ActionRoom>();
 		this.roomTexture = roomTexture;
+		this.z = 0;
 		this.world = world;
 	}
 	Room(Texture roomTexture,World world,Vector2 spawnPoint)
@@ -33,6 +34,7 @@ public class Room extends AbstractGameObject {
 		world.player.position = spawnPoint;
 		eventRooms = new ArrayList<ActionRoom>();
 		this.roomTexture = roomTexture;
+		this.z = 0;
 		this.world = world;
 	}
 	

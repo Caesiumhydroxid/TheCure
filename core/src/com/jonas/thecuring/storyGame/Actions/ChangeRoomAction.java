@@ -7,7 +7,7 @@ public class ChangeRoomAction extends Action{
 	
 	private RoomEnum room;
 	public ChangeRoomAction(World world,RoomEnum room) {
-		this.world = world;
+		super(world);
 		this.room = room;
 	}
 	@Override

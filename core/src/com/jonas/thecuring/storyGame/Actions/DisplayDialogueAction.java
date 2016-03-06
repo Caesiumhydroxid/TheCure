@@ -2,14 +2,13 @@ package com.jonas.thecuring.storyGame.Actions;
 
 import com.jonas.thecuring.storyGame.World;
 
-public class DisplayTextAction extends Action{
+public class DisplayDialogueAction extends Action{
 	private String text;
 	private boolean continous;
 	private boolean showed;
-	public DisplayTextAction(String text,World world,boolean contionus)
+	public DisplayDialogueAction(String text,World world,boolean contionus)
 	{
-		
-		this.world = world;
+		super(world);
 		this.text = text;
 		this.continous = contionus;
 		showed = false;
@@ -21,7 +20,6 @@ public class DisplayTextAction extends Action{
 			world.displayText(text);
 		if(!continous)
 			showed = true;
-		
 	}
 	
 }
