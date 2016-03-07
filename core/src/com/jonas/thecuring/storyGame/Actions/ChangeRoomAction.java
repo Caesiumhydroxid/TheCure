@@ -12,7 +12,7 @@ public class ChangeRoomAction extends Action{
 	}
 	@Override
 	public void run() {
-		world.setCurrentRoom(room);
+		world.setCurrentRoomTransition(room);
 	}
 
 }

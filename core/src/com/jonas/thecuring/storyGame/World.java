@@ -6,8 +6,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Vector;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Pool;
 
@@ -18,6 +16,7 @@ public class World{
 	private Vector<AbstractGameObject> objectsToRemove;
 	private Room currentRoom;
 	private Pool<DialogueMessage> messagePool;
+	public int day;
 	
 	World()
 	{
@@ -31,14 +30,13 @@ public class World{
 		objects = new ArrayList<AbstractGameObject>();
 		objectsToPush = new Vector<AbstractGameObject>();
 		objectsToRemove = new Vector<AbstractGameObject>();
-		player = new Player();
+		player = new Player(this);
 		player.position.y=10;
 		player.z = 5;
-
+		
 		setCurrentRoom(RoomEnum.HOME_ROOM);
 		//ChoiceMenu c = new ChoiceMenu(new String[]{"Hallo","Test"}, new Action[]{new ChangeRoomAction(this, RoomEnum.WORK_ROOM),new DisplayDialogueAction("Test",this,false)});
 		//c.z = 100;
-		displayText("Test");
 		//objects.add(c);
 		objects.add(player);
 	}
@@ -54,32 +52,75 @@ public class World{
 	
 	public void setCurrentRoom(RoomEnum room)
 	{
-		if(currentRoom!=null)
+		if(currentRoom!= null)
 		{
-			currentRoom.spawnPoint = player.position;
+			currentRoom.fireEvents = false;
 		}
 		currentRoom = room.getRoom(this);
+		player.setPosition(currentRoom.getSpawnPoint());
+		currentRoom.fireEvents = true;
 	}
+	
+	public void setCurrentRoomTransition(RoomEnum room)
+	{
+		if(currentRoom!=null)
+		{
+			currentRoom.fireEvents = false;
+			TransitionScreen t = new TransitionScreen(1);
+			t.addListener(new RoomChangeListener(room,this));
+			player.processInput=false;
+			objects.add(t);
+		}
+		else
+		{
+			currentRoom = room.getRoom(this);
+		}
+	}
+	
+	public void setCurrentRoomTransition(RoomEnum room,String text)
+	{
+		if(currentRoom!=null)
+		{
+			currentRoom.fireEvents = false;
+			TransitionScreen t = new TransitionScreen(2,2,text);
+			t.addListener(new RoomChangeListener(room,this));
+			player.processInput=false;
+			objects.add(t);
+		}
+		else
+		{
+			currentRoom = room.getRoom(this);
+		}
+	}
+	
+	private class RoomChangeListener implements TransitionListener{
+		private RoomEnum changeRoom;
+		private World world;
+		RoomChangeListener(RoomEnum changeRoom,World world)
+		{
+			this.changeRoom = changeRoom;
+			this.world = world;
+		}
+		@Override
+		public void transitionIsAtMax() {
+			world.setCurrentRoom(changeRoom);
+		}
+
+		@Override
+		public void transitionFinished() {
+			world.player.processInput= true;
+		}
+		
+	}
+	
 	
 	public Room getCurrentRoom() {
 		return currentRoom;
 	}
 	
-	void handleInput()
-	{
-		if(Gdx.input.isKeyPressed(Keys.RIGHT))
-		{
-			player.velocity.x = 14/0.6f;
-		}
-		else if(Gdx.input.isKeyPressed(Keys.LEFT))
-		{
-			player.velocity.x = -14/0.6f;
-		}
-	}
 	
 	void update(float delta)
 	{
-		handleInput();
 		currentRoom.update(delta);
 		
 		for(Iterator<AbstractGameObject> itr = objects.iterator();itr.hasNext();)
@@ -103,11 +144,8 @@ public class World{
 	
 	void render(Batch batch)
 	{
-		currentRoom.render(batch);
-		
-	
+		currentRoom.render(batch);		
 		Collections.sort(objects, new Comparator<AbstractGameObject>() {
-
 			@Override
 			public int compare(AbstractGameObject o1, AbstractGameObject o2) {
 				if(o1.z>o2.z)
@@ -118,6 +156,7 @@ public class World{
 					return -1;
 			}
 		});
+		
 		for(AbstractGameObject tmp:objects)
 		{
 			tmp.render(batch);

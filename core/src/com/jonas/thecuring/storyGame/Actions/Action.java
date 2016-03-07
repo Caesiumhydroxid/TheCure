@@ -4,7 +4,7 @@ import com.jonas.thecuring.storyGame.World;
 
 public abstract class Action {
 	protected World world;
-	Action(World world)
+	public Action(World world)
 	{
 		this.world = world;
 	}

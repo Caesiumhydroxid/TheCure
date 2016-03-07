@@ -18,7 +18,7 @@ public class DisplayActionText extends Action {
 	@Override
 	public void run() {
 		world.player.setText(text);
-		if(Gdx.input.isKeyPressed(Keys.SPACE))
+		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
 		{
 			triggeredAction.run();
 		}

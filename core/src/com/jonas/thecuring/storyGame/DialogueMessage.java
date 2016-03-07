@@ -14,6 +14,8 @@ public class DialogueMessage extends AbstractGameObject {
 	private BitmapFont font;
 	private String text;
 	private float elapsedTime;
+	private float letterShowTime;
+	private int lettersToShow;
 	DialogueMessage()
 	{	
 		this.background = (Texture)Assets.getInstance().get("dialogue");
@@ -39,20 +41,31 @@ public class DialogueMessage extends AbstractGameObject {
 	@Override
 	public void update(float delta) {
 		elapsedTime+= delta;
+		letterShowTime += delta;
 		if(elapsedTime>5)
 			this.toDelete = true;
+		if(letterShowTime > 0.01f)
+		{
+			if(lettersToShow < text.length())
+			{
+				lettersToShow++;
+			}
+			letterShowTime -= 0.01f;
+		}
 		super.update(delta);
 	}
 	public void reset()
 	{
 		elapsedTime = 0;
 		toDelete = false;
+		lettersToShow = 0;
+		letterShowTime = 0;
 	}
 	@Override
 	public void render(Batch batch) {
 		batch.draw(background, position.x, position.y);
 		GlyphLayout glyphLayout = new GlyphLayout(font, text);
-		glyphLayout.setText(font, text, 0, text.length(), Color.BLACK, (boundingRectangle.width-4), Align.center, true, null);
+		glyphLayout.setText(font, text, 0, lettersToShow, Color.BLACK, (boundingRectangle.width-4), Align.center, true, null);
 		float y = position.y + boundingRectangle.height/2f + glyphLayout.height/2f;
 		font.draw(batch, glyphLayout, position.x, y );
 

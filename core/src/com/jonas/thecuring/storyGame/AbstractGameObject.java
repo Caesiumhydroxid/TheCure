@@ -6,24 +6,36 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class AbstractGameObject {
 	
-	public Vector2 position;
+	protected Vector2 position;
 	public Vector2 dimension;
 	public Vector2 origin;
 	public Rectangle boundingRectangle;
 	public boolean toDelete;
+	public boolean processInput=true;
 	public float z;
 	public AbstractGameObject () {
 		toDelete = false;
-		
-		position = new Vector2();
 		dimension = new Vector2(1, 1);
 		origin = new Vector2();
 		boundingRectangle = new Rectangle();
+		position = new Vector2();
 	}
 	
 	public void update(float delta){
+		if(processInput)
+			handleInput();
 	}
-
+	
+	protected void handleInput()
+	{
+		
+	}
+	public void setPosition(Vector2 position) {
+		this.position.set(position.x,position.y);
+	}
+	public Vector2 getPosition() {
+		return new Vector2(position);
+	}
 	public abstract void render(Batch batch);
 	
 }

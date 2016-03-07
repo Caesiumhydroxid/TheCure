@@ -9,26 +9,39 @@ public class ActionRoom extends Rectangle{
 	 * 
 	 */
 	private static final long serialVersionUID = -1750815793712483322L;
-	private Action event;
+	private Action action;
 	ActionRoom()
 	{
+		super();
 	}
-	ActionRoom(Action event)
+	ActionRoom(Action action)
 	{
-		this.event = event;
+		super();
+		this.action = action;
 	}
-	ActionRoom(Rectangle rect,Action event)
+	ActionRoom(Rectangle rect,Action action)
 	{
 		super(rect);
-		this.event = event;
+		this.action = action;
+	}
+	public void setRectangle(Rectangle rectangle)
+	{
+		 Rectangle rect = this;
+		 rect = rectangle;
+	}
+	public void setAction(Action action) {
+		this.action = action;
+	}
+	public Action getAction() {
+		return action;
 	}
 	public void update(float delta)
 	{
-		event.update(delta);
+		action.update(delta);
 	}
 	public void triggerEvent()
 	{
-		if(event!=null)
-			event.run();
+		if(action!=null)
+			action.run();
 	}
 }

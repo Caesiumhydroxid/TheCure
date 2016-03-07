@@ -1,5 +1,7 @@
 package com.jonas.thecuring.storyGame;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -37,15 +39,19 @@ public class Player extends AbstractGameObject{
 	private Texture shadow;
 	Vector2 velocity;
 	float elapsedTime;
-	float timeSinceVelocityZero;
-	boolean lastDirectionRight;
-	Player()
+	private float timeSinceVelocityZero;
+	private boolean lastDirectionRight;
+	private World world;
+	public int currentClothing;
+	Player(World world)
 	{
 		velocity = new Vector2();
 		font = (BitmapFont) Assets.getInstance().get("font_small");
+		font.getData().setScale(1);
 		shadow = (Texture) Assets.getInstance().get("shadow");
 		layout = new GlyphLayout();
-		boundingRectangle = new Rectangle();
+		position = new Vector2();
+		
 		TextureRegion [][] tmp = TextureRegion.split((Texture)Assets.getInstance().get("maincharacter_animation"), 40, 40);
 		walkLeft = new Animation(0.075f, tmp[1]);
 		walkRight = new Animation(0.075f, tmp[0]);
@@ -61,30 +67,77 @@ public class Player extends AbstractGameObject{
 		stillRightBusiness = new Animation(1f,tmp[0][2]);
 		stillFrontBusiness = new Animation(1f,tmp[0][0]);
 		
-		currentStillFront = stillFrontBusiness;
-		currentStillLeft = stillLeftBusiness;
-		currentStillRight = stillRightBusiness;
-		currentWalkLeft = walkLeftBusiness;
-		currentWalkRight = walkRightBusiness;
+		currentStillFront = stillFront;
+		currentStillLeft = stillLeft;
+		currentStillRight = stillRight;
+		currentWalkLeft = walkLeft;
+		currentWalkRight = walkRight;
 		
+		this.world = world;
 		currentAnimation = stillFrontBusiness;
 		text = "";
 	}
 	
-	public Rectangle getBoundingRectangle() {
-		return boundingRectangle;
+	public void dress()
+	{
+		currentClothing = (currentClothing+1)%2;
+		if(currentClothing==0)
+		{
+			currentStillFront = stillFront;
+			currentStillLeft = stillLeft;
+			currentStillRight = stillRight;
+			currentWalkLeft = walkLeft;
+			currentWalkRight = walkRight;
+		}
+		else if(currentClothing ==1)
+		{
+			currentStillFront = stillFrontBusiness;
+			currentStillLeft = stillLeftBusiness;
+			currentStillRight = stillRightBusiness;
+			currentWalkLeft = walkLeftBusiness;
+			currentWalkRight = walkRightBusiness;
+		}
+	}
+	@Override
+	protected void handleInput()
+	{
+		if(Gdx.input.isKeyPressed(Keys.RIGHT))
+		{
+			velocity.x = 14/0.6f;
+		}
+		else if(Gdx.input.isKeyPressed(Keys.LEFT))
+		{
+			velocity.x = -14/0.6f;
+		}
+	}
+	
+	public Vector2 getBoundingRectangle() {
+		return position;
 	}
 	
 	public void setText(String text)
 	{
 		this.text = text;
 	}
-	
+	@Override
+	public void setPosition(Vector2 position) {
+		super.setPosition(position);
+		boundingRectangle.set(position.x+15, position.y, 7, 37);
+	}
 	@Override
 	public void update(float delta) {
-		boundingRectangle.set(position.x+15, position.y, 9, 37);
+		super.update(delta);
+		setPosition(position.add(velocity.scl(delta)));
 		elapsedTime += delta;
-		
+		for(Rectangle r:world.getCurrentRoom().colliders)
+		{
+			if(r.overlaps(boundingRectangle))
+			{
+				setPosition(position.sub(velocity));
+				velocity.set(0,0);
+				break;
+			}
+		}
 		if(Math.abs(velocity.x) < 0.0000001f)
 		{
 			timeSinceVelocityZero+= delta;
@@ -113,9 +166,7 @@ public class Player extends AbstractGameObject{
 			lastDirectionRight = false;
 			timeSinceVelocityZero = 0;
 		}
-		position = position.add(velocity.scl(delta));
 		velocity.set(0,0);
-		super.update(delta);
 	}
 
 	@Override
