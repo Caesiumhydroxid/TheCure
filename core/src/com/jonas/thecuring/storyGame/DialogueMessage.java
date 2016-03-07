@@ -5,12 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Align;
 import com.jonas.thecuring.Assets;
-
-import jdk.management.resource.internal.TotalResourceContext;
 
 public class DialogueMessage extends AbstractGameObject {
 	private Texture background;

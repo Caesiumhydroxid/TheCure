@@ -1,5 +1,7 @@
 package com.jonas.thecuring.storyGame;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Vector;
@@ -11,7 +13,7 @@ import com.badlogic.gdx.utils.Pool;
 
 public class World{
 	public Player player;
-	private Vector<AbstractGameObject> objects;
+	private ArrayList<AbstractGameObject> objects;
 	private Vector<AbstractGameObject> objectsToPush;
 	private Vector<AbstractGameObject> objectsToRemove;
 	private Room currentRoom;
@@ -26,7 +28,7 @@ public class World{
 				return new DialogueMessage();
 			}
 		};
-		objects = new Vector<AbstractGameObject>();
+		objects = new ArrayList<AbstractGameObject>();
 		objectsToPush = new Vector<AbstractGameObject>();
 		objectsToRemove = new Vector<AbstractGameObject>();
 		player = new Player();
@@ -102,7 +104,9 @@ public class World{
 	void render(Batch batch)
 	{
 		currentRoom.render(batch);
-		objects.sort(new Comparator<AbstractGameObject>() {
+		
+	
+		Collections.sort(objects, new Comparator<AbstractGameObject>() {
 
 			@Override
 			public int compare(AbstractGameObject o1, AbstractGameObject o2) {
