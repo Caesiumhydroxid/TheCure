@@ -8,11 +8,11 @@ public class DayChangerAction extends Action {
 
 	Action[] actionForDay;
 	public DayChangerAction(World world,Action[] actionForDay) {
-		super(world);
+		super(world,null);
 		this.actionForDay = actionForDay;
 	}
 	public DayChangerAction(World world,ArrayList<Action> actionForDay) {
-		super(world);
+		super(world,null);
 		this.actionForDay = actionForDay.toArray(new Action[actionForDay.size()]);
 	}
 	@Override

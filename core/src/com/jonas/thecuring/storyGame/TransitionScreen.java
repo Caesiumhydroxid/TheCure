@@ -46,6 +46,7 @@ public class TransitionScreen extends AbstractGameObject{
 		texture = new Texture(background);
 		this.transitionTime = transitionTime;
 		font = (BitmapFont) Assets.getInstance().get("font_small");
+		font.getData().setLineHeight(9);
 		layout = new GlyphLayout();
 		this.text = text;
 		this.remainAtTextTime = remainAtTextTime;
@@ -100,8 +101,8 @@ public class TransitionScreen extends AbstractGameObject{
 		batch.setColor(1, 1, 1, alpha);
 		batch.draw(texture,0,0);
 		batch.setColor(1,1,1, alpha);
-		layout.setText(font, text, new Color(1, 1, 1, alpha*alpha),120, Align.center, true);
-		font.draw(batch,layout,(160-120)/2f,45+layout.height/2f);
+		layout.setText(font, text, new Color(1, 1, 1, alpha*alpha),145, Align.center, true);
+		font.draw(batch,layout,(160-145)/2f,45+layout.height/2f);
 		batch.setColor(Color.WHITE);
 		
 	}

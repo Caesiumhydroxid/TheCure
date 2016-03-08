@@ -5,23 +5,23 @@ import com.jonas.thecuring.storyGame.World;
 
 public class MovePlayerAction extends Action {
 	private Vector2 positionToMove;
-	private Action actionWhenFinished;
-	private boolean running = false;
-
+	private boolean startedEvent=false;
 	public MovePlayerAction(World world, Vector2 positionToMove, Action actionWhenFinished) {
-		super(world);
+		super(world,actionWhenFinished);
 		this.positionToMove = positionToMove;
-		this.actionWhenFinished = actionWhenFinished;
 	}
 
 	@Override
 	public void update(float delta) {
 		if (running) {
 			if (Math.abs(positionToMove.x - world.player.getPosition().x) < 1f) {
-				this.toDelete = true;
+				
 				world.player.processInput = true;
-				if(actionWhenFinished!= null)
-					world.player.actionsToAdd.add(actionWhenFinished);
+				if(nextAction!= null&&!startedEvent)
+				{
+					startedEvent = true;
+					nextAction.run();
+				}
 			} else if (world.player.getPosition().x < positionToMove.x) {
 				world.player.velocity.x = world.player.walkRightVelocity;
 			} else if (world.player.getPosition().x > positionToMove.x) {

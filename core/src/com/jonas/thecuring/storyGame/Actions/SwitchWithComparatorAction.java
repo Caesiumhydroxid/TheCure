@@ -10,7 +10,7 @@ public class SwitchWithComparatorAction extends Action{
 	Action actionFalse;
 	CustomComparator comparator;
 	public <T> SwitchWithComparatorAction(World world,CustomComparator comparator,Action actionTrue,Action actionFalse) {
-		super(world);
+		super(world,null);
 		this.comparator = comparator;
 		this.actionTrue = actionTrue;
 		this.actionFalse = actionFalse;

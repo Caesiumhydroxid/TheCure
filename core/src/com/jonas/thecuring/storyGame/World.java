@@ -6,9 +6,16 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Vector;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Pool;
 import com.jonas.thecuring.storyGame.Actions.Action;
+import com.jonas.thecuring.storyGame.Actions.TransitionTextAction;
 
 public class World{
 	public Player player;
@@ -17,6 +24,9 @@ public class World{
 	private Vector<AbstractGameObject> objectsToRemove;
 	private Room currentRoom;
 	private Pool<DialogueMessage> messagePool;
+	private ArrayList<String> transitionTexts;
+	public boolean blackedOut;
+	private Black black;
 	public int day;
 	
 	World()
@@ -34,6 +44,8 @@ public class World{
 		player = new Player(this);
 		player.position.y=10;
 		player.z = 5;
+		
+		black = new Black();
 		
 		setCurrentRoom(RoomEnum.HOME_ROOM);
 		//ChoiceMenu c = new ChoiceMenu(new String[]{"Hallo","Test"}, new Action[]{new ChangeRoomAction(this, RoomEnum.WORK_ROOM),new DisplayDialogueAction("Test",this,false)});
@@ -87,6 +99,13 @@ public class World{
 		}
 	}
 	
+	public void makeTextTransition(float transitionTime,float remainAtTextTime,String text,TransitionTextAction action)
+	{
+		TransitionScreen t = new TransitionScreen(transitionTime, remainAtTextTime, text);
+		t.addListener(action);
+		push(t);
+	}
+
 	private class RoomChangeListener implements TransitionListener{
 		private RoomEnum changeRoom;
 		private World world;
@@ -135,10 +154,29 @@ public class World{
 		objects.removeAll(objectsToRemove);
 		objectsToRemove.clear();
 	}
-	
+	class Black extends AbstractGameObject{
+		Texture tex;
+		Black()
+		{
+			Pixmap map = new Pixmap(160, 90, Format.RGB888);
+			map.setColor(Color.BLACK);
+			map.fill();
+			tex = new Texture(map);
+		}
+		@Override
+		public void render(Batch batch) {
+			batch.draw(tex,0,0);
+		}
+		
+	}
 	void render(Batch batch)
 	{
 		currentRoom.render(batch);		
+		if(blackedOut)
+		{
+			black.z = 175;
+			objects.add(black);
+		}
 		Collections.sort(objects, new Comparator<AbstractGameObject>() {
 			@Override
 			public int compare(AbstractGameObject o1, AbstractGameObject o2) {
@@ -155,16 +193,26 @@ public class World{
 		{
 			tmp.render(batch);
 		}
-		
+		if(blackedOut)
+			objects.remove(black);
 	}
-
-	public void displayText(String text) {
+	
+	public void displayText(String text,float timeToShow) {
 		DialogueMessage message = messagePool.obtain();
 		message.position.set(12,4);
 		message.reset();
 		message.z = 100;
+		message.setTimeToShow(timeToShow);
 		message.setText(text);
-		System.out.println("text");
+		push(message);
+	}
+	public void displayText(String text,float timeToShow,float y) {
+		DialogueMessage message = messagePool.obtain();
+		message.position.set(12,y);
+		message.reset();
+		message.z = 100;
+		message.setTimeToShow(timeToShow);
+		message.setText(text);
 		push(message);
 	}
 	
@@ -172,7 +220,7 @@ public class World{
 	{
 		ChoiceMenu menu  = new ChoiceMenu(options,actions,this);
 		menu.position.set(100,30);
-		menu.z = 200;
+		menu.z = 150;
 		menu.processInput = true;
 		push(menu);
 		

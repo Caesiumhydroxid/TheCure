@@ -7,19 +7,25 @@ public class ChangeRoomAction extends Action{
 	
 	private RoomEnum room;
 	private float duration;
+	private float textDuration;
+	private String text;
 	public ChangeRoomAction(World world,RoomEnum room) {
-		super(world);
-		this.room = room;
-		this.duration = 1;
+		this(world,room,1);
 	}
 	public ChangeRoomAction(World world,RoomEnum room,float duration) {
-		super(world);
+		this(world,room,duration,0,"");
+	}
+	public ChangeRoomAction(World world,RoomEnum room,float duration,float textDuration,String text) {
+		super(world,null);
 		this.duration = duration;
 		this.room = room;
+		this.text = text;
+		this.textDuration = textDuration;
 	}
+	
 	@Override
 	public void run() {
-		world.setCurrentRoomTransition(room,duration);
+		world.setCurrentRoomTransition(room, text, duration, textDuration);
 	}
 
 }

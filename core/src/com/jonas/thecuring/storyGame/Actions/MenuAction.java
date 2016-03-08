@@ -7,7 +7,7 @@ public class MenuAction extends Action {
 	private String[] options;
 	private Action[] actions;
 	public MenuAction(World world,String[] options,Action[] actions) {
-		super(world);
+		super(world,null);
 		this.options = options;
 		this.actions = actions;
 	}

@@ -7,11 +7,10 @@ import com.jonas.thecuring.storyGame.World;
 public class DisplayActionText extends Action {
 
 	String text;
-	Action triggeredAction;
 	
 	public DisplayActionText(World world,String text,Action triggeredAction) {
-		super(world);
-		this.triggeredAction = triggeredAction;
+		super(world,null);
+		this.nextAction = triggeredAction;
 		this.text = text;
 	}
 
@@ -20,7 +19,7 @@ public class DisplayActionText extends Action {
 		world.player.setText(text);
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
 		{
-			triggeredAction.run();
+			nextAction.run();
 		}
 	}
 }

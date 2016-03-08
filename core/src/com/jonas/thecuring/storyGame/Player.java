@@ -51,7 +51,7 @@ public class Player extends AbstractGameObject {
 	private boolean lastDirectionRight;
 	private World world;
 	public Integer currentClothing;
-	public ArrayList<Action> actionsToExecute;
+	public ArrayList<Action> actionsToRun;
 	public ArrayList<Action> actionsToAdd;
 	public boolean allowedToChangeAnimations=true;
 	public final float walkLeftVelocity = -14 / 0.6f;
@@ -64,7 +64,7 @@ public class Player extends AbstractGameObject {
 		shadow = (Texture) Assets.getInstance().get("shadow");
 		layout = new GlyphLayout();
 		position = new Vector2();
-		actionsToExecute = new ArrayList<Action>();
+		actionsToRun = new ArrayList<Action>();
 		actionsToAdd = new ArrayList<Action>();
 		currentClothing = new Integer(0);
 
@@ -147,11 +147,11 @@ public class Player extends AbstractGameObject {
 	@Override
 	public void update(float delta) {
 
-		if (processInput == true && (actionsToExecute.isEmpty())) {
+		if (processInput == true && (actionsToRun.isEmpty())) {
 			handleInput();
 		}
-		if (!actionsToExecute.isEmpty()) {
-			for (Iterator<Action> itr = actionsToExecute.iterator(); itr.hasNext();) {
+		if (!actionsToRun.isEmpty()) {
+			for (Iterator<Action> itr = actionsToRun.iterator(); itr.hasNext();) {
 				Action action = itr.next();
 				action.run();
 				action.update(delta);
@@ -159,7 +159,7 @@ public class Player extends AbstractGameObject {
 					itr.remove();
 			}
 		}
-		actionsToExecute.addAll(actionsToAdd);
+		actionsToRun.addAll(actionsToAdd);
 		
 		actionsToAdd.clear();
 		

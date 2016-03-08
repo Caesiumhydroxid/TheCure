@@ -6,11 +6,9 @@ import com.jonas.thecuring.storyGame.World;
 public class AnimationPlayerAction extends Action{
 	private boolean running = false;
 	private Animation animation;
-	private Action actionWhenFinished;
-	public AnimationPlayerAction(World world,Animation animation,Action actionWhenFinished) {
-		super(world);
+	public AnimationPlayerAction(World world,Animation animation,Action nextAction) {
+		super(world,nextAction);
 		this.animation = animation;
-		this.actionWhenFinished = actionWhenFinished;
 	}
 	
 	@Override
@@ -22,10 +20,10 @@ public class AnimationPlayerAction extends Action{
 				toDelete = true;
 				world.player.allowedToChangeAnimations = true;
 				world.player.processInput = true;
-				actionWhenFinished.run();
+				nextAction.run();
 			}
-			super.update(delta);
 		}
+		super.update(delta);
 	}
 
 	@Override

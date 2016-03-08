@@ -4,16 +4,14 @@ import com.jonas.thecuring.storyGame.World;
 
 public class NextDayAction extends Action {
 	
-	private Action followupAction;
-	public NextDayAction(World world,Action followupAction) {
-		super(world);
-		this.followupAction = followupAction;
+	public NextDayAction(World world,Action nextAction) {
+		super(world,nextAction);
 	}
 
 	@Override
 	public void run() {
 		world.day++;
-		followupAction.run();
+		nextAction.run();
 	}
 
 }

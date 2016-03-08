@@ -2,6 +2,7 @@ package com.jonas.thecuring.storyGame;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,6 +17,7 @@ public class Room extends AbstractGameObject {
 	
 	private Texture roomTexture;
 	public ArrayList<ActionRoom> actionRooms;
+	public ArrayList<ActionRoom> actionRoomsToAdd;
 	private World world;
 	public boolean debug=true;
 	private final Vector2 spawnPoint;
@@ -30,6 +32,7 @@ public class Room extends AbstractGameObject {
 	{
 		super();
 		this.spawnPoint = new Vector2(spawnPoint); 
+		actionRoomsToAdd = new ArrayList<ActionRoom>();
 		actionRooms = new ArrayList<ActionRoom>();
 		colliders = new ArrayList<Rectangle>();
 		npcs = new ArrayList<NPC>();
@@ -52,27 +55,45 @@ public class Room extends AbstractGameObject {
 		npcs.remove(npc);
 		actionRooms.remove(npc.getActionRoom());
 	}
+	
 	@Override
 	public void update(float delta) {
-		for(ActionRoom eventRoom:actionRooms)
+		for(Iterator<ActionRoom> itr = actionRooms.iterator();itr.hasNext();)
 		{
+			ActionRoom eventRoom = itr.next();
 			if(eventRoom.overlaps(world.player.boundingRectangle))
 			{
 				if(fireEvents)
 					eventRoom.triggerEvent();
+			}
+			eventRoom.update(delta);
+			if(eventRoom.height==0&&eventRoom.width==0&&!eventRoom.getAction().running)
+			{
+				eventRoom.triggerEvent();
+			}
+			if(eventRoom.height==-1&&eventRoom.width==-1)
+			{
+				eventRoom.triggerEvent();
+				itr.remove();
+			}
+			if(eventRoom.getAction().toDelete==true)
+			{
+				itr.remove();
 			}
 		}
 		for(NPC npc:npcs)
 		{
 			npc.update(delta);
 		}
+		actionRooms.addAll(actionRoomsToAdd);
+		actionRoomsToAdd.clear();
 		super.update(delta);
 	}
 
 	public void addActionRoom(float x,float y,float width,float height,Action action)
 	{
 		Rectangle r = new Rectangle(x, y, width, height);
-		actionRooms.add(new ActionRoom(r, action));
+		actionRoomsToAdd.add(new ActionRoom(r, action));
 	}
 	
 	@Override

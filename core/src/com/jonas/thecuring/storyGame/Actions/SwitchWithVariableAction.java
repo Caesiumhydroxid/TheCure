@@ -9,7 +9,7 @@ public class SwitchWithVariableAction extends Action{
 	Action actionTrue;
 	Action actionFalse;
 	public <T> SwitchWithVariableAction(World world,Comparable<T> variable,Comparable<T> shouldBe, Action actionTrue,Action actionFalse) {
-		super(world);
+		super(world,null);
 		this.variable = variable;
 		this.actionTrue = actionTrue;
 		this.actionFalse = actionFalse;

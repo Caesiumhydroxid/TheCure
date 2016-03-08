@@ -8,7 +8,7 @@ public class ChangeClothesAction extends Action
 {
 	public ChangeClothesAction(World world)
 	{
-		super(world);
+		super(world,null);
 	}
 
 	@Override

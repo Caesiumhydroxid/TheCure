@@ -16,6 +16,7 @@ public class DialogueMessage extends AbstractGameObject {
 	private float elapsedTime;
 	private float letterShowTime;
 	private int lettersToShow;
+	private float timeToShow;
 	DialogueMessage()
 	{	
 		this.background = (Texture)Assets.getInstance().get("dialogue");
@@ -37,12 +38,15 @@ public class DialogueMessage extends AbstractGameObject {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+	public void setTimeToShow(float timeToShow)
+	{
+		this.timeToShow = timeToShow;
+	}
 	@Override
 	public void update(float delta) {
 		elapsedTime+= delta;
 		letterShowTime += delta;
-		if(elapsedTime>5)
+		if(elapsedTime>timeToShow)
 			this.toDelete = true;
 		if(letterShowTime > 0.01f)
 		{
@@ -60,6 +64,7 @@ public class DialogueMessage extends AbstractGameObject {
 		toDelete = false;
 		lettersToShow = 0;
 		letterShowTime = 0;
+		timeToShow = 5;
 	}
 	@Override
 	public void render(Batch batch) {

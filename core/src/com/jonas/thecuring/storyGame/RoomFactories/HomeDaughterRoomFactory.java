@@ -19,7 +19,7 @@ public class HomeDaughterRoomFactory extends RoomFactory {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_home_daughter"), world,new Vector2(120,10));
 		NPC npc = new NPC((Texture)Assets.getInstance().get("daughter"),
-				new DisplayActionText(world, "Sprechen", new DisplayDialogueAction(world,"Hallo Papa, viel Glück Heute",true)), new Rectangle(17,2,8,28));
+				new DisplayActionText(world, "Sprechen", new DisplayDialogueAction(world,"Hallo Papa, viel Glück Heute",null)), new Rectangle(17,2,8,28));
 		npc.setPosition(new Vector2(85-17,23-2));
 		room.add(npc);
 		room.colliders.add(new Rectangle(10, 5, 40, 40));

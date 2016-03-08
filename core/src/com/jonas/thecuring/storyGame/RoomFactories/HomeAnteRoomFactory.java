@@ -40,10 +40,11 @@ public class HomeAnteRoomFactory extends RoomFactory {
 				return world.player.currentClothing ==1;
 			}
 		}
+		anteRoom = new Room((Texture) Assets.getInstance().get("room_home_anteroom"), world,new Vector2(10,10));
 		dayActionOutsideDoor.add(new DisplayActionText(world, "Hinausgehen",new SwitchWithComparatorAction(world, new ClothingComparator(world),
 				new ChangeRoomAction(world, RoomEnum.HOME_OUTSIDE),
-				new DisplayDialogueAction(world, "Willst du wirklich in diesem Gewand in die Arbeit gehen?", true))));
-		anteRoom = new Room((Texture) Assets.getInstance().get("room_home_anteroom"), world,new Vector2(50,10));
+				new DisplayDialogueAction(world, "Willst du wirklich in diesem Gewand in die Arbeit gehen?",null))));
+		
 		anteRoom.actionRooms.add(new ActionRoom(new Rectangle(16,0,27,90),new DisplayActionText(world, "Eintreten",new ChangeRoomAction(world, RoomEnum.HOME_DAUGHTER_ROOM))));
 		anteRoom.actionRooms.add(new ActionRoom(new Rectangle(124,0,27,90),new DayChangerAction(world, dayActionOutsideDoor.toArray(new Action[dayActionOutsideDoor.size()]))));
 		anteRoom.addActionRoom(0, 0, 1, 90, new ChangeRoomAction(world,RoomEnum.HOME_ROOM));
