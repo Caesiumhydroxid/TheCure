@@ -6,7 +6,7 @@ public class DisplayDialogueAction extends Action{
 	private String text;
 	private boolean continous;
 	private boolean showed;
-	public DisplayDialogueAction(String text,World world,boolean contionus)
+	public DisplayDialogueAction(World world,String text,boolean contionus)
 	{
 		super(world);
 		this.text = text;

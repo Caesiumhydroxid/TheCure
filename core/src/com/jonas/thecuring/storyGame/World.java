@@ -51,6 +51,7 @@ public class World{
 		objectsToRemove.add(object);
 	}
 	
+	//Sollte vermutlich nicht groﬂartig ge‰ndert werden
 	public void setCurrentRoom(RoomEnum room)
 	{
 		if(currentRoom!= null)
@@ -64,26 +65,18 @@ public class World{
 	
 	public void setCurrentRoomTransition(RoomEnum room)
 	{
-		if(currentRoom!=null)
-		{
-			currentRoom.fireEvents = false;
-			TransitionScreen t = new TransitionScreen(1);
-			t.addListener(new RoomChangeListener(room,this));
-			player.processInput=false;
-			push(t);
-		}
-		else
-		{
-			currentRoom = room.getRoom(this);
-		}
+		setCurrentRoomTransition(room, 1);
 	}
-	
-	public void setCurrentRoomTransition(RoomEnum room,String text)
+	public void setCurrentRoomTransition(RoomEnum room,float transitionDuration)
+	{
+		setCurrentRoomTransition(room, "", transitionDuration, 0);
+	}
+	public void setCurrentRoomTransition(RoomEnum room,String text,float transitionDuration,float textDuration)
 	{
 		if(currentRoom!=null)
 		{
 			currentRoom.fireEvents = false;
-			TransitionScreen t = new TransitionScreen(2,2,text);
+			TransitionScreen t = new TransitionScreen(transitionDuration,textDuration,text);
 			t.addListener(new RoomChangeListener(room,this));
 			player.processInput=false;
 			push(t);

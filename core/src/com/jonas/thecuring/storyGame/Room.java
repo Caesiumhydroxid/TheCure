@@ -26,7 +26,7 @@ public class Room extends AbstractGameObject {
 	{
 		this(roomTexture,world,new Vector2());
 	}
-	Room(Texture roomTexture,World world,Vector2 spawnPoint)
+	public Room(Texture roomTexture,World world,Vector2 spawnPoint)
 	{
 		super();
 		this.spawnPoint = new Vector2(spawnPoint); 

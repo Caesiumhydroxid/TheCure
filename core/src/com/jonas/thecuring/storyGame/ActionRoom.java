@@ -19,7 +19,7 @@ public class ActionRoom extends Rectangle{
 		super();
 		this.action = action;
 	}
-	ActionRoom(Rectangle rect,Action action)
+	public ActionRoom(Rectangle rect,Action action)
 	{
 		super(rect);
 		this.action = action;
