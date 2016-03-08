@@ -16,7 +16,7 @@ public class WorkRoomPresentationFactory extends RoomFactory{
 	public Room getRoom(World world) {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_work"), world,new Vector2(-10,10));
-		world.player.actionsToAdd.add(new MovePlayerAction(world, new Vector2(70,10), new AnimationPlayerAction(world, world.player.holdSpeech, new ChangeRoomAction(world,RoomEnum.HOME_ROOM,2 ))));
+		world.player.actionsToAdd.add(new MovePlayerAction(world, new Vector2(70,10), new AnimationPlayerAction(world, world.player.holdSpeech, new ChangeRoomAction(world,RoomEnum.HOME_ROOM,2))));
 		return room;
 	}
 	
