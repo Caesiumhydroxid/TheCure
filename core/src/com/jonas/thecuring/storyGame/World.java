@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Pool;
+import com.jonas.thecuring.storyGame.Actions.Action;
 
 public class World{
 	public Player player;
@@ -69,7 +70,7 @@ public class World{
 			TransitionScreen t = new TransitionScreen(1);
 			t.addListener(new RoomChangeListener(room,this));
 			player.processInput=false;
-			objects.add(t);
+			push(t);
 		}
 		else
 		{
@@ -85,7 +86,7 @@ public class World{
 			TransitionScreen t = new TransitionScreen(2,2,text);
 			t.addListener(new RoomChangeListener(room,this));
 			player.processInput=false;
-			objects.add(t);
+			push(t);
 		}
 		else
 		{
@@ -172,5 +173,15 @@ public class World{
 		message.setText(text);
 		System.out.println("text");
 		push(message);
+	}
+	
+	public void displayOptions(String[] options,Action[] actions)
+	{
+		ChoiceMenu menu  = new ChoiceMenu(options,actions,this);
+		menu.position.set(100,30);
+		menu.z = 200;
+		menu.processInput = true;
+		push(menu);
+		
 	}
 }

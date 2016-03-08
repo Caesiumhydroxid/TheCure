@@ -20,9 +20,10 @@ public class ChoiceMenu extends AbstractGameObject {
 	private BitmapFont font;
 	private String[] options;
 	private Action[] actions;
+	private World world;
 	
 	private int selectedItem;
-	ChoiceMenu(String[] options,Action[] actions)
+	ChoiceMenu(String[] options,Action[] actions,World world)
 	{
 		this.options = options;
 		this.actions = actions;
@@ -32,11 +33,13 @@ public class ChoiceMenu extends AbstractGameObject {
 		top = (Texture) Assets.getInstance().get("choice_top");
 		bottom = (Texture) Assets.getInstance().get("choice_bottom");
 		item = (Texture) Assets.getInstance().get("choice_item");
+		this.world = world;
+		world.player.processInput = false;
+		world.getCurrentRoom().fireEvents = false;
 	}
 	
 	@Override
-	public void update(float delta) 
-	{
+	protected void handleInput() {
 		if(Gdx.input.isKeyJustPressed(Keys.UP))
 		{
 			if(selectedItem==options.length-1)
@@ -61,8 +64,17 @@ public class ChoiceMenu extends AbstractGameObject {
 		}
 		else if(Gdx.input.isKeyJustPressed(Keys.SPACE))
 		{
+			toDelete = true;
 			actions[selectedItem].run();
+			world.player.processInput = true;
+			world.getCurrentRoom().fireEvents = true;
 		}
+	};
+	@Override
+	public void update(float delta) 
+	{
+		super.update(delta);
+		
 	};
 	
 	@Override

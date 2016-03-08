@@ -4,9 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.jonas.thecuring.Assets;
-import com.jonas.thecuring.storyGame.Actions.ChangeRoomAction;
-import com.jonas.thecuring.storyGame.Actions.DisplayActionText;
-import com.jonas.thecuring.storyGame.Actions.DisplayDialogueAction;
 import com.jonas.thecuring.storyGame.Actions.*;
 
 public enum RoomEnum {
@@ -73,7 +70,7 @@ public enum RoomEnum {
 				World world = (World) params[0];
 				room = new Room((Texture) Assets.getInstance().get("room_home_daughter"), world,new Vector2(120,10));
 				NPC npc = new NPC((Texture)Assets.getInstance().get("daughter"),
-						new DisplayActionText(world, "Sprechen", new DisplayDialogueAction("Hallo Papa, viel Glück Heute",world,true)), new Rectangle(17,2,8,28));
+						new DisplayActionText(world, "Sprechen", new DisplayDialogueAction("Hallo Papa, viel Glï¿½ck Heute",world,true)), new Rectangle(17,2,8,28));
 				npc.setPosition(new Vector2(85-17,23-2));
 				room.add(npc);
 				room.colliders.add(new Rectangle(10, 5, 40, 40));
@@ -92,6 +89,12 @@ public enum RoomEnum {
 				room = new Room((Texture) Assets.getInstance().get("room_home_outside"), world,new Vector2(0,10));
 				room.colliders.add(new Rectangle(107, 10, 45, 40));
 				room.addActionRoom(0, 0, 1, 90, new ChangeRoomAction(world, HOME_ANTE_ROOM));
+				room.addActionRoom(100, 0, 7, 90, new DisplayActionText(world, "Fahre",
+						new MenuAction(world, new String[]{"Lol","Test"}, 
+						new Action[]{
+								new ChangeRoomAction(world, HOME_DAUGHTER_ROOM),
+								new ChangeRoomAction(world, HOME_ANTE_ROOM)})
+						));
 			}
 			return room;
 		}
@@ -104,6 +107,7 @@ public enum RoomEnum {
 			{	
 				World world = (World) params[0];
 				workRoom = new Room((Texture) Assets.getInstance().get("room_work"), world,new Vector2(0,10));
+				
 			}
 			return workRoom;
 		}
