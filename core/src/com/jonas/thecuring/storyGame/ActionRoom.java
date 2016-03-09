@@ -37,7 +37,8 @@ public class ActionRoom extends Rectangle{
 	}
 	public void update(float delta)
 	{
-		action.update(delta);
+		if(action!= null)
+			action.update(delta);
 	}
 	public void triggerEvent()
 	{

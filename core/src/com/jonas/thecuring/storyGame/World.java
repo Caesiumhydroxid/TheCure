@@ -68,8 +68,11 @@ public class World{
 		if(currentRoom!= null)
 		{
 			currentRoom.fireEvents = false;
+			currentRoom.removeGameObjects();
 		}
+		blackedOut = false;
 		currentRoom = room.getRoom(this);
+		currentRoom.init();
 		player.setPosition(currentRoom.getSpawnPoint());
 		currentRoom.fireEvents = true;
 	}

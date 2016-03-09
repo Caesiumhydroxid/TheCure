@@ -38,6 +38,7 @@ public class TransitionTextAction extends Action implements TransitionListener {
 	@Override
 	public void run() {
 		world.makeTextTransition(transitionTime, textTime, text, this);
+		running = true;
 	}
 
 }

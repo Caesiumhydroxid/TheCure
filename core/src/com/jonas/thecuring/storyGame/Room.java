@@ -24,6 +24,9 @@ public class Room extends AbstractGameObject {
 	public boolean fireEvents=true;
 	public ArrayList<Rectangle> colliders;
 	public ArrayList<NPC> npcs;
+	private ArrayList<AbstractGameObject> pushedGameObjects;
+	private ArrayList<AbstractGameObject> gameObjects;
+	
 	Room(Texture roomTexture,World world)
 	{
 		this(roomTexture,world,new Vector2());
@@ -35,6 +38,8 @@ public class Room extends AbstractGameObject {
 		actionRoomsToAdd = new ArrayList<ActionRoom>();
 		actionRooms = new ArrayList<ActionRoom>();
 		colliders = new ArrayList<Rectangle>();
+		pushedGameObjects = new ArrayList<AbstractGameObject>();
+		gameObjects = new ArrayList<AbstractGameObject>();
 		npcs = new ArrayList<NPC>();
 		this.roomTexture = roomTexture;
 		this.z = 0;
@@ -50,6 +55,23 @@ public class Room extends AbstractGameObject {
 		actionRooms.add(npc.getActionRoom());
 	}
 	
+	public void add(AbstractGameObject obj)
+	{
+		gameObjects.add(obj);
+	}
+	public void init()
+	{
+		for(NPC npc:npcs)
+		{
+			world.push(npc);
+			pushedGameObjects.add(npc);
+		}
+		for(AbstractGameObject obj:gameObjects)
+		{
+			world.push(obj);
+			pushedGameObjects.add(obj);
+		}
+	}
 	public void remove(NPC npc)
 	{
 		npcs.remove(npc);
@@ -76,7 +98,7 @@ public class Room extends AbstractGameObject {
 				eventRoom.triggerEvent();
 				itr.remove();
 			}
-			if(eventRoom.getAction().toDelete==true)
+			else if(eventRoom.getAction()!= null && eventRoom.getAction().toDelete)
 			{
 				itr.remove();
 			}
@@ -94,6 +116,15 @@ public class Room extends AbstractGameObject {
 	{
 		Rectangle r = new Rectangle(x, y, width, height);
 		actionRoomsToAdd.add(new ActionRoom(r, action));
+	}
+	
+	public void removeGameObjects()
+	{
+		for(AbstractGameObject obj:pushedGameObjects)
+		{
+			world.remove(obj);
+		}
+		pushedGameObjects.clear(); 
 	}
 	
 	@Override

@@ -56,6 +56,7 @@ public class Player extends AbstractGameObject {
 	public boolean allowedToChangeAnimations=true;
 	public final float walkLeftVelocity = -14 / 0.6f;
 	public final float walkRightVelocity = 14 / 0.6f;
+	public boolean render = true;
 
 	Player(World world) {
 		velocity = new Vector2();
@@ -198,10 +199,13 @@ public class Player extends AbstractGameObject {
 
 	@Override
 	public void render(Batch batch) {
-		layout.setText(font, text, Color.BLACK, 40, Align.center, false);
-		batch.draw(currentAnimation.getKeyFrame(elapsedTime), position.x, position.y);
-		batch.draw(shadow, position.x, position.y - 3);
-		font.draw(batch, layout, position.x - 1, position.y + boundingRectangle.height + layout.height + 2);
-		this.text = "";
+		if(render)
+		{
+			layout.setText(font, text, Color.BLACK, 40, Align.center, false);
+			batch.draw(currentAnimation.getKeyFrame(elapsedTime), position.x, position.y);
+			batch.draw(shadow, position.x, position.y - 3);
+			font.draw(batch, layout, position.x - 1, position.y + boundingRectangle.height + layout.height + 2);
+			this.text = "";
+		}
 	}
 }

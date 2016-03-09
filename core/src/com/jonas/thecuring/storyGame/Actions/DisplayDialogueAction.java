@@ -34,9 +34,9 @@ public class DisplayDialogueAction extends Action{
 		running = true;
 		if(nextAction!= null)
 		{
-			nextAction.run();
+			new AddActionToRoom(world, nextAction).run();
 		}
-		
+		toDelete= true;
 	}
 	
 }

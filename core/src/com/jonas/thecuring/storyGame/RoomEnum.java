@@ -9,6 +9,7 @@ import com.jonas.thecuring.storyGame.RoomFactories.HomeAnteRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.HomeDaughterRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.HomeOutsideFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.HomeRoomFactory;
+import com.jonas.thecuring.storyGame.RoomFactories.HospitalRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.WorkRoomPresentationFactory;
 
 public enum RoomEnum {
@@ -72,6 +73,19 @@ public enum RoomEnum {
 			{	
 				World world = (World) params[0];
 				WorkRoomPresentationFactory f = new WorkRoomPresentationFactory();
+				room = f.getRoom(world);
+			}
+			return room;
+		}
+	},
+	HOSPTIAL_ROOM{
+		Room room;
+		public Room getRoom(Object... params)
+		{
+			if(room==null)
+			{	
+				World world = (World) params[0];
+				HospitalRoomFactory f = new HospitalRoomFactory();
 				room = f.getRoom(world);
 			}
 			return room;

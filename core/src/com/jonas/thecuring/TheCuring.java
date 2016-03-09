@@ -59,6 +59,9 @@ public class TheCuring extends Game {
 		Assets.getInstance().load("room_home_daughter", "RoomDaughter.png", Texture.class);
 		Assets.getInstance().load("room_home_outside","RoomOutside.png",Texture.class);
 		Assets.getInstance().load("daughter","Daughter.png",Texture.class);
+		Assets.getInstance().load("bed_hospital", "HospitalBed.png", Texture.class);
+		Assets.getInstance().load("doctor", "Doctor.png", Texture.class);
+		Assets.getInstance().load("doctor_anim", "DoctorAnim.png", Texture.class);
 		Assets.getInstance().finishLoading();
 		ScreenManager.getInstance().init(this);
 		

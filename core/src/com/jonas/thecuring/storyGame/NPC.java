@@ -15,6 +15,7 @@ public class NPC extends AbstractGameObject {
 	private ActionRoom actionRoom;
 	private Rectangle boundingRectangle;
 	private Vector2 offset;
+	public Vector2 velocity;
 	public NPC(Animation anim,Action action,Rectangle boundingRectangle)
 	{
 		currentAnimation = anim;
