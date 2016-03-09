@@ -15,15 +15,16 @@ public class AnimationPlayerAction extends Action{
 	public void update(float delta) {
 		if(running)
 		{
+			System.out.println("Update");
 			if(world.player.currentAnimation.isAnimationFinished(world.player.elapsedTime))
 			{
 				toDelete = true;
 				world.player.allowedToChangeAnimations = true;
 				world.player.processInput = true;
+				new AddActionToRoom(world, nextAction);
 				nextAction.run();
 			}
 		}
-		super.update(delta);
 	}
 
 	@Override

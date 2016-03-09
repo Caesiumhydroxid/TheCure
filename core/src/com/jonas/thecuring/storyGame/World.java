@@ -24,7 +24,6 @@ public class World{
 	private Vector<AbstractGameObject> objectsToRemove;
 	private Room currentRoom;
 	private Pool<DialogueMessage> messagePool;
-	private ArrayList<String> transitionTexts;
 	public boolean blackedOut;
 	private Black black;
 	public int day;
@@ -63,7 +62,7 @@ public class World{
 		objectsToRemove.add(object);
 	}
 	
-	//Sollte vermutlich nicht großartig geändert werden
+	//Sollte vermutlich nicht groï¿½artig geï¿½ndert werden
 	public void setCurrentRoom(RoomEnum room)
 	{
 		if(currentRoom!= null)

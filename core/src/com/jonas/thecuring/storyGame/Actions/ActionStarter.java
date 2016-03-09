@@ -21,18 +21,12 @@ public class ActionStarter extends Action {
 	
 	@Override
 	public void update(float delta) {
-		for(Iterator<Action> itr = actions.iterator();itr.hasNext();)
-		{
-			Action a = itr.next();
-			a.update(delta);
-		}
-		super.update(delta);
 	}
 	@Override
 	public void run() {
 		for(Action action:actions)
 		{
-			action.run();
+			new AddActionToRoom(world, action).run();
 		}
 	}
 

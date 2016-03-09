@@ -21,5 +21,6 @@ public class DisplayActionText extends Action {
 		{
 			nextAction.run();
 		}
+		
 	}
 }

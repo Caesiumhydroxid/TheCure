@@ -31,6 +31,7 @@ public class DisplayDialogueAction extends Action{
 	@Override
 	public void run() {
 		world.displayText(text,timeToShow,y);
+		running = true;
 		if(nextAction!= null)
 		{
 			nextAction.run();

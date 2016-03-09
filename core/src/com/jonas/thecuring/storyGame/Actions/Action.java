@@ -14,7 +14,5 @@ public abstract class Action {
 	}
 	public abstract void run();
 	public void update(float delta){
-		if(nextAction!=null)
-		nextAction.update(delta);
 	}
 }
