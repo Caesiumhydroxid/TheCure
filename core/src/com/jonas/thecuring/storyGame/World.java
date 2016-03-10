@@ -6,9 +6,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Vector;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,6 +23,7 @@ public class World{
 	private Room currentRoom;
 	private Pool<DialogueMessage> messagePool;
 	public boolean blackedOut;
+	public boolean wifeKnowsAboutCancer = true;
 	private Black black;
 	public int day;
 	
@@ -45,8 +44,8 @@ public class World{
 		player.z = 5;
 		
 		black = new Black();
-		
-		setCurrentRoom(RoomEnum.PARACHUTE_ROOM);
+		day = 0;
+		setCurrentRoom(RoomEnum.HOME_ROOM);
 		//ChoiceMenu c = new ChoiceMenu(new String[]{"Hallo","Test"}, new Action[]{new ChangeRoomAction(this, RoomEnum.WORK_ROOM),new DisplayDialogueAction("Test",this,false)});
 		//c.z = 100;
 		//objects.add(c);
@@ -96,7 +95,6 @@ public class World{
 			currentRoom.fireEvents = false;
 			TransitionScreen t = new TransitionScreen(transitionDuration,textDuration,text);
 			t.addListener(new RoomChangeListener(room,this,nextAction));
-			player.processInput=false;
 			push(t);
 		}
 		else
@@ -116,14 +114,18 @@ public class World{
 		private RoomEnum changeRoom;
 		private World world;
 		private Action nextAction;
+		private boolean playerProcessingInput;
 		RoomChangeListener(RoomEnum changeRoom,World world,Action nextAction)
 		{
 			this.changeRoom = changeRoom;
 			this.world = world;
+			playerProcessingInput = player.processInput;
+			player.processInput=false;
 			this.nextAction = nextAction;
 		}
 		@Override
 		public void transitionIsAtMax() {
+			player.processInput = true;
 			world.setCurrentRoom(changeRoom);
 			if(nextAction!= null)
 			{
@@ -133,7 +135,9 @@ public class World{
 
 		@Override
 		public void transitionFinished() {
-			world.player.processInput= true;
+			if(player.processInput == false)
+				playerProcessingInput = false;
+			world.player.processInput= playerProcessingInput;
 		}
 		
 	}
@@ -227,11 +231,14 @@ public class World{
 		message.setText(text);
 		push(message);
 	}
-	
-	public void displayOptions(String[] options,Action[] actions)
+
+	public void displayOptions(String[] options,Action[] actions,String question,boolean big)
 	{
-		ChoiceMenu menu  = new ChoiceMenu(options,actions,this);
-		menu.position.set(100,30);
+		ChoiceMenu menu  = new ChoiceMenu(options,actions,this,big,question);
+		if(big)
+			menu.position.set(20,4);
+		else
+			menu.position.set(100,30);
 		menu.z = 150;
 		menu.processInput = true;
 		push(menu);

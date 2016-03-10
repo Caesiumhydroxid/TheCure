@@ -26,13 +26,9 @@ public class RepeatingGameObject extends AbstractGameObject {
 	@Override
 	public void render(Batch batch) {
 		batch.draw(texture,position.x,position.y);
-		if(!screenRect.contains(boundingRectangle))
-		{
-			batch.draw(texture,position.x+boundingRectangle.width-2,position.y);
-			batch.draw(texture,position.x-boundingRectangle.width+2,position.y);
-			position.x = position.x % boundingRectangle.width;
-		}
-		
+		batch.draw(texture,position.x+boundingRectangle.width-2,position.y);
+		batch.draw(texture,position.x-boundingRectangle.width+2,position.y);
+		position.x = position.x % boundingRectangle.width;
 	}
 
 }

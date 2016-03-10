@@ -4,7 +4,6 @@ import com.jonas.thecuring.storyGame.World;
 
 public class DisplayDialogueAction extends Action{
 	private String text;
-	private boolean showed;
 	private float timeToShow;
 	private float y;
 	public DisplayDialogueAction(World world,String text,Action nextAction)
@@ -17,7 +16,6 @@ public class DisplayDialogueAction extends Action{
 		this.text = text;
 		this.timeToShow = timeToShow;
 		y = 4;
-		showed = false;
 	}
 	public DisplayDialogueAction(World world,String text,float timeToShow,float y,Action nextAction)
 	{
@@ -25,7 +23,6 @@ public class DisplayDialogueAction extends Action{
 		this.text = text;
 		this.timeToShow = timeToShow;
 		this.y = y;
-		showed = false;
 	}
 
 	@Override

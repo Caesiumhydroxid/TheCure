@@ -44,8 +44,10 @@ public class HomeAnteRoomFactory extends RoomFactory {
 		dayActionOutsideDoor.add(new DisplayActionText(world, "Hinausgehen",new SwitchWithComparatorAction(world, new ClothingComparator(world),
 				new ChangeRoomAction(world, RoomEnum.HOME_OUTSIDE),
 				new DisplayDialogueAction(world, "Willst du wirklich in diesem Gewand in die Arbeit gehen?",null))));
+		dayActionOutsideDoor.add(new DisplayActionText(world, "Hinausgehen", new ChangeRoomAction(world, RoomEnum.HOME_OUTSIDE)));
 		
 		anteRoom.actionRooms.add(new ActionRoom(new Rectangle(16,0,27,90),new DisplayActionText(world, "Eintreten",new ChangeRoomAction(world, RoomEnum.HOME_DAUGHTER_ROOM))));
+		anteRoom.addActionRoom(58, 32, 27, 90, new DisplayActionText(world, "Eintreten",new ChangeRoomAction(world, RoomEnum.HOME_SON_ROOM)));
 		anteRoom.actionRooms.add(new ActionRoom(new Rectangle(124,0,27,90),new DayChangerAction(world, dayActionOutsideDoor.toArray(new Action[dayActionOutsideDoor.size()]))));
 		anteRoom.addActionRoom(0, 0, 1, 90, new ChangeRoomAction(world,RoomEnum.HOME_ROOM));
 		return anteRoom;

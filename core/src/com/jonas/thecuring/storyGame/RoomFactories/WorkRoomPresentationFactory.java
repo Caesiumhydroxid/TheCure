@@ -33,9 +33,8 @@ public class WorkRoomPresentationFactory extends RoomFactory{
 		
 		room.addActionRoom(0,0,0,0,new MovePlayerAction(world, new Vector2(70,10),new ActionStarter(world,action,
 				new AnimationPlayerAction(world, world.player.holdSpeech, 
-						new TransitionTextAction(world,3,5, "Du kippst um und wirst in ein Krankenhaus gebracht", true,
-						new ChangeRoomAction(world,RoomEnum.HOSPTIAL_ROOM,2))))));
-		
+						new ChangeRoomAction(world,RoomEnum.HOSPTIAL_ROOM,2)))));
+	
 		return room;
 	}
 	

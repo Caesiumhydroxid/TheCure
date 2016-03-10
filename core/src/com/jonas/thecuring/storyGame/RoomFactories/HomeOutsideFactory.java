@@ -14,6 +14,8 @@ import com.jonas.thecuring.storyGame.Actions.ChangeRoomAction;
 import com.jonas.thecuring.storyGame.Actions.DayChangerAction;
 import com.jonas.thecuring.storyGame.Actions.DisplayActionText;
 import com.jonas.thecuring.storyGame.Actions.MenuAction;
+import com.jonas.thecuring.storyGame.Actions.SetPlayerAction;
+import com.jonas.thecuring.storyGame.Actions.TransitionTextAction;
 
 public class HomeOutsideFactory extends RoomFactory {
 
@@ -24,7 +26,11 @@ public class HomeOutsideFactory extends RoomFactory {
 		room.colliders.add(new Rectangle(107, 10, 45, 40));
 		room.addActionRoom(0, 0, 1, 90, new ChangeRoomAction(world, RoomEnum.HOME_ANTE_ROOM));
 		ArrayList<Action> carActions = new ArrayList<Action>();
-		carActions.add(new DisplayActionText(world, "Fahre in Arbeit", new ChangeRoomAction(world, RoomEnum.WORK_ROOM)));
+		carActions.add(new DisplayActionText(world, "Fahre in Arbeit", new ChangeRoomAction(world, RoomEnum.WORK_LECTURE_ROOM)));
+		carActions.add(new DisplayActionText(world, "Fahren", new MenuAction(world,new String[]{"Nichts","Bar","Arbeit"},"Wohin?",new Action[]{null,
+				new ChangeRoomAction(world, RoomEnum.BAR_1BEER_ROOM,2,7,"Du hast dich Entschieden dich aus deinen Problemen mit Alkohol zu flüchten.",new SetPlayerAction(world, false, false, null)),
+				new ChangeRoomAction(world, RoomEnum.WORK_ANTE_ROOM)})));
+		
 		room.addActionRoom(100, 0, 7, 90, new DayChangerAction(world, carActions));
 				/*new DisplayActionText(world, "Fahre",
 				new MenuAction(world, new String[]{"Lol","Test"}, 

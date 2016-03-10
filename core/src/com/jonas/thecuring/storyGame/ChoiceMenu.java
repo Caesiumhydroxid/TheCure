@@ -1,5 +1,8 @@
 package com.jonas.thecuring.storyGame;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
@@ -18,22 +21,42 @@ public class ChoiceMenu extends AbstractGameObject {
 	private Texture bottom;
 	private Texture item;
 	private BitmapFont font;
-	private String[] options;
+	private ArrayList<String> options;
 	private Action[] actions;
 	private World world;
-	
+	private String question;
 	private int selectedItem;
-	ChoiceMenu(String[] options,Action[] actions,World world)
+	private float width;
+	private float height;
+	private boolean playerProcessInput;
+	ChoiceMenu(String[] options,Action[] actions,World world,boolean bigItem,String question)
 	{
-		this.options = options;
+		this.question = question;
+		this.options = new ArrayList<String>();
+		this.options.addAll(Arrays.asList(options));
 		this.actions = actions;
 		font = (BitmapFont) Assets.getInstance().get("font_small");
 		font.getData().setScale(1);
-		middle = (Texture) Assets.getInstance().get("choice_middle");
-		top = (Texture) Assets.getInstance().get("choice_top");
-		bottom = (Texture) Assets.getInstance().get("choice_bottom");
-		item = (Texture) Assets.getInstance().get("choice_item");
+		if(!bigItem)
+		{
+			middle = (Texture) Assets.getInstance().get("choice_middle");
+			top = (Texture) Assets.getInstance().get("choice_top");
+			bottom = (Texture) Assets.getInstance().get("choice_bottom");
+			item = (Texture) Assets.getInstance().get("choice_item");
+			width = 43;
+			height = 11;
+		}
+		else
+		{
+			middle = (Texture) Assets.getInstance().get("choice_middle_big");
+			top = (Texture) Assets.getInstance().get("choice_top_big");
+			bottom = (Texture) Assets.getInstance().get("choice_bottom_big");
+			item = (Texture) Assets.getInstance().get("choice_item_big");
+			width = 120;
+			height = 11;
+		}
 		this.world = world;
+		playerProcessInput = world.player.processInput;
 		world.player.processInput = false;
 		world.getCurrentRoom().fireEvents = false;
 	}
@@ -42,7 +65,7 @@ public class ChoiceMenu extends AbstractGameObject {
 	protected void handleInput() {
 		if(Gdx.input.isKeyJustPressed(Keys.UP))
 		{
-			if(selectedItem==options.length-1)
+			if(selectedItem==options.size()-1)
 			{
 				selectedItem = 0;
 			}
@@ -55,7 +78,7 @@ public class ChoiceMenu extends AbstractGameObject {
 		{
 			if(selectedItem==0)
 			{
-				selectedItem = options.length -1;
+				selectedItem = options.size() -1;
 			}
 			else
 			{
@@ -65,8 +88,9 @@ public class ChoiceMenu extends AbstractGameObject {
 		else if(Gdx.input.isKeyJustPressed(Keys.SPACE))
 		{
 			toDelete = true;
-			actions[selectedItem].run();
-			world.player.processInput = true;
+			if(actions[selectedItem]!=null)
+				actions[selectedItem].run();
+			world.player.processInput = playerProcessInput;
 			world.getCurrentRoom().fireEvents = true;
 		}
 	};
@@ -81,23 +105,23 @@ public class ChoiceMenu extends AbstractGameObject {
 	public void render(Batch batch) {
 		
 		batch.draw(bottom, position.x, position.y);
-		for(int i=0;i<options.length*(11+2)+8;i++)
+		for(int i=0;i<options.size()*(height+2)+8;i++)
 		{
 			batch.draw(middle, position.x, position.y+i+2);
 		}
-		batch.draw(top, position.x, position.y+options.length*(11+2)+10);
+		batch.draw(top, position.x, position.y+options.size()*(height+2)+10);
 		Color c = Color.BLACK;
-		GlyphLayout layout = new GlyphLayout(font, "Wohin?",c,41,Align.center,false);
-		font.draw(batch,layout,position.x+3,position.y+ layout.height/2f + item.getHeight()*(options.length+1)-2);
+		GlyphLayout layout = new GlyphLayout(font, question,c,width-2,Align.center,false);
+		font.draw(batch,layout,position.x+3,position.y +1 +options.size()*(height+2)+ layout.height/2f+ item.getHeight()/2f);
 		
-		for(int i = 0;i<options.length;i++)
+		for(int i = 0;i<options.size();i++)
 		{
-			batch.draw(item,position.x+2,position.y+2+i*13);
-			c = Color.BLACK;
+			batch.draw(item,position.x+2,position.y+2+i*(height+2));
+			c = Color.GRAY;
 			if(i==selectedItem)
-				c = Color.GRAY;
-			layout = new GlyphLayout(font, options[i],c,41,Align.center,false);
-			font.draw(batch, layout, position.x+3, position.y +2 +i*13+ layout.height/2f+ item.getHeight()/2f);
+				c = Color.BLACK;
+			layout = new GlyphLayout(font, options.get(i),c,width-2,Align.center,false);
+			font.draw(batch, layout, position.x+3, position.y +2 +i*(height+2)+ layout.height/2f+ item.getHeight()/2f);
 		}
 	}
 

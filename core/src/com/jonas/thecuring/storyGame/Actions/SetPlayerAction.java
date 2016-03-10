@@ -16,7 +16,12 @@ public class SetPlayerAction extends Action {
 	public void run() {
 		world.player.render = visible;
 		world.player.processInput = processingInput;
-		running = false;
+		running = true;
+		toDelete = true;
+		if(nextAction!=null)
+		{
+			new AddActionToRoom(world, nextAction).run();
+		}
 	}
 
 }

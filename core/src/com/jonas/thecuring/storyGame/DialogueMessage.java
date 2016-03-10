@@ -72,7 +72,7 @@ public class DialogueMessage extends AbstractGameObject {
 		GlyphLayout glyphLayout = new GlyphLayout(font, text);
 		glyphLayout.setText(font, text, 0, lettersToShow, Color.BLACK, (boundingRectangle.width-4), Align.center, true, null);
 		float y = position.y + boundingRectangle.height/2f + glyphLayout.height/2f;
-		font.draw(batch, glyphLayout, position.x, y );
+		font.draw(batch, glyphLayout, position.x+2, y );
 
 		
 	}

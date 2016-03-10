@@ -49,10 +49,10 @@ public class HospitalRoomDay2Factory extends RoomFactory {
 			"durchgeführt haben. Muss ich ihnen mitteilen..",
 			"...",
 			"... ...",
-			" dass wir einen Hirn-Tumor festgestellt haben.",
-			"wir müssen ihn so bald wie möglich Operieren.",
+			" dass wir einen Gehirntumor festgestellt haben.",
+			"wir müssen ihn so bald wie möglich operieren.",
 			"Der früheste Termin ist in 2 Tagen. Bis dorthin",
-			"haben sie Zeit um sich ihren beschäftigungen zu widmen.",
+			"haben sie Zeit um sich ihren Beschäftigungen zu widmen.",
 			"Wir werden sie nach Hause fahren. Sie sollten alles",
 			"mit ihrer Familie klären."
 		};

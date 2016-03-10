@@ -56,16 +56,26 @@ public class TheCuring extends Game {
 		Assets.getInstance().load("choice_bottom", "ChoiceBottom.png", Texture.class);
 		Assets.getInstance().load("choice_top", "ChoiceTop.png", Texture.class);
 		Assets.getInstance().load("choice_item", "ChoiceItem.png", Texture.class);
+		Assets.getInstance().load("choice_middle_big", "ChoiceMiddleHuge.png", Texture.class);
+		Assets.getInstance().load("choice_bottom_big", "ChoiceBottomHuge.png", Texture.class);
+		Assets.getInstance().load("choice_top_big", "ChoiceTopHuge.png", Texture.class);
+		Assets.getInstance().load("choice_item_big", "ChoiceItemHuge.png", Texture.class);
 		Assets.getInstance().load("room_home_daughter", "RoomDaughter.png", Texture.class);
 		Assets.getInstance().load("room_home_outside","RoomOutside.png",Texture.class);
 		Assets.getInstance().load("daughter","Daughter.png",Texture.class);
 		Assets.getInstance().load("bed_hospital", "HospitalBed.png", Texture.class);
 		Assets.getInstance().load("doctor", "Doctor.png", Texture.class);
 		Assets.getInstance().load("doctor_anim", "DoctorAnim.png", Texture.class);
-		Assets.getInstance().load("bar_1beer", "Bar1Bier.png", Texture.class);
-		Assets.getInstance().load("bar_6beer", "Bar6Bier.png", Texture.class);
+		Assets.getInstance().load("room_bar_1beer", "Bar1Bier.png", Texture.class);
+		Assets.getInstance().load("room_bar_6beer", "Bar6Bier.png", Texture.class);
 		Assets.getInstance().load("sky_parachute", "Sky.png", Texture.class);
 		Assets.getInstance().load("plane_parachute", "Flugzeug_anim.png", Texture.class);
+		Assets.getInstance().load("room_home_son", "Boyroom.png", Texture.class);
+		Assets.getInstance().load("room_work_anteroom", "WorkAnteroom.png", Texture.class);
+		Assets.getInstance().load("room_work_working", "RoomWorking.png", Texture.class);
+		Assets.getInstance().load("coworker", "Coworker.png", Texture.class);
+		Assets.getInstance().load("son", "Son.png", Texture.class);
+		Assets.getInstance().load("wife", "Woman.png", Texture.class);
 		Assets.getInstance().finishLoading();
 		ScreenManager.getInstance().init(this);
 		
