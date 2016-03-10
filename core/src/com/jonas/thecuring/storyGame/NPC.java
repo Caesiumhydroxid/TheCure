@@ -16,6 +16,11 @@ public class NPC extends AbstractGameObject {
 	private Rectangle boundingRectangle;
 	private Vector2 offset;
 	public Vector2 velocity;
+	public int messageNumber;
+	public String[] messages;
+	private boolean looping;
+	private int currentMessage;
+	
 	public NPC(Animation anim,Action action,Rectangle boundingRectangle)
 	{
 		currentAnimation = anim;
@@ -26,8 +31,9 @@ public class NPC extends AbstractGameObject {
 		offset = new Vector2();
 		offset.x = this.boundingRectangle.x;
 		offset.y = this.boundingRectangle.y;
+		messages = new String[0];
 	}
-	public NPC(Texture texture,Action action,Rectangle boundingRectangle)
+	public NPC(Texture texture,Rectangle boundingRectangle,Action action)
 	{
 		currentAnimation = new Animation(1,new TextureRegion[]{new TextureRegion(texture)}); 
 		actionRoom = new ActionRoom();
@@ -37,11 +43,64 @@ public class NPC extends AbstractGameObject {
 		offset = new Vector2();
 		offset.x = this.boundingRectangle.x;
 		offset.y = this.boundingRectangle.y;
+		messages = new String[0];
+	}
+	public NPC(Texture texture,String[] messages,boolean looping,Rectangle boundingRectangle,Action action)
+	{
+		currentAnimation = new Animation(1,new TextureRegion[]{new TextureRegion(texture)}); 
+		actionRoom = new ActionRoom();
+		actionRoom.setAction(action);
+		this.boundingRectangle = boundingRectangle;
+		actionRoom.set(boundingRectangle);
+		offset = new Vector2();
+		offset.x = this.boundingRectangle.x;
+		offset.y = this.boundingRectangle.y;
+		this.messages = messages;
+		this.looping = looping;
+	}
+	public NPC(Texture texture,String[] messages,boolean looping,Rectangle boundingRectangle)
+	{
+		currentAnimation = new Animation(1,new TextureRegion[]{new TextureRegion(texture)}); 
+		actionRoom = new ActionRoom();
+		this.boundingRectangle = boundingRectangle;
+		actionRoom.set(boundingRectangle);
+		offset = new Vector2();
+		offset.x = this.boundingRectangle.x;
+		offset.y = this.boundingRectangle.y;
+		this.messages = messages;
+		this.looping = looping;
 	}
 	public ActionRoom getActionRoom() {
 		return actionRoom;
 	}
 	
+	public void setMessages(String[] messages)
+	{
+		this.messages = messages;
+	}
+	
+	public void setLooping(boolean looping) {
+		this.looping = looping;
+	}
+	
+	public void setAction(Action action)
+	{
+		actionRoom.setAction(action);
+	}
+	public String getNextMessage()
+	{
+		if(currentMessage >= messages.length)
+		{
+			if(looping)
+			{
+				currentMessage = 0;
+			}
+			else
+				currentMessage--;
+		}
+		currentMessage++;
+		return messages[currentMessage-1];
+	}
 	@Override
 	public void setPosition(Vector2 position) {
 		super.setPosition(position);

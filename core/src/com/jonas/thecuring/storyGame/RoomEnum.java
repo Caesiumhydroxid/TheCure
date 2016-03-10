@@ -1,16 +1,6 @@
 package com.jonas.thecuring.storyGame;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.jonas.thecuring.Assets;
-import com.jonas.thecuring.storyGame.Actions.*;
-import com.jonas.thecuring.storyGame.RoomFactories.HomeAnteRoomFactory;
-import com.jonas.thecuring.storyGame.RoomFactories.HomeDaughterRoomFactory;
-import com.jonas.thecuring.storyGame.RoomFactories.HomeOutsideFactory;
-import com.jonas.thecuring.storyGame.RoomFactories.HomeRoomFactory;
-import com.jonas.thecuring.storyGame.RoomFactories.HospitalRoomFactory;
-import com.jonas.thecuring.storyGame.RoomFactories.WorkRoomPresentationFactory;
+import com.jonas.thecuring.storyGame.RoomFactories.*;
 
 public enum RoomEnum {
 	HOME_ROOM{
@@ -86,6 +76,32 @@ public enum RoomEnum {
 			{	
 				World world = (World) params[0];
 				HospitalRoomFactory f = new HospitalRoomFactory();
+				room = f.getRoom(world);
+			}
+			return room;
+		}
+	},
+	HOSPITAL_ROOM_DAY2{
+		Room room;
+		public Room getRoom(Object... params)
+		{
+			if(room==null)
+			{	
+				World world = (World) params[0];
+				HospitalRoomDay2Factory f = new HospitalRoomDay2Factory();
+				room = f.getRoom(world);
+			}
+			return room;
+		}
+	},
+	PARACHUTE_ROOM{
+		Room room;
+		public Room getRoom(Object... params)
+		{
+			if(room==null)
+			{	
+				World world = (World) params[0];
+				RoomFactory f = new ParachuteRoomFactory();
 				room = f.getRoom(world);
 			}
 			return room;

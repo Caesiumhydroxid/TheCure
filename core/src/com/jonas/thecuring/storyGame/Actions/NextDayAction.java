@@ -11,7 +11,9 @@ public class NextDayAction extends Action {
 	@Override
 	public void run() {
 		world.day++;
-		nextAction.run();
+		running = true;
+		if(nextAction != null)
+			nextAction.run();
 	}
 
 }

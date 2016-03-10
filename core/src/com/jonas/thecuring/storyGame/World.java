@@ -46,7 +46,7 @@ public class World{
 		
 		black = new Black();
 		
-		setCurrentRoom(RoomEnum.HOME_ROOM);
+		setCurrentRoom(RoomEnum.PARACHUTE_ROOM);
 		//ChoiceMenu c = new ChoiceMenu(new String[]{"Hallo","Test"}, new Action[]{new ChangeRoomAction(this, RoomEnum.WORK_ROOM),new DisplayDialogueAction("Test",this,false)});
 		//c.z = 100;
 		//objects.add(c);
@@ -87,11 +87,15 @@ public class World{
 	}
 	public void setCurrentRoomTransition(RoomEnum room,String text,float transitionDuration,float textDuration)
 	{
+		setCurrentRoomTransition(room, text, transitionDuration, textDuration, null);
+	}
+	public void setCurrentRoomTransition(RoomEnum room,String text,float transitionDuration,float textDuration,Action nextAction)
+	{
 		if(currentRoom!=null)
 		{
 			currentRoom.fireEvents = false;
 			TransitionScreen t = new TransitionScreen(transitionDuration,textDuration,text);
-			t.addListener(new RoomChangeListener(room,this));
+			t.addListener(new RoomChangeListener(room,this,nextAction));
 			player.processInput=false;
 			push(t);
 		}
@@ -111,14 +115,20 @@ public class World{
 	private class RoomChangeListener implements TransitionListener{
 		private RoomEnum changeRoom;
 		private World world;
-		RoomChangeListener(RoomEnum changeRoom,World world)
+		private Action nextAction;
+		RoomChangeListener(RoomEnum changeRoom,World world,Action nextAction)
 		{
 			this.changeRoom = changeRoom;
 			this.world = world;
+			this.nextAction = nextAction;
 		}
 		@Override
 		public void transitionIsAtMax() {
 			world.setCurrentRoom(changeRoom);
+			if(nextAction!= null)
+			{
+				nextAction.run();
+			}
 		}
 
 		@Override

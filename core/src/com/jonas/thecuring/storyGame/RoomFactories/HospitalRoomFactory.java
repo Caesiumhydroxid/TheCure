@@ -10,10 +10,13 @@ import com.jonas.thecuring.Assets;
 import com.jonas.thecuring.storyGame.GameObject;
 import com.jonas.thecuring.storyGame.NPC;
 import com.jonas.thecuring.storyGame.Room;
+import com.jonas.thecuring.storyGame.RoomEnum;
 import com.jonas.thecuring.storyGame.World;
 import com.jonas.thecuring.storyGame.Actions.Action;
 import com.jonas.thecuring.storyGame.Actions.AddActionToRoom;
+import com.jonas.thecuring.storyGame.Actions.ChangeRoomAction;
 import com.jonas.thecuring.storyGame.Actions.DisplayDialogueAction;
+import com.jonas.thecuring.storyGame.Actions.NextDayAction;
 import com.jonas.thecuring.storyGame.Actions.TimerAction;
 import com.jonas.thecuring.storyGame.Actions.TransitionTextAction;
 
@@ -48,13 +51,15 @@ public class HospitalRoomFactory extends RoomFactory {
 		room.addActionRoom(0, 0, -1, -1, new AddActionToRoom(world,
 				new DisplayDialogueAction(world, "Wir wissen leider noch nicht genau was passiert ist", 7, 
 						new TimerAction(world, 5, 
-								new DisplayDialogueAction(world, "wir müssen noch untersuchungen durchführen.",7, 
+								new DisplayDialogueAction(world, "Wir müssen noch untersuchungen durchführen.",7, 
 										new TimerAction(world, 5,
 												new DisplayDialogueAction(world, "Morgen sollten wir genaueres wissen", 7,
 														new TimerAction(world, 7, 
 																new DisplayDialogueAction(world, "vermutlich war es der Stress... Oh.. er schläft schon wieder",
 																		new TimerAction(world, 5,
-																				new TransitionTextAction(world, "Du Schläfst ein und der nächste Tag beginnt", true, null)))))))))));
+																				new TransitionTextAction(world, "Du Schläfst ein und der nächste Tag beginnt", true, 
+																						new NextDayAction(world, 
+																								new ChangeRoomAction(world, RoomEnum.HOSPITAL_ROOM_DAY2)))))))))))));
 		return room;
 	}
 

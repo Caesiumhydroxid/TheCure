@@ -17,19 +17,17 @@ public class TimerAction extends Action {
 		if(running)
 		{
 			elapsedTime += delta;
-			System.out.println(elapsedTime);
 			if(elapsedTime>triggerTime&&!triggered)
 			{
 				triggered = true;
-				nextAction.run();
+				if(nextAction != null)
+					nextAction.run();
 				
 				toDelete = true;
 			}
 		}
 		super.update(delta);
 	}
-
-
 	@Override
 	public void run() {
 		running=true;
