@@ -18,7 +18,7 @@ public class Room extends AbstractGameObject {
 	private Texture roomTexture;
 	public ArrayList<ActionRoom> actionRooms;
 	public ArrayList<ActionRoom> actionRoomsToAdd;
-	private World world;
+	protected World world;
 	public boolean debug=true;
 	private final Vector2 spawnPoint;
 	public boolean fireEvents=true;

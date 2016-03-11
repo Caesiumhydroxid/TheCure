@@ -3,6 +3,7 @@ package com.jonas.thecuring;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.jonas.thecuring.cancerGame.CancerGameState;
+import com.jonas.thecuring.storyGame.Memory;
 import com.jonas.thecuring.storyGame.StoryGameState;
 
 public enum ScreenEnum {
@@ -28,7 +29,6 @@ public enum ScreenEnum {
 			return new StoryGameState((InputMultiplexer)params[0]);
 		}
 	};
-
 	public Screen getScreen(Object... params) {
 		// TODO Auto-generated method stub
 		return null;

@@ -76,6 +76,9 @@ public class TheCuring extends Game {
 		Assets.getInstance().load("coworker", "Coworker.png", Texture.class);
 		Assets.getInstance().load("son", "Son.png", Texture.class);
 		Assets.getInstance().load("wife", "Woman.png", Texture.class);
+		Assets.getInstance().load("memory", "Memory.png", Texture.class);
+		Assets.getInstance().load("memory_back", "MemoryBack.png", Texture.class);
+		Assets.getInstance().load("memory_selected", "MemorySelected.png", Texture.class);
 		Assets.getInstance().finishLoading();
 		ScreenManager.getInstance().init(this);
 		

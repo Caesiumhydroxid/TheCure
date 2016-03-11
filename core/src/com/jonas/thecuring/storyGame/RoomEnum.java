@@ -100,6 +100,20 @@ public enum RoomEnum {
 			return room;
 		}
 	},
+	MEMORY_ROOM{
+		Memory room;
+		public Room getRoom(Object... params)
+		{
+			if(room==null)
+			{	
+				World world = (World) params[0];
+				room = new Memory(null,world);
+				room.init();
+			}
+			return room;
+		}
+	},
+	
 	HOSPTIAL_ROOM{
 		Room room;
 		public Room getRoom(Object... params)

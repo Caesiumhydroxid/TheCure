@@ -28,7 +28,7 @@ public class HomeOutsideFactory extends RoomFactory {
 		ArrayList<Action> carActions = new ArrayList<Action>();
 		carActions.add(new DisplayActionText(world, "Fahre in Arbeit", new ChangeRoomAction(world, RoomEnum.WORK_LECTURE_ROOM)));
 		carActions.add(new DisplayActionText(world, "Fahren", new MenuAction(world,new String[]{"Nichts","Bar","Arbeit"},"Wohin?",new Action[]{null,
-				new ChangeRoomAction(world, RoomEnum.BAR_1BEER_ROOM,2,7,"Du hast dich Entschieden dich aus deinen Problemen mit Alkohol zu flüchten.",new SetPlayerAction(world, false, false, null)),
+				new ChangeRoomAction(world, RoomEnum.BAR_1BEER_ROOM,2,1,"",new SetPlayerAction(world, false, false, null)),
 				new ChangeRoomAction(world, RoomEnum.WORK_ANTE_ROOM)})));
 		
 		room.addActionRoom(100, 0, 7, 90, new DayChangerAction(world, carActions));

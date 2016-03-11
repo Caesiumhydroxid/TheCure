@@ -17,7 +17,7 @@ public class Bar1BeerRoomFactory extends RoomFactory {
 	public Room getRoom(World world) {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_bar_1beer"), world,new Vector2(120,10));
-		room.addActionRoom(0, 0, 0, 0, new TimerAction(world, 13, new ChangeRoomAction(world, RoomEnum.BAR_6BEER_ROOM,2,5,"Der Abend wurde länger... und länger")));
+		room.addActionRoom(0, 0, 0, 0, new TimerAction(world, 7, new ChangeRoomAction(world, RoomEnum.BAR_6BEER_ROOM,2,5,"Der Abend wurde länger... und länger")));
 		return room;
 	}
 

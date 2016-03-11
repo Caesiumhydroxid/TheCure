@@ -10,7 +10,6 @@ import com.jonas.thecuring.storyGame.Actions.ChangeRoomAction;
 import com.jonas.thecuring.storyGame.Actions.NextDayAction;
 import com.jonas.thecuring.storyGame.Actions.SetPlayerAction;
 import com.jonas.thecuring.storyGame.Actions.TimerAction;
-import com.sun.media.jfxmedia.events.PlayerStateEvent;
 
 public class Bar6BeerRoomFactory extends RoomFactory {
 
