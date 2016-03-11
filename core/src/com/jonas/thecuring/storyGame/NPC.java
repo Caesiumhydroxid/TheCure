@@ -87,6 +87,13 @@ public class NPC extends AbstractGameObject {
 	{
 		actionRoom.setAction(action);
 	}
+	public void setAnimation(Animation animation)
+	{
+		this.currentAnimation = animation;
+	}
+	public Animation getCurrentAnimation() {
+		return currentAnimation;
+	}
 	public String getNextMessage()
 	{
 		if(currentMessage >= messages.length)

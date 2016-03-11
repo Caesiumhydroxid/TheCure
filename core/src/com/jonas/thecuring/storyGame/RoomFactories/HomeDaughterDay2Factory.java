@@ -12,14 +12,14 @@ import com.jonas.thecuring.storyGame.Actions.ChangeRoomAction;
 import com.jonas.thecuring.storyGame.Actions.DisplayActionText;
 import com.jonas.thecuring.storyGame.Actions.TalkToNPCAction;
 
-public class HomeDaughterRoomFactory extends RoomFactory {
+public class HomeDaughterDay2Factory extends RoomFactory {
 
 	@Override
 	public Room getRoom(World world) {
 		Room room;
 		NPC npc = null;
-		room = new Room((Texture) Assets.getInstance().get("room_home_daughter"), world,new Vector2(120,10));
-		npc = new NPC((Texture)Assets.getInstance().get("daughter"),new String[]{"Hallo Papa, Viel Glück heute!","Viel Spaß!"},true,new Rectangle(17,2,8,28));
+		room = new Room((Texture) Assets.getInstance().get("room_home_daughter"), world,new Vector2(100,10));
+		npc = new NPC((Texture)Assets.getInstance().get("daughter"),new String[]{"Warum bist du gestern nicht nach Hause gekommen?","Was ist los?"},true,new Rectangle(17,2,8,28));
 		npc.setAction(new DisplayActionText(world, "Sprechen",new TalkToNPCAction(world, npc, null)));
 		npc.setPosition(new Vector2(85-17,23-2));
 		room.add(npc);

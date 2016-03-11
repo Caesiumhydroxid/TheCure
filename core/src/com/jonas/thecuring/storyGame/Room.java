@@ -15,7 +15,7 @@ import com.jonas.thecuring.storyGame.Actions.Action;
 
 public class Room extends AbstractGameObject {
 	
-	private Texture roomTexture;
+	protected Texture roomTexture;
 	public ArrayList<ActionRoom> actionRooms;
 	public ArrayList<ActionRoom> actionRoomsToAdd;
 	protected World world;

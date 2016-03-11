@@ -21,10 +21,12 @@ public class SwitchWithComparatorAction extends Action{
 		
 		if(comparator.compare())
 		{
-			actionTrue.run();
+			if(actionTrue!=null)
+				actionTrue.run();
 		}
 		else
 			actionFalse.run();
+		toDelete = true;
 		
 	}
 }

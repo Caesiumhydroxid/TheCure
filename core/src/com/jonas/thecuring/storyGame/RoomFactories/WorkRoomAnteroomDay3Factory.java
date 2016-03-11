@@ -15,13 +15,13 @@ import com.jonas.thecuring.storyGame.Actions.MenuAction;
 import com.jonas.thecuring.storyGame.Actions.SetPlayerAction;
 import com.jonas.thecuring.storyGame.Actions.TalkToNPCAction;
 
-public class WorkRoomAnteroomFactory extends RoomFactory {
+public class WorkRoomAnteroomDay3Factory extends RoomFactory {
 
 	@Override
 	public Room getRoom(World world) {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_work_anteroom"), world,new Vector2(0,10));
-		NPC coworker= new NPC((Texture) Assets.getInstance().get("coworker"),new String[]{"Hallo. Was ist denn gestern passiert?","Oh... Und du bist dir sicher das du heute arbeiten willst?"},false,new Rectangle(5,0,12,33));
+		NPC coworker= new NPC((Texture) Assets.getInstance().get("coworker"),new String[]{"Willst du nicht irgendetwas anderes machen?","Ich würde es verstehen"},false,new Rectangle(5,0,12,33));
 		coworker.setAction(new DisplayActionText(world, "Sprechen",new TalkToNPCAction(world, coworker, null)));
 		coworker.setPosition(new Vector2(80, 26));
 		room.add(coworker);

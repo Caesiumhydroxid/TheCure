@@ -24,6 +24,7 @@ public class World{
 	private Pool<DialogueMessage> messagePool;
 	public boolean blackedOut;
 	public boolean wifeKnowsAboutCancer = true;
+	public boolean timeWithFamily=true;
 	private Black black;
 	public int day;
 	
@@ -45,7 +46,9 @@ public class World{
 		
 		black = new Black();
 		day = 0;
-		setCurrentRoom(RoomEnum.MEMORY_ROOM);
+		wifeKnowsAboutCancer = true;
+		timeWithFamily = true;
+		setCurrentRoom(RoomEnum.HOME_ROOM);
 		//ChoiceMenu c = new ChoiceMenu(new String[]{"Hallo","Test"}, new Action[]{new ChangeRoomAction(this, RoomEnum.WORK_ROOM),new DisplayDialogueAction("Test",this,false)});
 		//c.z = 100;
 		//objects.add(c);
@@ -135,9 +138,9 @@ public class World{
 
 		@Override
 		public void transitionFinished() {
+			world.player.processInput = true;
 			if(player.processInput == false)
-				playerProcessingInput = false;
-			world.player.processInput= playerProcessingInput;
+				world.player.processInput= playerProcessingInput;
 		}
 		
 	}
