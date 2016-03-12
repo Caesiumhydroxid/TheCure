@@ -50,6 +50,7 @@ public class TheCuring extends Game {
 		Assets.getInstance().load("maincharacter_business", "BusinessCharacter.png", Texture.class);
 		Assets.getInstance().load("dialogue", "DialogMessage.png", Texture.class);
 		Assets.getInstance().load("font", "Font.fnt",BitmapFont.class);
+		Assets.getInstance().load("font_medium", "Fontmedium.fnt",BitmapFont.class);
 		Assets.getInstance().load("font_small", "Fontsmall.fnt",BitmapFont.class);
 		Assets.getInstance().load("shadow", "Shadow.png", Texture.class);
 		Assets.getInstance().load("choice_middle", "ChoiceMiddle.png", Texture.class);
@@ -81,13 +82,20 @@ public class TheCuring extends Game {
 		Assets.getInstance().load("memory_back", "MemoryBack.png", Texture.class);
 		Assets.getInstance().load("memory_selected", "MemorySelected.png", Texture.class);
 		Assets.getInstance().load("memory_background", "MemoryBackground.png", Texture.class);
+		Assets.getInstance().load("sky_parachute_jump", "SkyParachute.png", Texture.class);
+		Assets.getInstance().load("parachute_animation", "ParachuteAnimation.png", Texture.class);
+		Assets.getInstance().load("room_hospital_op", "RoomOpSaal.png", Texture.class);
+		Assets.getInstance().load("bed_empty", "Bed_empty.png", Texture.class);
+		Assets.getInstance().load("room_hospital_friends", "RoomKrankenhaus_Freunde.png", Texture.class);
+		Assets.getInstance().load("room_hospital_parents", "RoomKrankenhaus_Eltern.png", Texture.class);
+		Assets.getInstance().load("room_hospital_family", "RoomKrankenhaus_Familie.png", Texture.class);
 		Assets.getInstance().finishLoading();
 		ScreenManager.getInstance().init(this);
 		
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		Styles.getInstance().init();
-		ScreenManager.getInstance().show(ScreenEnum.STORY_GAME,inputMultiplexer);
+		ScreenManager.getInstance().show(ScreenEnum.CANCER_GAME,inputMultiplexer);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.jonas.thecuring.storyGame.RoomFactories;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.jonas.thecuring.Assets;
 import com.jonas.thecuring.storyGame.Room;
@@ -13,8 +14,8 @@ import com.jonas.thecuring.storyGame.Actions.AnimationPlayerAction;
 import com.jonas.thecuring.storyGame.Actions.ChangeRoomAction;
 import com.jonas.thecuring.storyGame.Actions.DisplayDialogueAction;
 import com.jonas.thecuring.storyGame.Actions.MovePlayerAction;
+import com.jonas.thecuring.storyGame.Actions.SetPlayerAction;
 import com.jonas.thecuring.storyGame.Actions.TimerAction;
-import com.jonas.thecuring.storyGame.Actions.TransitionTextAction;
 
 public class WorkRoomPresentationFactory extends RoomFactory{
 
@@ -31,9 +32,26 @@ public class WorkRoomPresentationFactory extends RoomFactory{
 																		new TimerAction(world, 3, 
 																				new DisplayDialogueAction(world, "Arrghh!",3,50,null)))))));
 		
+		Animation anim = new Animation(10,world.player.holdSpeech.getKeyFrame(100, false) );
+		class LetPlayerAnim extends Action
+		{
+
+			public LetPlayerAnim(World world, Action nextAction) {
+				super(world, nextAction);
+				// TODO Auto-generated constructor stub
+			}
+
+			@Override
+			public void run() {
+				world.player.allowedToChangeAnimations = true;
+				
+			}
+			
+		}
+		//room.addActionRoom(0, 0, 0, 0, new TimerAction(world, 0.6f, new SetPlayerAction(world, true, false, null)));
 		room.addActionRoom(0,0,0,0,new MovePlayerAction(world, new Vector2(70,10),new ActionStarter(world,action,
-				new AnimationPlayerAction(world, world.player.holdSpeech, 
-						new ChangeRoomAction(world,RoomEnum.HOSPTIAL_ROOM,2)))));
+				new AnimationPlayerAction(world, world.player.holdSpeech,
+						new ActionStarter(world, new ChangeRoomAction(world,RoomEnum.HOSPTIAL_ROOM,5,new LetPlayerAnim(world, null)), new AnimationPlayerAction(world, anim, null))))));
 	
 		return room;
 	}

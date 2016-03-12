@@ -12,6 +12,10 @@ public abstract class Action {
 		this.world = world;
 		this.nextAction = nextAction;
 	}
+	public void init()
+	{
+		
+	}
 	public abstract void run();
 	public void update(float delta){
 	}

@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Pool;
+import com.esotericsoftware.kryonet.Server;
 import com.jonas.thecuring.storyGame.Actions.Action;
 import com.jonas.thecuring.storyGame.Actions.TransitionTextAction;
 
@@ -27,9 +28,10 @@ public class World{
 	public boolean timeWithFamily=true;
 	private Black black;
 	public int day;
-	
-	World()
+	private Server server;
+	World(Server server)
 	{
+		this.server = server;
 		messagePool = new Pool<DialogueMessage>(){
 
 			@Override
@@ -46,8 +48,6 @@ public class World{
 		
 		black = new Black();
 		day = 0;
-		wifeKnowsAboutCancer = true;
-		timeWithFamily = true;
 		setCurrentRoom(RoomEnum.HOME_ROOM);
 		//ChoiceMenu c = new ChoiceMenu(new String[]{"Hallo","Test"}, new Action[]{new ChangeRoomAction(this, RoomEnum.WORK_ROOM),new DisplayDialogueAction("Test",this,false)});
 		//c.z = 100;
@@ -98,6 +98,14 @@ public class World{
 			currentRoom.fireEvents = false;
 			TransitionScreen t = new TransitionScreen(transitionDuration,textDuration,text);
 			t.addListener(new RoomChangeListener(room,this,nextAction));
+			for(Iterator<AbstractGameObject> itr = objects.iterator();itr.hasNext();)
+			{
+				AbstractGameObject obj = (AbstractGameObject) itr.next();
+				if(obj  instanceof DialogueMessage)
+				{
+					obj.toDelete = true;
+				}
+			}
 			push(t);
 		}
 		else
@@ -122,13 +130,13 @@ public class World{
 		{
 			this.changeRoom = changeRoom;
 			this.world = world;
-			playerProcessingInput = player.processInput;
-			player.processInput=false;
+			playerProcessingInput = world.player.processInput;
+			world.player.processInput=false;
 			this.nextAction = nextAction;
 		}
 		@Override
 		public void transitionIsAtMax() {
-			player.processInput = true;
+			world.player.processInput = true;
 			world.setCurrentRoom(changeRoom);
 			if(nextAction!= null)
 			{
@@ -138,9 +146,11 @@ public class World{
 
 		@Override
 		public void transitionFinished() {
-			world.player.processInput = true;
-			if(player.processInput == false)
-				world.player.processInput= playerProcessingInput;
+			if(world.player.processInput == false)
+				world.player.processInput= false;
+			else
+				world.player.processInput = playerProcessingInput;
+			
 		}
 		
 	}
@@ -246,5 +256,9 @@ public class World{
 		menu.processInput = true;
 		push(menu);
 		
+	}
+	public void sendMessage(String message)
+	{
+		server.sendToAllTCP(message);
 	}
 }

@@ -29,6 +29,7 @@ public class ChoiceMenu extends AbstractGameObject {
 	private float width;
 	private float height;
 	private boolean playerProcessInput;
+	private float elapsedTime;
 	ChoiceMenu(String[] options,Action[] actions,World world,boolean bigItem,String question)
 	{
 		this.question = question;
@@ -55,6 +56,7 @@ public class ChoiceMenu extends AbstractGameObject {
 			width = 120;
 			height = 11;
 		}
+
 		this.world = world;
 		playerProcessInput = world.player.processInput;
 		world.player.processInput = false;
@@ -89,7 +91,10 @@ public class ChoiceMenu extends AbstractGameObject {
 		{
 			toDelete = true;
 			if(actions[selectedItem]!=null)
+			{
+				actions[selectedItem].init();
 				actions[selectedItem].run();
+			}
 			world.player.processInput = playerProcessInput;
 			world.getCurrentRoom().fireEvents = true;
 		}
@@ -118,8 +123,12 @@ public class ChoiceMenu extends AbstractGameObject {
 		{
 			batch.draw(item,position.x+2,position.y+2+i*(height+2));
 			c = Color.GRAY;
-			if(i==selectedItem)
+			if(i==selectedItem&&((int)elapsedTime%2)==0)
 				c = Color.BLACK;
+			else if(i==selectedItem&&((int)elapsedTime%2)==1)
+			{
+				c=Color.RED;
+			}
 			layout = new GlyphLayout(font, options.get(i),c,width-2,Align.center,false);
 			font.draw(batch, layout, position.x+3, position.y +2 +i*(height+2)+ layout.height/2f+ item.getHeight()/2f);
 		}

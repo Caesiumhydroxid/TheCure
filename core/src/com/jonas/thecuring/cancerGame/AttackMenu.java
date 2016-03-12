@@ -54,7 +54,7 @@ public class AttackMenu extends Table {
 		a_button_0.addListener(buttonListener);
 		this.addActor(a_button_0);
 		
-		a_button_1 = new TextButton("Mehr \nBlutgefï¿½ï¿½e",Styles.getInstance().bigButton);
+		a_button_1 = new TextButton("Mehr \nBlutgefäße",Styles.getInstance().bigButton);
 		a_button_1.setPosition(5, 76);
 		a_button_1.setName("a_more_bloodvessels");
 		a_button_1.addListener(buttonListener);
@@ -88,7 +88,7 @@ public class AttackMenu extends Table {
 		a_button_3.setName("a_fast_cell_division");
 		a_button_3.addListener(buttonListener);
 		
-		a_tooltip_3 = new TextTooltip("Kosten: "+kaFastCellDivision+"\nbenï¿½tigt:\nMehr Blutgefï¿½ï¿½e 5",tooltipManager,Styles.getInstance().textTooltipStyle);
+		a_tooltip_3 = new TextTooltip("Kosten: "+kaFastCellDivision+"\nbenötigt:\nMehr Blutgefäße 5",tooltipManager,Styles.getInstance().textTooltipStyle);
 		a_tooltip_3.getActor().setAlignment(Align.center);
 		a_tooltip_3.getContainer().pad(4);
 		a_button_3.addListener(a_tooltip_3);
@@ -100,12 +100,12 @@ public class AttackMenu extends Table {
 		
 		this.addActor(a_button_3);
 		
-		a_button_4 = new TextButton("gefÃ¤hrliche\nMutationen",Styles.getInstance().bigButton);
+		a_button_4 = new TextButton("gefährliche\nMutationen",Styles.getInstance().bigButton);
 		a_button_4.setPosition(82, 50);
 		a_button_4.setName("a_dangerous_mutations");
 		a_button_4.addListener(buttonListener);
 		
-		a_tooltip_4 = new TextTooltip("Kosten: "+kaDangerousMutations+"\nbenï¿½tigt:\nMutationen 5",tooltipManager,Styles.getInstance().textTooltipStyle);
+		a_tooltip_4 = new TextTooltip("Kosten: "+kaDangerousMutations+"\nbenötigt:\nMutationen 5",tooltipManager,Styles.getInstance().textTooltipStyle);
 		a_tooltip_4.getActor().setAlignment(Align.center);
 		a_tooltip_4.getContainer().pad(4);
 		a_button_4.addListener(a_tooltip_4);
@@ -122,7 +122,7 @@ public class AttackMenu extends Table {
 		a_button_5.setName("a_metastases");
 		a_button_5.addListener(buttonListener);
 		
-		a_tooltip_5 = new TextTooltip("Kosten: "+kaMetastases+"\nbenï¿½tigt:\nschelle Zellteilung 5\ngefï¿½hliche Mutationen 5",tooltipManager,Styles.getInstance().textTooltipStyle);
+		a_tooltip_5 = new TextTooltip("Kosten: "+kaMetastases+"\nbenötigt:\nschelle Zellteilung 5\ngefähliche Mutationen 5",tooltipManager,Styles.getInstance().textTooltipStyle);
 		a_tooltip_5.getActor().setAlignment(Align.center);
 		a_tooltip_5.getContainer().pad(4);
 		a_button_5.addListener(a_tooltip_5);

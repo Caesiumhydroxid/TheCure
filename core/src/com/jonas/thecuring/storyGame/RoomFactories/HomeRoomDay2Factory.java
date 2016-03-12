@@ -48,11 +48,11 @@ public class HomeRoomDay2Factory extends RoomFactory{
 	
 		
 		Action setProcessingInput = new SetPlayerAction(world, true, true, null);
-		Action wasSollenWirTun = new MenuAction(world, true,new String[]{"Operation in  2 Tagen"}, "Antwort", new Action[]{new DisplayDialogueEndAction(world, "Ich habe in 2 Tagen eine Operation. Dann müssen wir weitersehen.", 
+		Action wasSollenWirTun = new MenuAction(world, true,new String[]{"Operation in  2 Tagen"}, "Antwort", new Action[]{new DisplayDialogueEndAction(world, "Ich habe in 2 Tagen eine Operation. Dann müssen wir weitersehen.", 4,55,
 				new DisplayDialogueEndAction(world, "Okay...", new DisplayDialogueEndAction(world, "...",3, new DisplayDialogueEndAction(world, "Ich werde dich so gut es geht unterstützen",5, setProcessingInput))))});
 		
 		Action tumorDiagnostiziert = new MenuAction(world,true, new String[]{"Tumor diagnostiziert.","Aach.. nicht so wichtig.." }, "Antwort:", new Action[]{
-				new DisplayDialogueEndAction(world,"Ich... ich habe",4,new DisplayDialogueEndAction(world,"einen Gehirntumor.",4,new DisplayDialogueEndAction(world,"Oh mein Gott!?...",3,new DisplayDialogueEndAction(world,".....",3,new DisplayDialogueEndAction(world,"W.. was müssen wir tun?",3,wasSollenWirTun))))),
+				new DisplayDialogueEndAction(world,"Ich... ich habe",4,55,new DisplayDialogueEndAction(world,"einen Gehirntumor.",4,55,new DisplayDialogueEndAction(world,"Oh mein Gott!?...",3,new DisplayDialogueEndAction(world,".....",3,new DisplayDialogueEndAction(world,"W.. was müssen wir tun?",3,wasSollenWirTun))))),
 				new DisplayDialogueEndAction(world,"Okay wenn du mir nichts sagen willst..",4,new SetWorldVariableAction(world, new VariableSetter(world) {
 					@Override
 					public void setVariable() {
@@ -61,7 +61,7 @@ public class HomeRoomDay2Factory extends RoomFactory{
 				}, setProcessingInput))});
 		Action erstHeute = new MenuAction(world,true, new String[]{"Ich war im Krankenhaus."}, "Antwort", new Action[]{new DisplayDialogueEndAction(world,"Wieso das?!",4,tumorDiagnostiziert)});
 		
-		homeRoom.addActionRoom(0, 0, -1, -1, new SetPlayerAction(world, true, false, new DisplayDialogueEndAction(world, "Was ist passiert? Wo warst du?",4, new MenuAction(world, true,new String[]{"Im Krankenhaus","Was soll gewesen sein?"}, "Antwort:",
+		homeRoom.addActionRoom(0, 0, -1, -1, new SetPlayerAction(world, true, false, new DisplayDialogueEndAction(world, "Was ist passiert? Wo warst du?",8, new MenuAction(world, true,new String[]{"Im Krankenhaus","Was soll gewesen sein?"}, "Antwort:",
 				new Action[]{new DisplayDialogueEndAction(world,"Oh! Was ist passiert?",3, tumorDiagnostiziert),
 						new DisplayDialogueEndAction(world,"Warum bist du erst heute heimgekommen?",4, erstHeute)}))));
 		

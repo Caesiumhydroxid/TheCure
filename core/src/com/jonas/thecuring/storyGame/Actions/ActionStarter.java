@@ -24,9 +24,14 @@ public class ActionStarter extends Action {
 	}
 	@Override
 	public void run() {
-		for(Action action:actions)
+		toDelete=true;
+		if(!running)
 		{
-			new AddActionToRoom(world, action).run();
+			for(Action action:actions)
+			{
+				new AddActionToRoom(world, action).run();
+			}
+			running = true;
 		}
 	}
 

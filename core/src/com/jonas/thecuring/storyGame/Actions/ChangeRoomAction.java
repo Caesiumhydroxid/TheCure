@@ -2,7 +2,6 @@ package com.jonas.thecuring.storyGame.Actions;
 
 import com.jonas.thecuring.storyGame.RoomEnum;
 import com.jonas.thecuring.storyGame.World;
-import com.sun.xml.internal.ws.api.pipe.NextAction;
 
 public class ChangeRoomAction extends Action{
 	
@@ -36,6 +35,7 @@ public class ChangeRoomAction extends Action{
 	
 	@Override
 	public void run() {
+		running = true;
 		if(nextAction == null)
 			world.setCurrentRoomTransition(room, text, duration, textDuration);
 		else

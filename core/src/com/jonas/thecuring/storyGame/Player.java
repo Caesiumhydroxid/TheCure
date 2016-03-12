@@ -205,6 +205,7 @@ public class Player extends AbstractGameObject {
 			batch.draw(currentAnimation.getKeyFrame(elapsedTime), position.x, position.y);
 			batch.draw(shadow, position.x, position.y - 3);
 			font.draw(batch, layout, position.x - 1, position.y + boundingRectangle.height + layout.height + 2);
+			
 			this.text = "";
 		}
 	}

@@ -15,13 +15,13 @@ public class AnimationPlayerAction extends Action{
 	public void update(float delta) {
 		if(running)
 		{
-			System.out.println("Update");
+			world.player.processInput = false;
 			if(world.player.currentAnimation.isAnimationFinished(world.player.elapsedTime))
 			{
 				toDelete = true;
-				world.player.allowedToChangeAnimations = true;
 				world.player.processInput = true;
-				new AddActionToRoom(world, nextAction);
+				world.player.allowedToChangeAnimations = true;
+				running = false;
 				nextAction.run();
 			}
 		}
@@ -31,6 +31,7 @@ public class AnimationPlayerAction extends Action{
 	public void run() {
 		if(!running)
 		{
+			world.player.processInput = false;
 			world.player.currentAnimation = animation;
 			world.player.allowedToChangeAnimations = false;
 			world.player.elapsedTime = 0;

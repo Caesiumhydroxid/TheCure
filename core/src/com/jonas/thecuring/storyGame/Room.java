@@ -59,6 +59,7 @@ public class Room extends AbstractGameObject {
 	{
 		gameObjects.add(obj);
 	}
+	
 	public void init()
 	{
 		for(NPC npc:npcs)

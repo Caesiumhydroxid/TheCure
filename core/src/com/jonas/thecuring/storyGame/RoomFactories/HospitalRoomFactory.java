@@ -44,6 +44,7 @@ public class HospitalRoomFactory extends RoomFactory {
 			public void run() {
 			}
 		}, new Rectangle(-2,-2,-2,-2));
+		doctor.z =1;
 		doctor.setPosition(new Vector2(110,27));
 		room.add(doctor);
 		bed.setPosition(new Vector2(113,16));
@@ -57,7 +58,7 @@ public class HospitalRoomFactory extends RoomFactory {
 														new TimerAction(world, 7, 
 																new DisplayDialogueAction(world, "vermutlich war es der Stress... Oh.. er schläft schon wieder",
 																		new TimerAction(world, 5,
-																				new TransitionTextAction(world, "Du Schläfst ein und der nächste Tag beginnt", true, 
+																				new TransitionTextAction(world, "Du Schläfst bis zum nächsten Tag durch und wachst im Krankenhaus auf", true, 
 																						new NextDayAction(world, 
 																								new ChangeRoomAction(world, RoomEnum.HOSPITAL_ROOM_DAY2)))))))))))));
 		return room;

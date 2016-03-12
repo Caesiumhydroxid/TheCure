@@ -2,6 +2,7 @@ package com.jonas.thecuring;
 
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.esotericsoftware.kryonet.Server;
 import com.jonas.thecuring.cancerGame.CancerGameState;
 import com.jonas.thecuring.storyGame.Memory;
 import com.jonas.thecuring.storyGame.StoryGameState;
@@ -13,9 +14,14 @@ public enum ScreenEnum {
             return new MenuState((InputMultiplexer)params[0]);
         }
     },
-    CONNECT {
+    CONNECT_CLIENT {
         public Screen getScreen(Object... params) {
-            return new ConnectingScreen((InputMultiplexer)params[0],(String)params[1]);
+            return new ConnectingScreenClient((InputMultiplexer)params[0]);
+        }
+    },
+    CONNECT_SERVER {
+        public Screen getScreen(Object... params) {
+            return new ConnectingScreenServer((InputMultiplexer)params[0]);
         }
     },
 	CANCER_GAME{
@@ -26,7 +32,7 @@ public enum ScreenEnum {
 	STORY_GAME{
 		public Screen getScreen(Object... params)
 		{
-			return new StoryGameState((InputMultiplexer)params[0]);
+			return new StoryGameState((InputMultiplexer)params[0],(Server) params[1]);
 		}
 	};
 	public Screen getScreen(Object... params) {

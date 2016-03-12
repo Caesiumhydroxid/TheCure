@@ -37,8 +37,8 @@ public class Styles {
 		
 		BitmapFont fontNormal = (BitmapFont)Assets.getInstance().get("font");
 		fontNormal.getData().setScale(3);
-		BitmapFont fontSmall = (BitmapFont)Assets.getInstance().get("font_small");
-		fontSmall.getData().setScale(2f);
+		BitmapFont fontSmall = (BitmapFont)Assets.getInstance().get("font_medium");
+		fontSmall.getData().setScale(2);
 		
 		hugeButton.up = new TextureRegionDrawable(new TextureRegion((Texture) Assets.getInstance().get("button_huge_up")));
 		hugeButton.down = new TextureRegionDrawable(new TextureRegion((Texture) Assets.getInstance().get("button_huge_down")));
@@ -51,6 +51,8 @@ public class Styles {
 		bigButton.down = new TextureRegionDrawable(new TextureRegion((Texture) Assets.getInstance().get("button_down")));
 		bigButton.font = fontNormal;
 		bigButton.downFontColor = new Color(0.5f,0.5f,0.5f,1);
+		bigButton.disabledFontColor = new Color(0.5f,0.5f,0.5f,1);
+		bigButton.disabled = new TextureRegionDrawable(new TextureRegion((Texture) Assets.getInstance().get("button_down")));
 		bigButton.fontColor = Color.BLACK;
 		
 		

@@ -37,7 +37,7 @@ public class HideMenu extends Table {
 		h_button_0.addListener(buttonListener);
 		this.addActor(h_button_0);
 		
-		h_button_1 = new TextButton("ï¿½hnlichkeit\nzu Kï¿½rperzellen",Styles.getInstance().hugeButton);
+		h_button_1 = new TextButton("Ähnlichkeit\nzu Körperzellen",Styles.getInstance().hugeButton);
 		h_button_1.setPosition(38, 37);
 		h_button_1.setName("h_similarity_to_bodycells");
 		h_button_1.addListener(buttonListener);
@@ -51,7 +51,7 @@ public class HideMenu extends Table {
 		h_button_1.addActor(h_label_1);
 		this.addActor(h_button_1);
 		
-		h_button_2 = new TextButton("Einkommende\nImunzellen\nzerstï¿½ren",Styles.getInstance().hugeButton);
+		h_button_2 = new TextButton("Einkommende\nImunzellen\nzerstören",Styles.getInstance().hugeButton);
 		h_button_2.setPosition(38, 0);
 		h_button_2.setName("h_destroy_incoming_imunecells");
 		h_button_2.addListener(buttonListener);

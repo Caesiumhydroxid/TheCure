@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.esotericsoftware.kryonet.Server;
 
 public class StoryGameState implements Screen {
 	private SpriteBatch batch;
@@ -15,8 +16,12 @@ public class StoryGameState implements Screen {
 	private World world;
 	private ShaderProgram shader;
 	private FitViewport viewport;
-	public StoryGameState(InputMultiplexer inputMultiplexer) {
-		world = new World();
+	private int a;
+	private int u_time;
+	private int u_noise;
+	private float elapsedTime;
+	public StoryGameState(InputMultiplexer inputMultiplexer,Server server) {
+		world = new World(server);
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera(160, 90);
 		camera.setToOrtho(false, 160, 90);
@@ -25,6 +30,10 @@ public class StoryGameState implements Screen {
 		String vertexShader = Gdx.files.internal("shaders/vertex.glsl").readString();
 		String fragmentShader = Gdx.files.internal("shaders/fragment.glsl").readString();
 		shader = new ShaderProgram(vertexShader, fragmentShader);
+		a = shader.getUniformLocation("u_grey");
+		u_time = shader.getUniformLocation("u_time");
+		u_noise = shader.getUniformLocation("u_noise");
+		batch.setShader(shader);
 	}
 	
 	@Override
@@ -34,10 +43,17 @@ public class StoryGameState implements Screen {
 
 	@Override
 	public void render(float delta) {
+		elapsedTime+=delta;
 		world.update(delta);
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.setShader(shader);
+		float noise = world.day*0.05f;
+		float saturation = 1-world.day*0.05f;
+		shader.begin();
+		shader.setUniformf(a, saturation);
+		shader.setUniformf(u_time,elapsedTime);
+		shader.setUniformf(u_noise,noise);
+		shader.end();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		world.render(batch);

@@ -46,7 +46,6 @@ public class TransitionScreen extends AbstractGameObject{
 		texture = new Texture(background);
 		this.transitionTime = transitionTime;
 		font = (BitmapFont) Assets.getInstance().get("font_small");
-		font.getData().setLineHeight(9);
 		layout = new GlyphLayout();
 		this.text = text;
 		this.remainAtTextTime = remainAtTextTime;

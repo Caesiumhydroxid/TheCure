@@ -41,7 +41,7 @@ public class HomeRoomDay3Factory extends RoomFactory{
 				return world.wifeKnowsAboutCancer;
 			}
 		}
-		NPC npc = new NPC((Texture)Assets.getInstance().get("wife"),new String[]{"Heute ist dein letzter Tag vor der OP!","Mach einfach das, was du am besten findest"},true,new Rectangle(5,0,8,28));
+		NPC npc = new NPC((Texture)Assets.getInstance().get("wife"),new String[]{"Heute ist dein letzter Tag vor der OP","Mach einfach das, was du am besten findest"},true,new Rectangle(5,0,8,28));
 		npc.setAction(new DisplayActionText(world, "Sprechen",new TalkToNPCAction(world, npc, null)));
 		npc.setPosition(new Vector2(68,19));
 		Animation wifeNotCrying = npc.getCurrentAnimation();
@@ -56,7 +56,7 @@ public class HomeRoomDay3Factory extends RoomFactory{
 						
 		};
 		float[] wifeKnowsAboutDurations = new float[]{
-				5,5,5
+				10,5,5
 		};
 		String[] wifeKnowsAboutCancerNotMessages = new String[]
 				{
@@ -66,7 +66,7 @@ public class HomeRoomDay3Factory extends RoomFactory{
 						"Morgen ist ja schon die Operation!"
 			};
 			float[] wifeKnowsAboutNotDurations = new float[]{
-					5,5,5,5
+					10,5,5,5
 			};
 		Action wifeKnowsAboutCancer=new SwitchWithVariableAction(world,new Boolean(world.timeWithFamily),new Boolean(true),
 				new DialogeSceneAction(world, wifeKnowsAboutCancerMessages, wifeKnowsAboutDurations, new SetPlayerAction(world, true, true, null)), 
@@ -79,7 +79,7 @@ public class HomeRoomDay3Factory extends RoomFactory{
 		};
 		
 		float[] durations = new float[]{
-				5,5,5
+				10,5,5
 		};
 		String[] keineAngstMachen = new String[]{
 				"Ich wollte dir keine Angst machen...",
@@ -110,7 +110,7 @@ public class HomeRoomDay3Factory extends RoomFactory{
 				5,5,5,5,5,3,5,5
 		};
 		float[] weisNichtPositions = new float[]{
-				4,4,4,4,4,4,4
+				4,4,4,4,4,4,4,4
 		};
 		Action wifeDoesntKnowAboutCancer = new AnimationNPCAction(world, npc, wifeCrying, new DialogeSceneAction(world, messages, durations, new MenuAction(world,true, new String[]{"Weiﬂ nicht","Keine Angst machen"}, "Antwort:", 
 				new Action[]{

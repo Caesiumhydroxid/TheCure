@@ -9,12 +9,15 @@ import com.jonas.thecuring.storyGame.Room;
 import com.jonas.thecuring.storyGame.RoomEnum;
 import com.jonas.thecuring.storyGame.World;
 import com.jonas.thecuring.storyGame.Actions.Action;
+import com.jonas.thecuring.storyGame.Actions.AddActionToRoom;
 import com.jonas.thecuring.storyGame.Actions.ChangeRoomAction;
 import com.jonas.thecuring.storyGame.Actions.DisplayActionText;
 import com.jonas.thecuring.storyGame.Actions.DisplayDialogueAction;
 import com.jonas.thecuring.storyGame.Actions.DisplayDialogueEndAction;
 import com.jonas.thecuring.storyGame.Actions.MenuAction;
+import com.jonas.thecuring.storyGame.Actions.SetPlayerAction;
 import com.jonas.thecuring.storyGame.Actions.TalkToNPCAction;
+import com.jonas.thecuring.storyGame.Actions.TimerAction;
 
 public class HomeSonRoomDay2Factory extends RoomFactory {
 
@@ -23,11 +26,10 @@ public class HomeSonRoomDay2Factory extends RoomFactory {
 		Room room;
 		NPC npc = null;
 		room = new Room((Texture) Assets.getInstance().get("room_home_son"), world,new Vector2(120,10));
-		Action starteMemory = new DisplayDialogueAction(world, "Willst du heute mit uns allen Spielen?", 
-				new MenuAction(world, new String[]{"Nein","Ja"}, "Antwort", new Action[]{
+		Action starteMemory = new MenuAction(world,true, new String[]{"Nein","Ja"}, "Willst du mit mir Spielen?", new Action[]{
 						null,
 						new ChangeRoomAction(world, RoomEnum.MEMORY_ROOM)
-				}));
+				});
 		npc = new NPC((Texture)Assets.getInstance().get("son"),new Rectangle(4,0,8,28),new DisplayActionText(world, "Sprechen", starteMemory));
 		npc.setPosition(new Vector2(100,23-2));
 		room.add(npc);

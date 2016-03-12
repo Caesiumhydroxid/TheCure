@@ -19,6 +19,9 @@ public class GameObject extends AbstractGameObject {
 		currentAnimation = animation;
 	}
 	
+	public void setCurrentAnimation(Animation currentAnimation) {
+		this.currentAnimation = currentAnimation;
+	}
 	@Override
 	public void update(float delta) {
 		elapsedTime += delta;

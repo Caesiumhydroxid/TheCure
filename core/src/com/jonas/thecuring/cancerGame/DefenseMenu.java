@@ -82,12 +82,12 @@ public class DefenseMenu extends Table {
 		d_button_2.addActor(d_label_2);
 		this.addActor(d_button_2);
 		
-		d_button_3 = new TextButton("Sicher\nvs. Kï¿½rper",Styles.getInstance().bigButton);
+		d_button_3 = new TextButton("Sicher\nvs. Körper",Styles.getInstance().bigButton);
 		d_button_3.setPosition(46, 54);
 		d_button_3.setName("d_invincible_for_body");
 		d_button_3.addListener(buttonListener);
 		
-		d_tooltip_3 = new TextTooltip("Kosten: "+kdInvincibleForBody+"\nbenï¿½tigt:\nSchild 5\nAnti Tumorsupressor 5",tooltipManager,Styles.getInstance().textTooltipStyle);
+		d_tooltip_3 = new TextTooltip("Kosten: "+kdInvincibleForBody+"\nbenötigt:\nSchild 5\nAnti Tumorsupressor 5",tooltipManager,Styles.getInstance().textTooltipStyle);
 		d_tooltip_3.getActor().setAlignment(Align.center);
 		d_tooltip_3.getContainer().pad(4);
 		d_button_3.addListener(d_tooltip_3);
@@ -112,12 +112,12 @@ public class DefenseMenu extends Table {
 		d_button_4.addActor(d_label_4);
 		this.addActor(d_button_4);
 		
-		d_button_5 = new TextButton("Stï¿½rke\nvs. Arznei",Styles.getInstance().bigButton);
+		d_button_5 = new TextButton("Stärke\nvs. Arznei",Styles.getInstance().bigButton);
 		d_button_5.setPosition(82, 24);
 		d_button_5.setName("d_strength_vs_medicine");
 		d_button_5.addListener(buttonListener);
 		
-		d_tooltip_5 = new TextTooltip("Kosten: "+kdStrengthVsMedicine+"\nbenï¿½tigt:\nRobustheit vs. Arznei 5",tooltipManager,Styles.getInstance().textTooltipStyle);
+		d_tooltip_5 = new TextTooltip("Kosten: "+kdStrengthVsMedicine+"\nbenötigt:\nRobustheit vs. Arznei 5",tooltipManager,Styles.getInstance().textTooltipStyle);
 		d_tooltip_5.getContainer().pad(4);
 		d_tooltip_5.getActor().setAlignment(Align.center);
 		d_button_5.addListener(d_tooltip_5);

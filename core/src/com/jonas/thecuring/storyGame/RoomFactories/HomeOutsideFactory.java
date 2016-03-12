@@ -33,11 +33,11 @@ public class HomeOutsideFactory extends RoomFactory {
 		
 		carActions.add(new DisplayActionText(world, "Fahren", new MenuAction(world,true,new String[]{"Nichts","Fallschirmspringen","Arbeit","Park mit Familie"},"Wohin",new Action[]{
 				null,
-				new ChangeRoomAction(world, RoomEnum.PARACHUTE_ROOM),
+				new ChangeRoomAction(world, RoomEnum.PLANE_ROOM),
 				new ChangeRoomAction(world, RoomEnum.WORK_ANTE_ROOM),
 				new ChangeRoomAction(world, RoomEnum.HOME_OUTSIDE)
 		})));
-		
+		carActions.add(new DisplayActionText(world, "Fahre ins Krankenhaus", new ChangeRoomAction(world, RoomEnum.HOSPTIAL_ROOM)));
 		room.addActionRoom(100, 0, 7, 90, new DayChangerAction(world, carActions));
 				/*new DisplayActionText(world, "Fahre",
 				new MenuAction(world, new String[]{"Lol","Test"}, 

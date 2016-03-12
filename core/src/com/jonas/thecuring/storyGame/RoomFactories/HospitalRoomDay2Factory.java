@@ -69,7 +69,7 @@ public class HospitalRoomDay2Factory extends RoomFactory {
 				5
 		};
 		room.addActionRoom(0, 0, -1, -1, new DialogeSceneAction(world, messages, durations, 
-				new ChangeRoomAction(world, RoomEnum.HOME_ROOM,2,new Action(world,null) {
+				new ChangeRoomAction(world, RoomEnum.HOME_ROOM,2,4,"Du wirst nach Hause gebracht.",new Action(world,null) {
 					@Override
 					public void run() {
 						world.player.render = true;

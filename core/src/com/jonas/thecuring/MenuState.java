@@ -20,7 +20,7 @@ class MenuState implements Screen {
 	
 	public MenuState(InputMultiplexer inputMultiplexer) {
 		viewport = new FitViewport(320*3, 180*3);
-		stage = new Stage();
+		stage = new Stage(viewport);
 		inputMultiplexer.addProcessor(stage);
 		stage.addActor(new Image((Texture)Assets.getInstance().get("background")));
 		Table table = new Table();
@@ -36,8 +36,8 @@ class MenuState implements Screen {
 		table.row();
 		TextButton player2= new TextButton("Player 2", Styles.getInstance().smallButton);
 		table.add(player2).expandX().center();
-		player1.addListener(new ChangeScreenListener(ScreenEnum.CONNECT, Styles.getInstance(), inputMultiplexer,"Player 1"));
-		player2.addListener(new ChangeScreenListener(ScreenEnum.CONNECT, Styles.getInstance(), inputMultiplexer,"Player 2"));
+		player1.addListener(new ChangeScreenListener(ScreenEnum.CONNECT_SERVER, inputMultiplexer,"Player 1"));
+		player2.addListener(new ChangeScreenListener(ScreenEnum.CONNECT_CLIENT, inputMultiplexer,"Player 2"));
 	}
 	
 	@Override

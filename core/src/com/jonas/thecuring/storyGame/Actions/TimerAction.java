@@ -28,8 +28,15 @@ public class TimerAction extends Action {
 		}
 		super.update(delta);
 	}
+	public void init()
+	{
+		elapsedTime = 0;
+		toDelete = false;
+		running = false;
+	}
 	@Override
 	public void run() {
+		toDelete = false;
 		running=true;
 
 	}

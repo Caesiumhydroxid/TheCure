@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 import com.jonas.thecuring.Assets;
 import com.jonas.thecuring.storyGame.Actions.ChangeRoomAction;
+import com.jonas.thecuring.storyGame.Actions.NextDayAction;
 
 public class Memory extends Room {
 
@@ -86,7 +87,7 @@ public class Memory extends Room {
 		if (position < 0) {
 			position = 15;
 		}
-		while (field[position % 4][position / 4].draw == false) {
+		while (field[position % 4][position / 4].draw == false||field[position % 4][position / 4].open == true) {
 			position--;
 			if (position < 0) {
 				position = 15;
@@ -102,7 +103,7 @@ public class Memory extends Room {
 		if (position > 15) {
 			position = 0;
 		}
-		while (field[position % 4][position / 4].draw == false && field[position % 4][position / 4].open == true) {
+		while (field[position % 4][position / 4].draw == false || field[position % 4][position / 4].open == true) {
 			position++;
 			if (position > 15) {
 				position = 0;
@@ -135,7 +136,7 @@ public class Memory extends Room {
 			amountOpened++;
 			timeRunning = true;
 		}
-		if (seenByOpponent.size() > 8) {
+		if (seenByOpponent.size() > 15) {
 			seenByOpponent.remove(0);
 		}
 	}
@@ -175,10 +176,10 @@ public class Memory extends Room {
 	@Override
 	public void update(float delta) {
 		super.update(delta);
-		if (timeRunning) {
+		if (timeRunning&&playerScore+opponentScore!=8) {
 			elapsedTime += delta;
 		}
-		if (!timeRunning && yourMove) {
+		if (!timeRunning && yourMove&&playerScore+opponentScore!=8) {
 			if (Gdx.input.isKeyJustPressed(Keys.LEFT)) {
 				getPreviousTile();
 			} else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) {
@@ -187,8 +188,10 @@ public class Memory extends Room {
 				processSelect();
 			}
 		}
-
-		if (amountOpened >= 2 && elapsedTime > 2) {
+		if (!yourMove && !timeRunning&&playerScore+opponentScore!=8) {
+			letoppponentMove(delta);
+		}
+		if (amountOpened >= 2 && elapsedTime > 2&&playerScore+opponentScore!=8) {
 			if (field[selectedTile1x][selectedTile1y].token == field[selectedTile2x][selectedTile2y].token) {
 				field[selectedTile1x][selectedTile1y].draw = false;
 				field[selectedTile2x][selectedTile2y].draw = false;
@@ -198,9 +201,10 @@ public class Memory extends Room {
 				} else {
 					opponentScore++;
 				}
+				
 				if(playerScore + opponentScore == 8)
 				{
-					addActionRoom(0, 0, -1, -1, new ChangeRoomAction(world, RoomEnum.HOME_ROOM));
+					addActionRoom(0, 0, -1, -1, new NextDayAction(world, new ChangeRoomAction(world, RoomEnum.HOME_ROOM,1,7,"Ihr spielt noch den ganzen Tag gemeinsam und geht spät abends Schlafen")));
 				}
 				else
 				{
@@ -215,9 +219,6 @@ public class Memory extends Room {
 			elapsedTime = 0;
 			amountOpened = 0;
 			randomMovesOpponent = MathUtils.random(1, 6);
-		}
-		if (!yourMove && !timeRunning) {
-			letoppponentMove(delta);
 		}
 	}
 

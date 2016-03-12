@@ -22,12 +22,14 @@ public class DialogueMessage extends AbstractGameObject {
 		this.background = (Texture)Assets.getInstance().get("dialogue");
 		this.font = (BitmapFont)Assets.getInstance().get("font_small");
 		font.getData().setScale(1);
+		font.getData().setLineHeight(8);
 		this.boundingRectangle = new Rectangle(0,0,background.getWidth(),background.getHeight());
 	}
 	DialogueMessage(String text)
 	{	
 		this.background = (Texture)Assets.getInstance().get("dialogue");
 		this.font = (BitmapFont)Assets.getInstance().get("font");
+		font.getData().setLineHeight(8);
 		this.boundingRectangle = new Rectangle(0,0,background.getWidth(),background.getHeight());
 		this.text = text;
 	}
@@ -41,6 +43,10 @@ public class DialogueMessage extends AbstractGameObject {
 	public void setTimeToShow(float timeToShow)
 	{
 		this.timeToShow = timeToShow;
+	}
+	public void setDelete()
+	{
+		toDelete=true;
 	}
 	@Override
 	public void update(float delta) {

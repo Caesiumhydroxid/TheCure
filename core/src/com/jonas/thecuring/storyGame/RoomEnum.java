@@ -9,11 +9,19 @@ import com.jonas.thecuring.storyGame.RoomFactories.HomeDaughterRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.HomeOutsideFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.HomeRoomDay2Factory;
 import com.jonas.thecuring.storyGame.RoomFactories.HomeRoomDay3Factory;
+import com.jonas.thecuring.storyGame.RoomFactories.HomeRoomDay4Factory;
 import com.jonas.thecuring.storyGame.RoomFactories.HomeRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.HomeSonRoomDay2Factory;
+import com.jonas.thecuring.storyGame.RoomFactories.HomeSonRoomDay4Factory;
 import com.jonas.thecuring.storyGame.RoomFactories.HomeSonRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.HospitalRoomDay2Factory;
+import com.jonas.thecuring.storyGame.RoomFactories.HospitalRoomDay4Factory;
+import com.jonas.thecuring.storyGame.RoomFactories.HospitalRoomDay5Family;
+import com.jonas.thecuring.storyGame.RoomFactories.HospitalRoomDay5Friends;
+import com.jonas.thecuring.storyGame.RoomFactories.HospitalRoomDay5Parents;
 import com.jonas.thecuring.storyGame.RoomFactories.HospitalRoomFactory;
+import com.jonas.thecuring.storyGame.RoomFactories.OPRoomFactory;
+import com.jonas.thecuring.storyGame.RoomFactories.ParachuteJumpRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.ParachuteRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.RoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.WorkRoomAnteroomDay3Factory;
@@ -44,9 +52,13 @@ public enum RoomEnum {
 				{
 					f = new HomeRoomDay2Factory();
 				}
-				else
+				else if(world.day ==2)
 				{
 					f = new HomeRoomDay3Factory();
+				}
+				else
+				{
+					f = new HomeRoomDay4Factory();
 				}
 				homeRoom = f.getRoom(world);
 			}
@@ -81,30 +93,30 @@ public enum RoomEnum {
 	},
 	HOME_SON_ROOM{
 		Room room;
-		int day;
+		int day=0;
 		public Room getRoom(Object... params)
 		{
 			World world = (World) params[0];
-			day = world.day;
 			RoomFactory f;
 			if(day!= world.day)
 			{
 				room = null;
 				day = world.day;
 			}
+			day = world.day;
 			if(room == null)
 			{
 				if(world.day==0)
 				{
 					f = new HomeSonRoomFactory();
 				}
-				else if(world.day >= 1)
+				else if(world.day == 1||world.day ==2)
 				{
 					f = new HomeSonRoomDay2Factory();
 				}
 				else
 				{
-					f = new HomeSonRoomDay2Factory();
+					f = new HomeSonRoomDay4Factory();
 				}
 				room = f.getRoom(world);
 			}
@@ -150,15 +162,41 @@ public enum RoomEnum {
 			return room;
 		}
 	},
-	
-	HOSPTIAL_ROOM{
+	HOSPITAL_OP_ROOM{
 		Room room;
 		public Room getRoom(Object... params)
 		{
 			if(room==null)
 			{	
 				World world = (World) params[0];
-				HospitalRoomFactory f = new HospitalRoomFactory();
+				RoomFactory f = new OPRoomFactory();
+				room = f.getRoom(world);
+			}
+			return room;
+		}
+	},
+	HOSPTIAL_ROOM{
+		Room room;
+		int day=0;
+		public Room getRoom(Object... params)
+		{
+			World world = (World) params[0];
+			RoomFactory f;
+			if(day!= world.day)
+			{
+				room = null;
+				day = world.day;
+			}
+			if(room == null)
+			{
+				if(world.day==0)
+				{
+					f = new HospitalRoomFactory();
+				}
+				else
+				{
+					f = new HospitalRoomDay4Factory();
+				}
 				room = f.getRoom(world);
 			}
 			return room;
@@ -177,7 +215,46 @@ public enum RoomEnum {
 			return room;
 		}
 	},
-	PARACHUTE_ROOM{
+	HOSPITAL_ROOM_FRIENDS{
+		Room room;
+		public Room getRoom(Object... params)
+		{
+			if(room==null)
+			{	
+				World world = (World) params[0];
+				HospitalRoomDay5Friends f = new HospitalRoomDay5Friends();
+				room = f.getRoom(world);
+			}
+			return room;
+		}
+	},
+	HOSPITAL_ROOM_FAMILY{
+		Room room;
+		public Room getRoom(Object... params)
+		{
+			if(room==null)
+			{	
+				World world = (World) params[0];
+				HospitalRoomDay5Family f = new HospitalRoomDay5Family();
+				room = f.getRoom(world);
+			}
+			return room;
+		}
+	},
+	HOSPITAL_ROOM_PARENTS{
+		Room room;
+		public Room getRoom(Object... params)
+		{
+			if(room==null)
+			{	
+				World world = (World) params[0];
+				HospitalRoomDay5Parents f = new HospitalRoomDay5Parents();
+				room = f.getRoom(world);
+			}
+			return room;
+		}
+	},
+	PLANE_ROOM{
 		Room room;
 		public Room getRoom(Object... params)
 		{
@@ -185,6 +262,19 @@ public enum RoomEnum {
 			{	
 				World world = (World) params[0];
 				RoomFactory f = new ParachuteRoomFactory();
+				room = f.getRoom(world);
+			}
+			return room;
+		}
+	},
+	PARACHUTE_ROOM{
+		Room room;
+		public Room getRoom(Object... params)
+		{
+			if(room==null)
+			{	
+				World world = (World) params[0];
+				RoomFactory f = new ParachuteJumpRoomFactory();
 				room = f.getRoom(world);
 			}
 			return room;
