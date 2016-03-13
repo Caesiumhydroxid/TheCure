@@ -55,7 +55,7 @@ public class World extends Listener{
 		
 		
 		black = new Black();
-		day = 3;
+		day = 0;
 		setCurrentRoom(RoomEnum.HOME_ROOM);
 		//ChoiceMenu c = new ChoiceMenu(new String[]{"Hallo","Test"}, new Action[]{new ChangeRoomAction(this, RoomEnum.WORK_ROOM),new DisplayDialogueAction("Test",this,false)});
 		//c.z = 100;
