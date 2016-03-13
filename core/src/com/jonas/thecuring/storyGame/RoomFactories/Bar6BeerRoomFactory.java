@@ -21,7 +21,7 @@ public class Bar6BeerRoomFactory extends RoomFactory {
 	public Room getRoom(World world) {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_bar_6beer"), world,new Vector2(120,10));
-
+		room.addActionRoom(0, 0, -1, -1, new SendMessageAction(world, "Das Subjekt hat sich nachdem es erfahren hat dass es Krebs hat völlig betrunken!", null));
 		Action setTimeWithFamily = new SetWorldVariableAction(world, new VariableSetter(world) {
 			@Override
 			public void setVariable() {

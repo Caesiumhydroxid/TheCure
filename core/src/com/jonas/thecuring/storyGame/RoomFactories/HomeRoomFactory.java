@@ -15,6 +15,7 @@ import com.jonas.thecuring.storyGame.Actions.DisplayActionText;
 import com.jonas.thecuring.storyGame.Actions.SendMessageAction;
 import com.jonas.thecuring.storyGame.Actions.SetBlackAction;
 import com.jonas.thecuring.storyGame.Actions.TalkToNPCAction;
+import com.jonas.thecuring.storyGame.Actions.TimerAction;
 import com.jonas.thecuring.storyGame.Actions.TransitionTextAction;
 
 public class HomeRoomFactory extends RoomFactory {
@@ -22,7 +23,7 @@ public class HomeRoomFactory extends RoomFactory {
 	public Room getRoom(World world) {
 		Room homeRoom;
 		homeRoom = new Room((Texture) Assets.getInstance().get("room_home"), world,new Vector2(70,10));
-		homeRoom.addActionRoom(0, 0, -1, -1, new SendMessageAction(world, "Subjekt:\nName: ???\nAlter:36\nGeschlecht: M‰nnlich\n", null));
+		homeRoom.addActionRoom(0, 0, 0, 0, new TimerAction(world, 28,new SendMessageAction(world, "Subjekt:\nName: ???\nAlter:36\nGeschlecht: M‰nnlich\n", null)));
 		homeRoom.addActionRoom(0, 0, -1, -1, new SetBlackAction(world, true,
 				new TransitionTextAction(world,2,6,"Du kannst dich mit den Pfeiltasten bewegen. Mit der Leertaste best‰tigst du Aktionen" , true, 
 						new TransitionTextAction(world,2,5, "Heute ist dein groﬂer Tag. Das Meeting, auf das du schon so lange hingefiebert hast, steht bevor.", true, 

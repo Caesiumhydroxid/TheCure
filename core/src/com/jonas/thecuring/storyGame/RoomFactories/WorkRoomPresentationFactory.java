@@ -24,7 +24,7 @@ public class WorkRoomPresentationFactory extends RoomFactory{
 	public Room getRoom(World world) {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_work"), world,new Vector2(-10,10));
-		room.addActionRoom(0, 0, -1, -1, new SendMessageAction(world, "Das Subjekt ist gerade in der Arbeit zusammengebrochen. Es wird nun von Ärzten untersucht.", null));
+		room.addActionRoom(0, 0, -1, -1, new SendMessageAction(world, "Das Subjekt hält heute einen wichtigen Vortrag in seiner Arbeit.", null));
 		Action action = 
 				new DisplayDialogueAction(world, "Hallo, ich will Ihnen heute mein Projekt vorstellen.",4,50,
 						new TimerAction(world, 4, 
@@ -35,25 +35,10 @@ public class WorkRoomPresentationFactory extends RoomFactory{
 																				new DisplayDialogueAction(world, "Arrghh!",3,50,null)))))));
 		
 		Animation anim = new Animation(100,world.player.holdSpeech.getKeyFrame(100, false) );
-		class LetPlayerAnim extends Action
-		{
-
-			public LetPlayerAnim(World world, Action nextAction) {
-				super(world, nextAction);
-				// TODO Auto-generated constructor stub
-			}
-
-			@Override
-			public void run() {
-				world.player.allowedToChangeAnimations = true;
-				
-			}
-			
-		}
 		//room.addActionRoom(0, 0, 0, 0, new TimerAction(world, 0.6f, new SetPlayerAction(world, true, false, null)));
 		room.addActionRoom(0,0,0,0,new MovePlayerAction(world, new Vector2(70,10),new ActionStarter(world,action,
 				new AnimationPlayerAction(world, world.player.holdSpeech,
-						new ActionStarter(world, new ChangeRoomAction(world,RoomEnum.HOSPTIAL_ROOM,5,new LetPlayerAnim(world, null)), new AnimationPlayerAction(world, anim, null))))));
+						new ActionStarter(world, new ChangeRoomAction(world,RoomEnum.HOSPTIAL_ROOM,5), new AnimationPlayerAction(world, anim, null))))));
 	
 		return room;
 	}

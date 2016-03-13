@@ -49,7 +49,7 @@ public class Model extends Observable {
 	
 	private float timeFactor=1;
 	private float elapsedTime;
-	public boolean sentMessage=true;
+	public boolean sentMessage=false;
 	public int day=0;
 	private int creditsSpentOnDay5;
 	public boolean willDie=false;
@@ -68,7 +68,7 @@ public class Model extends Observable {
 		
 		elapsedTime += delta;
 		healRate = (float) (Math.exp(elapsedTime/50.f)-1);
-		progress = ((day+1)/5f)*(growthRate+antiHealRate+antiMedicineHealRate)/2.5f + MathUtils.random(-3, 3)*0.01f+willDieTime/10;
+		progress = ((day+1)/5f)*(growthRate+antiHealRate+antiMedicineHealRate)/2f + MathUtils.random(-1, 1)*0.01f+willDieTime/20;
 		if(sentMessage)
 		{
 			if(willDie)
@@ -83,16 +83,19 @@ public class Model extends Observable {
 		
 		if(day<4)
 		{
-			if(progress>0.7f)
+			if(progress>0.8f)
 			{
-				progress = 0.7f;
+				progress = 0.8f;
 			}
 		}
 		if(day>=4)
 		{
-			if(creditsSpentOnDay5>10&&growthRate+antiHealRate+antiMedicineHealRate>1)
+			if(!sentMessage)
 			{
-				willDie = true;
+				if(creditsSpentOnDay5>10&&growthRate+antiHealRate+antiMedicineHealRate>0.5)
+				{
+					willDie = true;
+				}
 			}
 		}
 		setChanged();
@@ -142,7 +145,7 @@ public class Model extends Observable {
 			 dRoubustnessVsMedicine=incrementVariable(dRoubustnessVsMedicine, kdRoubustnessVsMedicine);
 			 }
 		 else if(name.equals( "d_strength_vs_medicine")){
-			 dStrengthVsMedicine=incrementVariable(dStrengthVsMedicine, kdStrengthVsMedicine,dStrengthVsMedicine,5);
+			 dStrengthVsMedicine=incrementVariable(dStrengthVsMedicine, kdStrengthVsMedicine,dRoubustnessVsMedicine,5);
 			 }
 		 else if(name.equals( "d_hypoxia")){
 			 dHypoxia=incrementVariable(dHypoxia, kdHypoxia);
@@ -189,7 +192,7 @@ public class Model extends Observable {
 				if(credits>=cost)
 				{
 					credits -= cost;
-					if(day>=4)
+					if(day>=4&&!sentMessage)
 					{
 						creditsSpentOnDay5+=cost;
 					}

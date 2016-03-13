@@ -13,7 +13,6 @@ import com.jonas.thecuring.storyGame.World;
 import com.jonas.thecuring.storyGame.Actions.Action;
 import com.jonas.thecuring.storyGame.Actions.AnimationGameObjectAction;
 import com.jonas.thecuring.storyGame.Actions.ChangeRoomAction;
-import com.jonas.thecuring.storyGame.Actions.DayChangerAction;
 import com.jonas.thecuring.storyGame.Actions.NextDayAction;
 import com.jonas.thecuring.storyGame.Actions.SendMessageAction;
 import com.jonas.thecuring.storyGame.Actions.SetPlayerAction;
@@ -25,7 +24,7 @@ public class ParachuteJumpRoomFactory extends RoomFactory {
 	public Room getRoom(World world) {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_hospital"), world,new Vector2(10,10));
-		room.addActionRoom(0, 0, -1, -1, new SendMessageAction(world, "Das Subjekt geht Fallschirmspringen. Etwas was es schon immer machen wollte.", null));
+		room.addActionRoom(0, 0, -1, -1, new SendMessageAction(world, "Das Subjekt geht Fallschirmspringen. Etwas, was es schon immer machen wollte.", null));
 		room.addActionRoom(0, 0, -1, -1, new SetPlayerAction(world, false, false, null));
 		RepeatingGameObject sky = new RepeatingGameObject((Texture)Assets.getInstance().get("sky_parachute_jump"));
 		sky.velocity.set(0,90);

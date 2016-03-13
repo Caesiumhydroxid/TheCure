@@ -17,6 +17,7 @@ import com.jonas.thecuring.storyGame.Actions.AddActionToRoom;
 import com.jonas.thecuring.storyGame.Actions.ChangeRoomAction;
 import com.jonas.thecuring.storyGame.Actions.DisplayDialogueAction;
 import com.jonas.thecuring.storyGame.Actions.NextDayAction;
+import com.jonas.thecuring.storyGame.Actions.SendMessageAction;
 import com.jonas.thecuring.storyGame.Actions.TimerAction;
 import com.jonas.thecuring.storyGame.Actions.TransitionTextAction;
 
@@ -26,6 +27,22 @@ public class HospitalRoomFactory extends RoomFactory {
 	public Room getRoom(World world) {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_hospital"), world,new Vector2(10,10));
+		class LetPlayerAnim extends Action
+		{
+
+			public LetPlayerAnim(World world, Action nextAction) {
+				super(world, nextAction);
+				// TODO Auto-generated constructor stub
+			}
+
+			@Override
+			public void run() {
+				world.player.allowedToChangeAnimations = true;
+				
+			}
+			
+		}
+		room.addActionRoom(0, 0, -1, -1,new LetPlayerAnim(world, null));
 		room.addActionRoom(0, 0, -1, -1, new Action(world, null) {
 			@Override
 			public void run() {
@@ -34,6 +51,7 @@ public class HospitalRoomFactory extends RoomFactory {
 			}
 		});
 		GameObject bed = new GameObject((Texture)Assets.getInstance().get("bed_hospital"));
+		room.addActionRoom(0, 0, -1, -1, new SendMessageAction(world, "Das Subjekt ist gerade in der Arbeit zusammengebrochen. Es wird nun von Ärzten untersucht.", null));
 		bed.z = 10;
 		TextureRegion[][] reg = new TextureRegion((Texture) Assets.getInstance().get("doctor_anim")).split(40, 40);
 		Animation doctorAnim = new Animation(0.3f,reg[0]); 

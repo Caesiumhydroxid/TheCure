@@ -16,7 +16,10 @@ import com.badlogic.gdx.utils.Pool;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.jonas.thecuring.ScreenEnum;
+import com.jonas.thecuring.ScreenManager;
 import com.jonas.thecuring.storyGame.Actions.Action;
+import com.jonas.thecuring.storyGame.Actions.AddActionToRoom;
 import com.jonas.thecuring.storyGame.Actions.TransitionTextAction;
 
 public class World extends Listener{
@@ -286,5 +289,27 @@ public class World extends Listener{
 		}
 		super.received(connection, object);
 	}
+
+	@Override
+	public void disconnected(Connection connection) {
+		class ChangeScreenAction extends Action
+		{
+
+			public ChangeScreenAction(World world, Action nextAction) {
+				super(world, nextAction);
+				// TODO Auto-generated constructor stub
+			}
+
+			@Override
+			public void run() {
+				ScreenManager.getInstance().show(ScreenEnum.MAIN_MENU, world.multiplexer);
+				
+			}
+		}
+		Action a = new AddActionToRoom(this,new TransitionTextAction(this, "Verbindung zu anderem Spieler verloren! Bitte neustarten!", true, new ChangeScreenAction(this, null)));
+		a.run();
+		super.disconnected(connection);
+	}
+	
 	
 }

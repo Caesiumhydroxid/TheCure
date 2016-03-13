@@ -34,8 +34,6 @@ public class ConnectingScreenServer extends Listener implements Screen {
 		Image i = new Image((Texture) Assets.getInstance().get("background"));
 		inputMultiplexer.addProcessor(stage);
 		stage.addActor(i);
-		l = new Label("Player 1",Styles.getInstance().numberLabel);
-		stage.addActor(l);
 		
 		server = new Server();
 		server.getKryo().register(String.class);
@@ -49,6 +47,9 @@ public class ConnectingScreenServer extends Listener implements Screen {
 		
 		Table table = new Table();
 		table.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
+		l = new Label("Wenn Spieler1 verbunden und bereit, Starten!",Styles.getInstance().numberLabel);
+		table.add(l).pad(10);
+		table.row();
 		button = new TextButton("Starten", Styles.getInstance().bigButton);
 		button.addListener(new ButtonClickListener(inputMultiplexer, this,server));
 		button.setDisabled(true);

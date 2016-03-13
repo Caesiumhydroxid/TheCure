@@ -52,7 +52,6 @@ public class CancerGameState extends ChangeListener implements Screen,Observer{
 	private Stage stage;
 	private AttackMenu attackMenu;
 	private DefenseMenu defenseMenu;
-	private HideMenu hideMenu;
 	private Model model;
 	private float scale=3;
 	private FitViewport view;
@@ -81,7 +80,7 @@ public class CancerGameState extends ChangeListener implements Screen,Observer{
 
 		@Override
 		public void disconnected(Connection connection) {
-			// TODO Auto-generated method stub
+			world.popupDialog("Verbindung zu anderem Spieler verloren! Bitte neustarten",320*scale /2f, 180*scale /2f);
 			super.disconnected(connection);
 		}
 
@@ -145,7 +144,9 @@ public class CancerGameState extends ChangeListener implements Screen,Observer{
 		map.setColor(Color.BLACK);
 		map.fill();
 		texture = new Texture(map);
-		creditPositions = new Array<Vector2>(new Vector2[]{new Vector2(58,46),new Vector2(57,61),new Vector2(61,114),new Vector2(63,68),new Vector2(35,73)});
+		creditPositions = new Array<Vector2>(new Vector2[]{
+				new Vector2(58,46),new Vector2(57,61),new Vector2(61,114),new Vector2(63,68),new Vector2(35,73),new Vector2(46,13),new Vector2(98,74),new Vector2(62,95)
+				});
 		
 		this.creditAnimation = createAnimationFromTexture(0.2f, (Texture)Assets.getInstance().get("credit_animation"), 4, 1);
 		credits = new Pool<AnimatedImage>() {
@@ -180,16 +181,14 @@ public class CancerGameState extends ChangeListener implements Screen,Observer{
         creditLabel.setPosition(222 , 163 );
         stage.addActor(creditLabel);
      
-        hideMenu = new HideMenu(tooltipManager,this);
-        hideMenu.setPosition(18 , (180-97));
-        stage.addActor(hideMenu);
+
         
         defenseMenu = new DefenseMenu(tooltipManager,this);
         defenseMenu.setPosition((18-171) ,(180-130) );
         stage.addActor(defenseMenu);
         
 		attackMenu = new AttackMenu(tooltipManager,this);
-		attackMenu.setPosition((18-171) , (180-130) );
+		attackMenu.setPosition((18) , (180-130) );
 		stage.addActor(attackMenu);
 		
 		cancerProgress = new ProgressBarAdvanced(0, 100, 1, false, Styles.getInstance().progressBarStyle);
@@ -214,20 +213,20 @@ public class CancerGameState extends ChangeListener implements Screen,Observer{
 		String beschr = "Dies machst du mit Credits, welche du einsammeln musst. (Sie erscheinen am Körper)\n"
 				+ "Manche Fähigkeiten können erst mit gewissen Anforderungen aufgelevelt werden. ";
 		String beschr2 =	"Diese siehst du, "
-				+ "wenn du mit der Maus über die Fähigkeit fährst.";
+				+ "wenn du mit der Maus über die Fähigkeit fährst. Am obersten Knopf wechselst du zwischen Defensiven und Aggresiven Fähigkeiten";
 		String beschr3 = "Viel Erfolg!";
 		label.setText(krebs);
 		table.row();
 		table.add(label).width(320*scale-10*scale);
-		table.addAction(Actions.sequence(Actions.delay(5),Actions.alpha(0, 0.7f,Interpolation.sineIn),
+		table.addAction(Actions.sequence(Actions.delay(7),Actions.alpha(0, 0.7f,Interpolation.sineIn),
 				new ChangeTextAction(beschr, label),Actions.alpha(1, 0.7f,Interpolation.sineIn),
-				Actions.delay(5),Actions.alpha(0, 0.7f,Interpolation.sineIn),
+				Actions.delay(7),Actions.alpha(0, 0.7f,Interpolation.sineIn),
 				new ChangeTextAction(beschr2, label),Actions.alpha(1, 0.7f,Interpolation.sineIn),
-				Actions.delay(5),Actions.alpha(0, 0.7f,Interpolation.sineIn),
+				Actions.delay(7),Actions.alpha(0, 0.7f,Interpolation.sineIn),
 				new ChangeTextAction(beschr3, label),Actions.alpha(1, 0.7f,Interpolation.sineIn),
-				Actions.delay(5),Actions.alpha(0, 0.7f,Interpolation.sineIn),Actions.removeActor()));
+				Actions.delay(7),Actions.alpha(0, 0.7f,Interpolation.sineIn),Actions.removeActor()));
 		Image imag = new Image(texture);
-		imag.addAction(Actions.sequence(Actions.delay(20),Actions.removeActor()));
+		imag.addAction(Actions.sequence(Actions.delay(30),Actions.removeActor()));
 		stage.addActor(imag);
 		stage.addActor(table);
 		//popupDialog("Test123",stage.getWidth()/2.f,stage.getHeight()/2.f);
@@ -451,18 +450,7 @@ public class CancerGameState extends ChangeListener implements Screen,Observer{
 		else if(actor.getName().equals("d_defensive"))
 		{
 			defenseMenu.setTouchable(Touchable.disabled);
-			defenseMenu.addAction(Actions.sequence(Actions.sequence(Actions.moveBy(-171 *scale,0,1.f,Interpolation.pow2)),Actions.run(new Runnable() {
-				@Override
-				public void run() {
-					hideMenu.addAction(Actions.sequence(Actions.moveBy(171 *scale,0,1.f,Interpolation.pow2)));
-					hideMenu.setTouchable(Touchable.enabled);
-				}
-			})));
-		}
-		else if(actor.getName().equals("h_hide"))
-		{
-			hideMenu.setTouchable(Touchable.disabled);
-			hideMenu.addAction(Actions.sequence(Actions.moveBy(-171 *scale,0,1.f,Interpolation.pow2),Actions.run(new Runnable() {
+			defenseMenu.addAction(Actions.sequence(Actions.moveBy(-171 *scale,0,1.f,Interpolation.pow2),Actions.run(new Runnable() {
 				@Override
 				public void run() {
 					
@@ -497,8 +485,6 @@ public class CancerGameState extends ChangeListener implements Screen,Observer{
 		defenseMenu.d_label_5.label.setText(String.valueOf(model.dStrengthVsMedicine));
 		defenseMenu.d_label_6.label.setText(String.valueOf(model.dHypoxia));
 		
-		hideMenu.h_label_1.label.setText(String.valueOf(model.hSimilarityToBodycells));
-		hideMenu.h_label_2.label.setText(String.valueOf(model.hDestroyIncomingImunecells));
 		
 		defenseMenu.kdAntiTumorSuppressor = model.kdAntiTumorSuppressor;
 		defenseMenu.kdHypoxia = model.kdHypoxia;

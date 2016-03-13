@@ -15,6 +15,7 @@ import com.jonas.thecuring.storyGame.Actions.DisplayActionText;
 import com.jonas.thecuring.storyGame.Actions.DisplayDialogueAction;
 import com.jonas.thecuring.storyGame.Actions.DisplayDialogueEndAction;
 import com.jonas.thecuring.storyGame.Actions.MenuAction;
+import com.jonas.thecuring.storyGame.Actions.SendMessageAction;
 import com.jonas.thecuring.storyGame.Actions.SetPlayerAction;
 import com.jonas.thecuring.storyGame.Actions.TalkToNPCAction;
 import com.jonas.thecuring.storyGame.Actions.TimerAction;

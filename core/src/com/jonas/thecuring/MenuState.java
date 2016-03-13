@@ -28,15 +28,15 @@ class MenuState implements Screen {
 		table.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
 		stage.addActor(table);
 		stage.setDebugAll(false);
-		Label label = new Label("Deine\n Entscheidung",Styles.getInstance().numberLabel);
+		Label label = new Label("Die\n Entscheidung",Styles.getInstance().numberLabel);
 		label.setFontScale(14);
 		label.setAlignment(Align.center);
 		table.add(label).padBottom(100f);
 		table.row();
-		TextButton player1 = new TextButton("Player 1", Styles.getInstance().smallButton);
+		TextButton player1 = new TextButton("Spieler 1", Styles.getInstance().smallButton);
 		table.add(player1).expandX().center().pad(4*4);
 		table.row();
-		TextButton player2= new TextButton("Player 2", Styles.getInstance().smallButton);
+		TextButton player2= new TextButton("Spieler 2", Styles.getInstance().smallButton);
 		table.add(player2).expandX().center();
 		player1.addListener(new ChangeScreenListener(ScreenEnum.CONNECT_SERVER, inputMultiplexer,stage));
 		player2.addListener(new ChangeScreenListener(ScreenEnum.CONNECT_CLIENT, inputMultiplexer,stage));

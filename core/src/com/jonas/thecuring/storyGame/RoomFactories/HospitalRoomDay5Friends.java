@@ -1,6 +1,6 @@
 package com.jonas.thecuring.storyGame.RoomFactories;
 
-import org.luaj.vm2.ast.Str;
+
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -18,7 +18,7 @@ public class HospitalRoomDay5Friends extends RoomFactory {
 	public Room getRoom(World world) {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_hospital_friends"), world,new Vector2(10,10));
-		room.addActionRoom(0, 0, -1, -1, new SendMessageAction(world, "Ärzte haben gesagt, das die Chancen für Heilung gut stehen wenn der Tumor sich nicht mehr weiterentwickelt.Ansonsten sieht es nicht gut aus.", null));
+		room.addActionRoom(0, 0, -1, -1, new SendMessageAction(world, "Ärzte haben gesagt, dass die Chancen für Heilung gut stehen, wenn der Tumor sich nicht mehr weiterentwickelt. Ansonsten sieht es nicht gut aus.", null));
 		String[] messages = new String[]{
 				"Hey.. Die Ärtzte haben gesagt, dass du die Operation gut überstanden hast",
 				"Du packst das sicher. Nur noch die Chemotherapie",

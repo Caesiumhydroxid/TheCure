@@ -2,14 +2,13 @@ package com.jonas.thecuring;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.esotericsoftware.kryonet.Client;
-import com.esotericsoftware.kryonet.Server;
 import com.jonas.thecuring.cancerGame.CancerGameState;
 import com.jonas.thecuring.ui.Styles;
 
@@ -105,6 +104,10 @@ public class TheCuring extends Game {
 
 	@Override
 	public void render () {
+		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE))
+		{
+			Gdx.app.exit();
+		}
 		super.render();
 	}
 

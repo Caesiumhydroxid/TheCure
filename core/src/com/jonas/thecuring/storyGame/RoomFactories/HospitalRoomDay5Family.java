@@ -8,7 +8,6 @@ import com.jonas.thecuring.storyGame.RoomEnum;
 import com.jonas.thecuring.storyGame.World;
 import com.jonas.thecuring.storyGame.Actions.Action;
 import com.jonas.thecuring.storyGame.Actions.ChangeRoomAction;
-import com.jonas.thecuring.storyGame.Actions.CustomComparator;
 import com.jonas.thecuring.storyGame.Actions.DialogeSceneAction;
 import com.jonas.thecuring.storyGame.Actions.SendMessageIntegerAction;
 import com.jonas.thecuring.storyGame.Actions.SwitchWithComparatorAction;

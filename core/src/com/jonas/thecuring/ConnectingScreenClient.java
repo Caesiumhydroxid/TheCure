@@ -64,8 +64,6 @@ public class ConnectingScreenClient extends Listener implements Screen{
 		client.addListener(this);
 		Image i = new Image((Texture) Assets.getInstance().get("background"));
 		stage.addActor(i);
-		l = new Label("Player 2",Styles.getInstance().numberLabel);
-		stage.addActor(l);
 		addresses = Collections.synchronizedList(new ArrayList<InetAddress>());
 		exec = Executors.newFixedThreadPool(10);
 		ecs = new ExecutorCompletionService<List<InetAddress>>(exec);
@@ -73,6 +71,9 @@ public class ConnectingScreenClient extends Listener implements Screen{
 		
 		Table table = new Table();
 		table.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
+		l = new Label("Wenn Server gefunden, Verbinden klicken",Styles.getInstance().numberLabel);
+		table.add(l).pad(10);
+		table.row();
 		button = new TextButton("Verbinden", Styles.getInstance().bigButton);
 		button.setDisabled(true);
 		
