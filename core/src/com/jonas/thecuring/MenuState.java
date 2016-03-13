@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jonas.thecuring.ui.Styles;
 
@@ -27,8 +28,9 @@ class MenuState implements Screen {
 		table.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
 		stage.addActor(table);
 		stage.setDebugAll(false);
-		Label label = new Label("The Curing",Styles.getInstance().numberLabel);
-		label.setFontScale(16);
+		Label label = new Label("Deine\n Entscheidung",Styles.getInstance().numberLabel);
+		label.setFontScale(14);
+		label.setAlignment(Align.center);
 		table.add(label).padBottom(100f);
 		table.row();
 		TextButton player1 = new TextButton("Player 1", Styles.getInstance().smallButton);
@@ -36,8 +38,8 @@ class MenuState implements Screen {
 		table.row();
 		TextButton player2= new TextButton("Player 2", Styles.getInstance().smallButton);
 		table.add(player2).expandX().center();
-		player1.addListener(new ChangeScreenListener(ScreenEnum.CONNECT_SERVER, inputMultiplexer,"Player 1"));
-		player2.addListener(new ChangeScreenListener(ScreenEnum.CONNECT_CLIENT, inputMultiplexer,"Player 2"));
+		player1.addListener(new ChangeScreenListener(ScreenEnum.CONNECT_SERVER, inputMultiplexer,stage));
+		player2.addListener(new ChangeScreenListener(ScreenEnum.CONNECT_CLIENT, inputMultiplexer,stage));
 	}
 	
 	@Override

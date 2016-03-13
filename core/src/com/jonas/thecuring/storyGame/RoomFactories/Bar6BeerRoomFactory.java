@@ -9,6 +9,7 @@ import com.jonas.thecuring.storyGame.World;
 import com.jonas.thecuring.storyGame.Actions.Action;
 import com.jonas.thecuring.storyGame.Actions.ChangeRoomAction;
 import com.jonas.thecuring.storyGame.Actions.NextDayAction;
+import com.jonas.thecuring.storyGame.Actions.SendMessageAction;
 import com.jonas.thecuring.storyGame.Actions.SetPlayerAction;
 import com.jonas.thecuring.storyGame.Actions.SetWorldVariableAction;
 import com.jonas.thecuring.storyGame.Actions.TimerAction;
@@ -20,6 +21,7 @@ public class Bar6BeerRoomFactory extends RoomFactory {
 	public Room getRoom(World world) {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_bar_6beer"), world,new Vector2(120,10));
+
 		Action setTimeWithFamily = new SetWorldVariableAction(world, new VariableSetter(world) {
 			@Override
 			public void setVariable() {

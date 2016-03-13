@@ -26,7 +26,6 @@ public class HospitalRoomFactory extends RoomFactory {
 	public Room getRoom(World world) {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_hospital"), world,new Vector2(10,10));
-		
 		room.addActionRoom(0, 0, -1, -1, new Action(world, null) {
 			@Override
 			public void run() {
@@ -50,17 +49,19 @@ public class HospitalRoomFactory extends RoomFactory {
 		bed.setPosition(new Vector2(113,16));
 		room.add(bed);
 		room.addActionRoom(0, 0, -1, -1, new AddActionToRoom(world,
-				new DisplayDialogueAction(world, "Wir wissen leider noch nicht genau was passiert ist", 7, 
+				new DisplayDialogueAction(world, "Wir wissen leider noch nicht genau, was passiert ist", 7, 
 						new TimerAction(world, 5, 
-								new DisplayDialogueAction(world, "Wir müssen noch untersuchungen durchführen.",7, 
+								new DisplayDialogueAction(world, "Wir müssen noch Untersuchungen durchführen.",7, 
 										new TimerAction(world, 5,
-												new DisplayDialogueAction(world, "Morgen sollten wir genaueres wissen", 7,
+												new DisplayDialogueAction(world, "Morgen sollten wir mehr wissen.", 7,
 														new TimerAction(world, 7, 
-																new DisplayDialogueAction(world, "vermutlich war es der Stress... Oh.. er schläft schon wieder",
+																new DisplayDialogueAction(world, "Vermutlich war es nur der Stress...",
 																		new TimerAction(world, 5,
-																				new TransitionTextAction(world, "Du Schläfst bis zum nächsten Tag durch und wachst im Krankenhaus auf", true, 
+																				new DisplayDialogueAction(world, "Oh.. er schläft schon wieder",
+																						new TimerAction(world, 5,
+																				new TransitionTextAction(world, "Du schläfst bis zum nächsten Tag durch und wachst im Krankenhaus auf", true, 
 																						new NextDayAction(world, 
-																								new ChangeRoomAction(world, RoomEnum.HOSPITAL_ROOM_DAY2)))))))))))));
+																								new ChangeRoomAction(world, RoomEnum.HOSPITAL_ROOM_DAY2)))))))))))))));
 		return room;
 	}
 

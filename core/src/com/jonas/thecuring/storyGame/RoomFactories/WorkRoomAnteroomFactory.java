@@ -23,7 +23,7 @@ public class WorkRoomAnteroomFactory extends RoomFactory {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_work_anteroom"), world,new Vector2(0,10));
 		room.addActionRoom(0, 0, 0, 0, new TimerAction(world, 0.55f, new SetPlayerAction(world, true, true, null)));
-		NPC coworker= new NPC((Texture) Assets.getInstance().get("coworker"),new String[]{"Hallo. Was ist denn gestern passiert?","Oh... Und du bist dir sicher das du heute arbeiten willst?"},false,new Rectangle(5,0,12,33));
+		NPC coworker= new NPC((Texture) Assets.getInstance().get("coworker"),new String[]{"Hallo. Was ist denn gestern passiert?","Oh... Und du bist dir sicher, dass du heute arbeiten willst?"},false,new Rectangle(5,0,12,33));
 		coworker.setAction(new DisplayActionText(world, "Sprechen",new TalkToNPCAction(world, coworker, null)));
 		coworker.setPosition(new Vector2(80, 26));
 		room.add(coworker);

@@ -1,27 +1,23 @@
 package com.jonas.thecuring;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Server;
 import com.jonas.thecuring.ui.Styles;
 
 public class ConnectingScreenServer extends Listener implements Screen {
@@ -29,18 +25,20 @@ public class ConnectingScreenServer extends Listener implements Screen {
 	private Label l;
 	private FitViewport viewport;
 	private TextButton button;
+	private boolean startGame;
 	private Server server;
 	ConnectingScreenServer(InputMultiplexer inputMultiplexer)
 	{
 		viewport = new FitViewport(320*3, 180*3);
 		stage = new Stage(new FitViewport(320*3, 180*3));
 		Image i = new Image((Texture) Assets.getInstance().get("background"));
-		
+		inputMultiplexer.addProcessor(stage);
 		stage.addActor(i);
 		l = new Label("Player 1",Styles.getInstance().numberLabel);
 		stage.addActor(l);
 		
 		server = new Server();
+		server.getKryo().register(String.class);
 		server.addListener(this);
 		try {
 			server.bind(48000,48001);
@@ -52,16 +50,60 @@ public class ConnectingScreenServer extends Listener implements Screen {
 		Table table = new Table();
 		table.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
 		button = new TextButton("Starten", Styles.getInstance().bigButton);
-		button.addListener(new ChangeScreenListener(ScreenEnum.STORY_GAME, inputMultiplexer, server));
+		button.addListener(new ButtonClickListener(inputMultiplexer, this,server));
 		button.setDisabled(true);
 		table.add(button);
+		TextButton end = new TextButton("Zurück",Styles.getInstance().bigButton);
+		end.addListener(new ChangeScreenListener(ScreenEnum.MAIN_MENU, inputMultiplexer, stage){
+
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				server.close();
+				try {
+					server.dispose();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				super.changed(event, actor);
+			}
+			
+		});
+		table.row();
+		table.add(end).pad(5*3);
 		stage.addActor(table);
 	}
 	
+	class ButtonClickListener extends com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
+	{
+		private InputMultiplexer multiplexer;
+		private Server server;
+		private ConnectingScreenServer world;
+		public ButtonClickListener(InputMultiplexer multiplexer,ConnectingScreenServer world,Server server) {
+			this.server = server;
+			this.multiplexer = multiplexer;
+			this.world = world;
+		}
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			server.sendToAllTCP("Begin");
+			server.removeListener(world);
+			multiplexer.removeProcessor(world.stage);
+			ScreenManager.getInstance().show(ScreenEnum.STORY_GAME,multiplexer,server);
+		}
+		
+	}
 	@Override
 	public void connected(Connection connection) {
 		button.setDisabled(false);
 		super.connected(connection);
+	}
+
+	@Override
+	public void disconnected(Connection connection) {
+		button.setDisabled(true);
+		super.disconnected(connection);
 	}
 
 	@Override

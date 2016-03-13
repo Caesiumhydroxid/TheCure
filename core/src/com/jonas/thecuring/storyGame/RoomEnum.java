@@ -4,7 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.jonas.thecuring.Assets;
 import com.jonas.thecuring.storyGame.RoomFactories.Bar1BeerRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.Bar6BeerRoomFactory;
+import com.jonas.thecuring.storyGame.RoomFactories.BirthdayRoomFactory;
+import com.jonas.thecuring.storyGame.RoomFactories.GraveyardRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.HomeAnteRoomFactory;
+import com.jonas.thecuring.storyGame.RoomFactories.HomeDaughterDay2Factory;
+import com.jonas.thecuring.storyGame.RoomFactories.HomeDaughterDay3Factory;
+import com.jonas.thecuring.storyGame.RoomFactories.HomeDaughterDay4Factory;
 import com.jonas.thecuring.storyGame.RoomFactories.HomeDaughterRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.HomeOutsideFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.HomeRoomDay2Factory;
@@ -23,6 +28,7 @@ import com.jonas.thecuring.storyGame.RoomFactories.HospitalRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.OPRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.ParachuteJumpRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.ParachuteRoomFactory;
+import com.jonas.thecuring.storyGame.RoomFactories.ParkRoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.RoomFactory;
 import com.jonas.thecuring.storyGame.RoomFactories.WorkRoomAnteroomDay3Factory;
 import com.jonas.thecuring.storyGame.RoomFactories.WorkRoomAnteroomFactory;
@@ -80,12 +86,35 @@ public enum RoomEnum {
 	},
 	HOME_DAUGHTER_ROOM{
 		Room room;
+		int day;
 		public Room getRoom(Object... params)
 		{
-			if(room==null)
-			{	
-				World world = (World) params[0];
-				HomeDaughterRoomFactory f = new HomeDaughterRoomFactory();
+			World world = (World) params[0];
+			RoomFactory f;
+			if(day!= world.day)
+			{
+				room = null;
+				day = world.day;
+			}
+			day = world.day;
+			if(room == null)
+			{
+				if(world.day==0)
+				{
+					f = new HomeDaughterRoomFactory();
+				}
+				else if(world.day == 1)
+				{
+					f = new HomeDaughterDay2Factory();
+				}
+				else if(world.day == 2)
+				{
+					f = new HomeDaughterDay3Factory();
+				}
+				else
+				{
+					f = new HomeDaughterDay4Factory();
+				}
 				room = f.getRoom(world);
 			}
 			return room;
@@ -131,6 +160,45 @@ public enum RoomEnum {
 			{	
 				World world = (World) params[0];
 				HomeOutsideFactory f = new HomeOutsideFactory();
+				room = f.getRoom(world);
+			}
+			return room;
+		}
+	},
+	PARK_ROOM{
+		Room room;
+		public Room getRoom(Object... params)
+		{
+			if(room==null)
+			{	
+				World world = (World) params[0];
+				ParkRoomFactory f = new ParkRoomFactory();
+				room = f.getRoom(world);
+			}
+			return room;
+		}
+	},
+	GRAVEYARD_ROOM{
+		Room room;
+		public Room getRoom(Object... params)
+		{
+			if(room==null)
+			{	
+				World world = (World) params[0];
+				GraveyardRoomFactory f = new GraveyardRoomFactory();
+				room = f.getRoom(world);
+			}
+			return room;
+		}
+	},
+	BIRTHDAY_ROOM{
+		Room room;
+		public Room getRoom(Object... params)
+		{
+			if(room==null)
+			{	
+				World world = (World) params[0];
+				BirthdayRoomFactory f = new BirthdayRoomFactory();
 				room = f.getRoom(world);
 			}
 			return room;
@@ -346,19 +414,6 @@ public enum RoomEnum {
 				World world = (World) params[0];
 				RoomFactory f = new WorkRoomFactory();
 				room = f.getRoom(world);
-			return room;
-		}
-	},
-	GRAVEYARD_ROOM{
-		Room room;
-		public Room getRoom(Object... params)
-		{
-			if(room==null)
-			{	
-				World world = (World) params[0];
-				HomeDaughterRoomFactory f = new HomeDaughterRoomFactory();
-				room = f.getRoom(world);
-			}
 			return room;
 		}
 	};

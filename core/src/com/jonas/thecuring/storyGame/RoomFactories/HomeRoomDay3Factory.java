@@ -61,7 +61,7 @@ public class HomeRoomDay3Factory extends RoomFactory{
 		String[] wifeKnowsAboutCancerNotMessages = new String[]
 				{
 						"Wieso warst du gestern so lange weg?",
-						"Naja. Gut das du wieder da bist. Willst du den",
+						"Naja. Gut, dass du wieder da bist. Willst du den",
 						"Tag heute villeicht mit uns verbringen?",
 						"Morgen ist ja schon die Operation!"
 			};
@@ -73,7 +73,7 @@ public class HomeRoomDay3Factory extends RoomFactory{
 				new DialogeSceneAction(world, wifeKnowsAboutCancerNotMessages, wifeKnowsAboutNotDurations, new SetPlayerAction(world, true, true, null)));
 		
 		String[] messages = new String[]{
-				"Ich bin heute als du noch geschlafen hast",
+				"Ich bin heute, als du noch geschlafen hast,",
 				"vom Krankenhaus angerufen worden.",
 				"Wieso hast du mir nicht erz‰hlt was los ist?"
 		};
@@ -84,7 +84,7 @@ public class HomeRoomDay3Factory extends RoomFactory{
 		String[] keineAngstMachen = new String[]{
 				"Ich wollte dir keine Angst machen...",
 				"Naja.. irgendwann musste es ja raus..",
-				"Ich verstehe nicht warum du ",
+				"Ich verstehe nicht, warum du ",
 				"es mir nicht gleich sagen konntest.",
 				"...",
 				"Nun.. Du hast morgen die Operation. Gemeinsam werden wir",
@@ -97,10 +97,10 @@ public class HomeRoomDay3Factory extends RoomFactory{
 				55,55,4,4,4,4,4
 		};
 		String[] weisNicht = new String[]{
-				"Wie du weiﬂt nicht? Das ist nicht dein Ernst!",
-				"Ich sollte soetwas doch von dir erfahren!",
+				"Wie? Du weiﬂt nicht? Das ist nicht dein Ernst!",
+				"Ich sollte so etwas doch von dir erfahren!",
 				"Naja.. irgendwann musste es ja raus..",
-				"Ich verstehe nicht warum du ",
+				"Ich verstehe nicht, warum du ",
 				"es mir nicht gleich sagen konntest.",
 				"...",
 				"Nun.. Du hast morgen die Operation. Gemeinsam werden wir",

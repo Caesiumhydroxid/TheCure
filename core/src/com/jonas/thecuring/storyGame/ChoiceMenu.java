@@ -102,6 +102,7 @@ public class ChoiceMenu extends AbstractGameObject {
 	@Override
 	public void update(float delta) 
 	{
+		elapsedTime += delta;
 		super.update(delta);
 		
 	};

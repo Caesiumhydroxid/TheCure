@@ -26,7 +26,7 @@ public class HomeSonRoomDay2Factory extends RoomFactory {
 		Room room;
 		NPC npc = null;
 		room = new Room((Texture) Assets.getInstance().get("room_home_son"), world,new Vector2(120,10));
-		Action starteMemory = new MenuAction(world,true, new String[]{"Nein","Ja"}, "Willst du mit mir Spielen?", new Action[]{
+		Action starteMemory = new MenuAction(world,true, new String[]{"Nein","Ja"}, "Spielen wir Memory?", new Action[]{
 						null,
 						new ChangeRoomAction(world, RoomEnum.MEMORY_ROOM)
 				});

@@ -1,19 +1,24 @@
 package com.jonas.thecuring;
 
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class ChangeScreenListener extends ChangeListener
 {
 	private ScreenEnum screen;
-	private Object[] arguments;
-	ChangeScreenListener(ScreenEnum newScreen,Object... args)
+	private InputMultiplexer multiplexer;
+	private InputProcessor processor;
+	ChangeScreenListener(ScreenEnum newScreen,InputMultiplexer multiplexer,InputProcessor processor)
 	{
 		this.screen = newScreen;
-		this.arguments = args;
+		this.multiplexer = multiplexer;
+		this.processor = processor;
 	}
 	@Override
 	public void changed(ChangeEvent event, Actor actor) {
-		ScreenManager.getInstance().show(screen,arguments);
+		this.multiplexer.removeProcessor(processor);
+		ScreenManager.getInstance().show(screen,multiplexer);
 	}	
 }

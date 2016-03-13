@@ -10,6 +10,7 @@ import com.jonas.thecuring.storyGame.RoomEnum;
 import com.jonas.thecuring.storyGame.World;
 import com.jonas.thecuring.storyGame.Actions.ChangeRoomAction;
 import com.jonas.thecuring.storyGame.Actions.DialogeSceneAction;
+import com.jonas.thecuring.storyGame.Actions.SendMessageAction;
 
 public class HospitalRoomDay5Friends extends RoomFactory {
 
@@ -17,11 +18,12 @@ public class HospitalRoomDay5Friends extends RoomFactory {
 	public Room getRoom(World world) {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_hospital_friends"), world,new Vector2(10,10));
+		room.addActionRoom(0, 0, -1, -1, new SendMessageAction(world, "Ärzte haben gesagt, das die Chancen für Heilung gut stehen wenn der Tumor sich nicht mehr weiterentwickelt.Ansonsten sieht es nicht gut aus.", null));
 		String[] messages = new String[]{
-				"Hey.. Die Ärtzte haben gesagt,dass du die Operation gut überstanden hast",
-				"Du packst das sicher. Jetzt noch den Rest mit der Chemo-Therapie",
+				"Hey.. Die Ärtzte haben gesagt, dass du die Operation gut überstanden hast",
+				"Du packst das sicher. Nur noch die Chemotherapie",
 				"und schon ist es vorbei.",
-				"In ein paar Monaten lachen wir schon wieder darüber",
+				"In ein paar Monaten, lachen wir schon wieder darüber",
 				"Ach Mann.. Immer trifft es die Guten.",
 				"Deine Eltern warten schon vor der Tür."
 		};

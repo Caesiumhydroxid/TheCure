@@ -1,10 +1,11 @@
 package com.jonas.thecuring.cancerGame;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.jonas.thecuring.util.Observable;
 
 public class Model extends Observable {
 	
-	public float progress=0.5f;
+	public float progress=0;
 	private float probabilityDetected;
 	public int credits=0;
 	
@@ -48,13 +49,18 @@ public class Model extends Observable {
 	
 	private float timeFactor=1;
 	private float elapsedTime;
+	public boolean sentMessage=true;
+	public int day=0;
+	private int creditsSpentOnDay5;
+	public boolean willDie=false;
+	private float willDieTime;
 	private String message;
 	public Model()
 	{
 	}
 	public void tick(float delta)
 	{
-		growthRate = (aMetastases * 10f + aMutations * 1.5f + aDangerousMutations * 2f + aFastCellDivision *2f)/99.5f; //Normalized to 1
+		growthRate = (aMetastases * 10f + aMutations * 1.5f + aDangerousMutations * 2f + aFastCellDivision *2f+aAttacksTissue)/99.5f; //Normalized to 1
 		
 		probabilityDetected = timeFactor - (hSimilarityToBodycells*2 + hDestroyIncomingImunecells*3)/45 + growthRate*0.75f;
 		antiHealRate = (dAntiTumorSuppressor * 1f + dShield *1.3f + 5f * dInvincibleForBody)/45.7f;
@@ -62,7 +68,33 @@ public class Model extends Observable {
 		
 		elapsedTime += delta;
 		healRate = (float) (Math.exp(elapsedTime/50.f)-1);
-		progress = growthRate;
+		progress = ((day+1)/5f)*(growthRate+antiHealRate+antiMedicineHealRate)/2.5f + MathUtils.random(-3, 3)*0.01f+willDieTime/10;
+		if(sentMessage)
+		{
+			if(willDie)
+			{
+				willDieTime+=delta;
+			}
+			else
+			{
+				willDieTime-=delta;
+			}
+		}
+		
+		if(day<4)
+		{
+			if(progress>0.7f)
+			{
+				progress = 0.7f;
+			}
+		}
+		if(day>=4)
+		{
+			if(creditsSpentOnDay5>10&&growthRate+antiHealRate+antiMedicineHealRate>1)
+			{
+				willDie = true;
+			}
+		}
 		setChanged();
 		notifyObservers();
 	}
@@ -157,6 +189,10 @@ public class Model extends Observable {
 				if(credits>=cost)
 				{
 					credits -= cost;
+					if(day>=4)
+					{
+						creditsSpentOnDay5+=cost;
+					}
 					variable++;
 				}
 				else

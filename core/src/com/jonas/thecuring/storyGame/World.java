@@ -6,17 +6,20 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Vector;
 
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Pool;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.jonas.thecuring.storyGame.Actions.Action;
 import com.jonas.thecuring.storyGame.Actions.TransitionTextAction;
 
-public class World{
+public class World extends Listener{
 	public Player player;
 	private ArrayList<AbstractGameObject> objects;
 	private Vector<AbstractGameObject> objectsToPush;
@@ -27,11 +30,15 @@ public class World{
 	public boolean wifeKnowsAboutCancer = true;
 	public boolean timeWithFamily=true;
 	private Black black;
+	public boolean willDie=false;
+	public InputMultiplexer multiplexer;
 	public int day;
 	private Server server;
-	World(Server server)
+	World(Server server,InputMultiplexer multiplexer)
 	{
 		this.server = server;
+		this.multiplexer = multiplexer;
+		server.addListener(this);
 		messagePool = new Pool<DialogueMessage>(){
 
 			@Override
@@ -46,8 +53,9 @@ public class World{
 		player.position.y=10;
 		player.z = 5;
 		
+		
 		black = new Black();
-		day = 0;
+		day = 3;
 		setCurrentRoom(RoomEnum.HOME_ROOM);
 		//ChoiceMenu c = new ChoiceMenu(new String[]{"Hallo","Test"}, new Action[]{new ChangeRoomAction(this, RoomEnum.WORK_ROOM),new DisplayDialogueAction("Test",this,false)});
 		//c.z = 100;
@@ -147,7 +155,11 @@ public class World{
 		@Override
 		public void transitionFinished() {
 			if(world.player.processInput == false)
-				world.player.processInput= false;
+				world.player.processInput = false;
+			else if(world.player.processInput == true&& playerProcessingInput == false)
+			{
+				world.player.processInput = true;
+			}
 			else
 				world.player.processInput = playerProcessingInput;
 			
@@ -261,4 +273,18 @@ public class World{
 	{
 		server.sendToAllTCP(message);
 	}
+	public void sendMessage(Integer message)
+	{
+		server.sendToAllTCP(message);
+	}
+
+	@Override
+	public void received(Connection connection, Object object) {
+		if(object instanceof Boolean)
+		{
+			willDie = ((Boolean) object).booleanValue();
+		}
+		super.received(connection, object);
+	}
+	
 }

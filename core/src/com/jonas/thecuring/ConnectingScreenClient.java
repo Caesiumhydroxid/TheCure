@@ -28,9 +28,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
 import com.jonas.thecuring.ui.Styles;
 
-public class ConnectingScreenClient implements Screen{
+public class ConnectingScreenClient extends Listener implements Screen{
 	Stage stage;
 	private List<InetAddress> addresses;
 	private final ExecutorService exec;
@@ -40,14 +42,26 @@ public class ConnectingScreenClient implements Screen{
 	private InetAddress address;
 	private boolean found;
 	private Client client;
+	private InputMultiplexer multiplexer;
 	private final CompletionService<List<InetAddress>> ecs;
 	private Future<List<InetAddress>> searchingOpponent;
+	private boolean showScreen=false;
+	@Override
+	public void received(Connection connection, Object object) {
+		System.out.println(object);
+		showScreen = true;
+		super.received(connection, object);
+	}
+
 	ConnectingScreenClient(InputMultiplexer inputMultiplexer)
 	{
 		viewport = new FitViewport(320*3, 180*3);
 		stage = new Stage(new FitViewport(320*3, 180*3));
+		this.multiplexer = inputMultiplexer;
 		inputMultiplexer.addProcessor(stage);
 		client = new Client();
+		client.getKryo().register(String.class);
+		client.addListener(this);
 		Image i = new Image((Texture) Assets.getInstance().get("background"));
 		stage.addActor(i);
 		l = new Label("Player 2",Styles.getInstance().numberLabel);
@@ -69,6 +83,10 @@ public class ConnectingScreenClient implements Screen{
 			}
 		});
 		table.add(button);
+		TextButton end = new TextButton("Zurück",Styles.getInstance().bigButton);
+		end.addListener(new ChangeScreenListener(ScreenEnum.MAIN_MENU, inputMultiplexer, stage));
+		table.row();
+		table.add(end).pad(5*3);
 		stage.addActor(table);
 	}
 	
@@ -89,6 +107,13 @@ public class ConnectingScreenClient implements Screen{
 
 	private void update() 
 	{
+		if(showScreen)
+		{
+			searchingOpponent.cancel(true);
+			client.removeListener(this);
+			multiplexer.removeProcessor(stage);
+			ScreenManager.getInstance().show(ScreenEnum.CANCER_GAME, multiplexer,client);
+		}
 		if(searchingOpponent.isDone()&&!found)
 		{
 			try {

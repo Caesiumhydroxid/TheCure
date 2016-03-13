@@ -12,6 +12,7 @@ public class NextDayAction extends Action {
 	public void run() {
 		world.day++;
 		running = true;
+		new SendMessageIntegerAction(world, world.day, null).run();
 		if(nextAction != null)
 			nextAction.run();
 	}

@@ -23,13 +23,13 @@ public class HospitalRoomDay4Factory extends RoomFactory{
 	public Room getRoom(World world) {
 		room = new Room((Texture) Assets.getInstance().get("room_hospital"), world,new Vector2(10,10));
 		NPC npc;
-		npc = new NPC((Texture)Assets.getInstance().get("son"),new String[]{"Bis nacher!","Was passiert jetzt mit dir?","Ich habe dich lieb."},true,new Rectangle(4,0,8,28));
+		npc = new NPC((Texture)Assets.getInstance().get("son"),new String[]{"Bis nachher!","Was passiert jetzt mit dir?","Ich habe dich lieb."},true,new Rectangle(4,0,8,28));
 		npc.setAction(new DisplayActionText(world, "Sprechen",new TalkToNPCAction(world, npc, null)));
 		npc.setPosition(new Vector2(35,23));
 		room.add(npc);
 		
 		NPC daughter;
-		daughter = new NPC((Texture)Assets.getInstance().get("daughter"),new String[]{"Hey Papa, du schaffst das.", "Ich habe dich lieb."},true,new Rectangle(17,2,8,28));
+		daughter = new NPC((Texture)Assets.getInstance().get("daughter"),new String[]{"Hey Papa, du schaffst das!", "Ich habe dich lieb."},true,new Rectangle(17,2,8,28));
 		daughter.setAction(new DisplayActionText(world, "Sprechen",new TalkToNPCAction(world, daughter, null)));
 		daughter.setPosition(new Vector2(85-17,23-2));
 		room.add(daughter);

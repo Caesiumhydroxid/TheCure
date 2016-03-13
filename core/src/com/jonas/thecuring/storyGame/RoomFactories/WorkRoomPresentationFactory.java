@@ -14,6 +14,7 @@ import com.jonas.thecuring.storyGame.Actions.AnimationPlayerAction;
 import com.jonas.thecuring.storyGame.Actions.ChangeRoomAction;
 import com.jonas.thecuring.storyGame.Actions.DisplayDialogueAction;
 import com.jonas.thecuring.storyGame.Actions.MovePlayerAction;
+import com.jonas.thecuring.storyGame.Actions.SendMessageAction;
 import com.jonas.thecuring.storyGame.Actions.SetPlayerAction;
 import com.jonas.thecuring.storyGame.Actions.TimerAction;
 
@@ -23,16 +24,17 @@ public class WorkRoomPresentationFactory extends RoomFactory{
 	public Room getRoom(World world) {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_work"), world,new Vector2(-10,10));
+		room.addActionRoom(0, 0, -1, -1, new SendMessageAction(world, "Das Subjekt ist gerade in der Arbeit zusammengebrochen. Es wird nun von Ärzten untersucht.", null));
 		Action action = 
-				new DisplayDialogueAction(world, "Hallo, ich will ihnen heute mein Projekt vorstellen.",4,50,
+				new DisplayDialogueAction(world, "Hallo, ich will Ihnen heute mein Projekt vorstellen.",4,50,
 						new TimerAction(world, 4, 
 								new DisplayDialogueAction(world, "Um eine Verbesserung der Effizienz unseres Gerätes",3,50, 
 												new TimerAction(world, 3, 
-														new DisplayDialogueAction(world, "zu erhalten müssen wir definitiv",4,50,
+														new DisplayDialogueAction(world, "zu erreichen, müssen wir definitiv.....",4,50,
 																		new TimerAction(world, 3, 
 																				new DisplayDialogueAction(world, "Arrghh!",3,50,null)))))));
 		
-		Animation anim = new Animation(10,world.player.holdSpeech.getKeyFrame(100, false) );
+		Animation anim = new Animation(100,world.player.holdSpeech.getKeyFrame(100, false) );
 		class LetPlayerAnim extends Action
 		{
 

@@ -16,6 +16,7 @@ import com.jonas.thecuring.storyGame.Actions.DisplayActionText;
 import com.jonas.thecuring.storyGame.Actions.DisplayDialogueAction;
 import com.jonas.thecuring.storyGame.Actions.DisplayDialogueEndAction;
 import com.jonas.thecuring.storyGame.Actions.MenuAction;
+import com.jonas.thecuring.storyGame.Actions.SendMessageAction;
 import com.jonas.thecuring.storyGame.Actions.SetPlayerAction;
 import com.jonas.thecuring.storyGame.Actions.SetWorldVariableAction;
 import com.jonas.thecuring.storyGame.Actions.SwitchWithComparatorAction;
@@ -40,20 +41,20 @@ public class HomeRoomDay2Factory extends RoomFactory{
 				return world.wifeKnowsAboutCancer;
 			}
 		}
-		
+		homeRoom.addActionRoom(0, 0, -1, -1, new SendMessageAction(world, "Die Ärzte haben den Krebs erkannt und bekämpfen diesen nun! Versuche gute Defensiv Werte zu erreichen!", null));
 		NPC npc = new NPC((Texture)Assets.getInstance().get("wife"),new Rectangle(5,0,8,28),null);
 		npc.setAction(new DisplayActionText(world, "Sprechen", new SwitchWithComparatorAction(world, new CompareWomanKnowsCancer(world), 
 				new DisplayDialogueAction(world, "Wir müssen jetzt stark sein...", null), new DisplayDialogueAction(world, "Warum erzählst du mir nichts?", null))));
 		npc.setPosition(new Vector2(68,19));
-	
+		homeRoom.addActionRoom(0, 0, -1, -1, new SetPlayerAction(world, true, true, null));
 		
 		Action setProcessingInput = new SetPlayerAction(world, true, true, null);
-		Action wasSollenWirTun = new MenuAction(world, true,new String[]{"Operation in  2 Tagen"}, "Antwort", new Action[]{new DisplayDialogueEndAction(world, "Ich habe in 2 Tagen eine Operation. Dann müssen wir weitersehen.", 4,55,
+		Action wasSollenWirTun = new MenuAction(world, true,new String[]{"Operation in  2 Tagen"}, "Antwort", new Action[]{new DisplayDialogueEndAction(world, "Ich habe in zwei Tagen eine Operation. Dann müssen wir weitersehen.", 4,55,
 				new DisplayDialogueEndAction(world, "Okay...", new DisplayDialogueEndAction(world, "...",3, new DisplayDialogueEndAction(world, "Ich werde dich so gut es geht unterstützen",5, setProcessingInput))))});
 		
 		Action tumorDiagnostiziert = new MenuAction(world,true, new String[]{"Tumor diagnostiziert.","Aach.. nicht so wichtig.." }, "Antwort:", new Action[]{
 				new DisplayDialogueEndAction(world,"Ich... ich habe",4,55,new DisplayDialogueEndAction(world,"einen Gehirntumor.",4,55,new DisplayDialogueEndAction(world,"Oh mein Gott!?...",3,new DisplayDialogueEndAction(world,".....",3,new DisplayDialogueEndAction(world,"W.. was müssen wir tun?",3,wasSollenWirTun))))),
-				new DisplayDialogueEndAction(world,"Okay wenn du mir nichts sagen willst..",4,new SetWorldVariableAction(world, new VariableSetter(world) {
+				new DisplayDialogueEndAction(world,"Okay, wenn du mir nichts sagen willst..",4,new SetWorldVariableAction(world, new VariableSetter(world) {
 					@Override
 					public void setVariable() {
 						world.wifeKnowsAboutCancer = false;

@@ -19,7 +19,7 @@ public class HomeSonRoomFactory extends RoomFactory {
 		Room room;
 		NPC npc = null;
 		room = new Room((Texture) Assets.getInstance().get("room_home_son"), world,new Vector2(120,10));
-		npc = new NPC((Texture)Assets.getInstance().get("son"),new String[]{"Guten Morgen..","Ähhm..","... Gähn"},false,new Rectangle(4,0,8,28));
+		npc = new NPC((Texture)Assets.getInstance().get("son"),new String[]{"Guten Morgen Papa. Ich bin noch so müde...","... Gähn"},false,new Rectangle(4,0,8,28));
 		npc.setAction(new DisplayActionText(world, "Sprechen",new TalkToNPCAction(world, npc, null)));
 		npc.setPosition(new Vector2(100,23-2));
 		room.add(npc);

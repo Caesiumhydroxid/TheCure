@@ -27,7 +27,7 @@ public class ParachuteRoomFactory extends RoomFactory {
 		TextureRegion[][] tmp = new TextureRegion((Texture)Assets.getInstance().get("plane_parachute")).split(160, 90);
 		Animation anim = new Animation(0.3f, tmp[0]);
 		room.add(new GameObject(anim));
-		room.addActionRoom(0, 0, 0, 0, new TimerAction(world, 8, new ChangeRoomAction(world, RoomEnum.PARACHUTE_ROOM)));
+		room.addActionRoom(0, 0, 0, 0, new TimerAction(world, 7, new ChangeRoomAction(world, RoomEnum.PARACHUTE_ROOM)));
 		return room;
 	}
 

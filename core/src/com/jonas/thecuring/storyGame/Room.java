@@ -19,7 +19,7 @@ public class Room extends AbstractGameObject {
 	public ArrayList<ActionRoom> actionRooms;
 	public ArrayList<ActionRoom> actionRoomsToAdd;
 	protected World world;
-	public boolean debug=true;
+	public boolean debug=false;
 	private final Vector2 spawnPoint;
 	public boolean fireEvents=true;
 	public ArrayList<Rectangle> colliders;

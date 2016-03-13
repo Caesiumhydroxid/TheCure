@@ -20,10 +20,11 @@ public class Styles {
 	public TextButtonStyle smallButton;
 	public LabelStyle numberLabel;
 	public LabelStyle smallLabel;
+	public LabelStyle whiteLabel;
 	public TextTooltipStyle textTooltipStyle;
 	public ProgressBarStyle progressBarStyle;
 	public WindowStyle windowStyle;
-
+	
 	
 	private Styles() 
 	{
@@ -65,6 +66,10 @@ public class Styles {
 		numberLabel = new LabelStyle();
 		numberLabel.font = fontNormal;
 		numberLabel.fontColor = Color.BLACK;
+		
+		whiteLabel = new LabelStyle();
+		whiteLabel.font = fontNormal;
+		whiteLabel.fontColor = Color.WHITE;
 		
 		smallLabel = new LabelStyle();
 		smallLabel.font = fontSmall;

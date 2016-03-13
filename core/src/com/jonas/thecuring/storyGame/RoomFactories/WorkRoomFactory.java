@@ -20,7 +20,7 @@ public class WorkRoomFactory extends RoomFactory {
 	public Room getRoom(World world) {
 		Room room;
 		room = new Room((Texture) Assets.getInstance().get("room_work_working"), world,new Vector2(120,10));
-		room.addActionRoom(0, 0, -1, -1, new SetPlayerAction(world, true, true, null));
+		room.addActionRoom(0, 0, -1, -1, new SetPlayerAction(world, false, false, null));
 		Action setTimeWithFamily = new SetWorldVariableAction(world, new VariableSetter(world) {
 			@Override
 			public void setVariable() {
@@ -28,7 +28,7 @@ public class WorkRoomFactory extends RoomFactory {
 			}
 		}, null);
 		room.addActionRoom(0, 0, -1, -1, setTimeWithFamily);
-		room.addActionRoom(0, 0, 0, 0, new TimerAction(world, 13, new NextDayAction(world, new ChangeRoomAction(world, RoomEnum.HOME_ROOM,2,5,"Du arbeitest die Ganze Nacht durch um zu verdrängen was du heute erfahren Hast. Wirklich helfen tut das allerdings auch nicht ...",new SetPlayerAction(world, true, true, null)))));
+		room.addActionRoom(0, 0, 0, 0, new TimerAction(world, 13, new NextDayAction(world, new ChangeRoomAction(world, RoomEnum.HOME_ROOM,2,8,"Du arbeitest die ganze Nacht durch, um zu verdrängen, was du heute erfahren hast. Wirklich helfen, tut das allerdings auch nicht ...",new SetPlayerAction(world, true, true, null)))));
 		return room;
 	}
 

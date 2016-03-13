@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Server;
 import com.jonas.thecuring.cancerGame.CancerGameState;
 import com.jonas.thecuring.ui.Styles;
 
@@ -89,13 +91,16 @@ public class TheCuring extends Game {
 		Assets.getInstance().load("room_hospital_friends", "RoomKrankenhaus_Freunde.png", Texture.class);
 		Assets.getInstance().load("room_hospital_parents", "RoomKrankenhaus_Eltern.png", Texture.class);
 		Assets.getInstance().load("room_hospital_family", "RoomKrankenhaus_Familie.png", Texture.class);
+		Assets.getInstance().load("room_park","Park.png",Texture.class);
+		Assets.getInstance().load("room_graveyard","Graveyard.png",Texture.class);
+		Assets.getInstance().load("room_birthday","Birthday.png",Texture.class);
 		Assets.getInstance().finishLoading();
 		ScreenManager.getInstance().init(this);
 		
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		Styles.getInstance().init();
-		ScreenManager.getInstance().show(ScreenEnum.CANCER_GAME,inputMultiplexer);
+		ScreenManager.getInstance().show(ScreenEnum.MAIN_MENU,inputMultiplexer);
 	}
 
 	@Override
