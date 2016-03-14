@@ -1,5 +1,5 @@
 #ifdef GL_ES
-    precision mediump float;
+    precision highp float;
 #endif
 
 varying vec4 v_color;
@@ -28,16 +28,22 @@ vec3 hsv2rgb(vec3 c)
     return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
 
-float rand(vec2 co){
-  return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+float rand(vec2 co)
+{
+    float a = 12.9898;
+    float b = 78.233;
+    float c = 43758.5453;
+    float dt= dot(co.xy ,vec2(a,b));
+    float sn= mod(dt,3.14);
+    return fract(sin(sn) * c);
 }
-
 void main() {
         vec4 color = v_color *  texture2D(u_texture, v_texCoords).rgba;
         vec3 tmp = rgb2hsv(color.rgb);
         tmp.g = tmp.g*u_grey;
         float r =  rand(gl_FragCoord.xy*u_time);
-        r = r*(u_noise)+(1-u_noise);
+        
+        r = r*(u_noise)+(1.0-u_noise);
         tmp.b = tmp.b * (r);
         color.rgb = hsv2rgb(tmp);
         gl_FragColor = color;

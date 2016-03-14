@@ -191,9 +191,12 @@ public class CancerGameState extends ChangeListener implements Screen,Observer{
 		attackMenu.setPosition((18) , (180-130) );
 		stage.addActor(attackMenu);
 		
+		Label labe = new Label("Fortschritt:",Styles.getInstance().numberLabel);
+		labe.setPosition(27, 27);
+		stage.addActor(labe);
 		cancerProgress = new ProgressBarAdvanced(0, 100, 1, false, Styles.getInstance().progressBarStyle);
 		cancerProgress.setSize(135*scale, 14*scale);
-		cancerProgress.setPosition(27 , 27 );
+		cancerProgress.setPosition(27 , 10 );
 		cancerProgress.setAnimateInterpolation(Interpolation.pow2);
 		cancerProgress.setAnimateDuration(0.5f);
 		stage.addActor(cancerProgress);
@@ -213,7 +216,7 @@ public class CancerGameState extends ChangeListener implements Screen,Observer{
 		String beschr = "Dies machst du mit Credits, welche du einsammeln musst. (Sie erscheinen am Körper)\n"
 				+ "Manche Fähigkeiten können erst mit gewissen Anforderungen aufgelevelt werden. ";
 		String beschr2 =	"Diese siehst du, "
-				+ "wenn du mit der Maus über die Fähigkeit fährst. Am obersten Knopf wechselst du zwischen Defensiven und Aggresiven Fähigkeiten";
+				+ "wenn du mit der Maus über die Fähigkeit fährst. Am obersten Knopf wechselst du zwischen defensiven und aggresiven Fähigkeiten";
 		String beschr3 = "Viel Erfolg!";
 		label.setText(krebs);
 		table.row();

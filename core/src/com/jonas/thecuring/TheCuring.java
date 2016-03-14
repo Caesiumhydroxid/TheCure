@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.esotericsoftware.kryonet.Server;
 import com.jonas.thecuring.cancerGame.CancerGameState;
 import com.jonas.thecuring.ui.Styles;
 
@@ -99,7 +100,7 @@ public class TheCuring extends Game {
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		Styles.getInstance().init();
-		ScreenManager.getInstance().show(ScreenEnum.MAIN_MENU,inputMultiplexer);
+		ScreenManager.getInstance().show(ScreenEnum.STORY_GAME,inputMultiplexer,new Server());
 	}
 
 	@Override

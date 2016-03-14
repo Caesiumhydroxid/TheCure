@@ -33,6 +33,9 @@ public class StoryGameState implements Screen {
 		String vertexShader = Gdx.files.internal("shaders/vertex.glsl").readString();
 		String fragmentShader = Gdx.files.internal("shaders/fragment.glsl").readString();
 		shader = new ShaderProgram(vertexShader, fragmentShader);
+		shader.begin();
+		shader.end();
+		System.out.println(shader.getLog());
 		a = shader.getUniformLocation("u_grey");
 		u_time = shader.getUniformLocation("u_time");
 		u_noise = shader.getUniformLocation("u_noise");
