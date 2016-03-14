@@ -202,7 +202,6 @@ public class Player extends AbstractGameObject {
 		if(render)
 		{
 			layout.setText(font, text, Color.BLACK, 40, Align.center, false);
-			batch.draw(shadow, position.x, position.y);
 			batch.draw(currentAnimation.getKeyFrame(elapsedTime), position.x, position.y);
 			font.draw(batch, layout, position.x - 1, position.y + boundingRectangle.height + layout.height + 2);
 			

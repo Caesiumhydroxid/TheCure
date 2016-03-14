@@ -53,8 +53,8 @@ public class StoryGameState implements Screen {
 		world.update(delta);
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		float noise = world.day*0.04f;
-		float saturation = 1-world.day*0.07f;
+		float noise = world.day*0.045f;
+		float saturation = 1-world.day*0.10f;
 		shader.begin();
 		shader.setUniformf(a, saturation);
 		shader.setUniformf(u_time,elapsedTime*MathUtils.random());

@@ -192,11 +192,11 @@ public class CancerGameState extends ChangeListener implements Screen,Observer{
 		stage.addActor(attackMenu);
 		
 		Label labe = new Label("Fortschritt:",Styles.getInstance().numberLabel);
-		labe.setPosition(27, 27);
+		labe.setPosition(29, 23);
 		stage.addActor(labe);
 		cancerProgress = new ProgressBarAdvanced(0, 100, 1, false, Styles.getInstance().progressBarStyle);
 		cancerProgress.setSize(135*scale, 14*scale);
-		cancerProgress.setPosition(27 , 10 );
+		cancerProgress.setPosition(27 , 15 );
 		cancerProgress.setAnimateInterpolation(Interpolation.pow2);
 		cancerProgress.setAnimateDuration(0.5f);
 		stage.addActor(cancerProgress);

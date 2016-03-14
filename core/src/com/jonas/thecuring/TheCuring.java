@@ -100,7 +100,7 @@ public class TheCuring extends Game {
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		Styles.getInstance().init();
-		ScreenManager.getInstance().show(ScreenEnum.STORY_GAME,inputMultiplexer,new Server());
+		ScreenManager.getInstance().show(ScreenEnum.MAIN_MENU,inputMultiplexer);
 	}
 
 	@Override
